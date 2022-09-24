@@ -38,7 +38,7 @@ class IndicatorsAnalyticsEndpointPropertiesProvider(BaseEndpointPropertiesProvid
             CategoryBreakdownEndpointPropertyParser
         ))
         breakdown_property_providers.append(BreakdownPropertyProcessorProvider(
-            BreakdownEndpointPropertyAvailable("revenue", "Revenue", [Granularity.digit]),
+            BreakdownEndpointPropertyAvailable("revenue_bil", "Revenue Billions", [Granularity.digit]),
             NumberBreakdownEndpointPropertyValidator,
             IntegerBreakdownEndpointPropertyParser
         ))
@@ -50,12 +50,7 @@ class IndicatorsAnalyticsEndpointPropertiesProvider(BaseEndpointPropertiesProvid
             IntegerXAxisEndpointPropertyParser
         ))
         x_axis_property_providers.append(XAxisPropertyProcessorProvider(
-            XAxisEndpointPropertyAvailable("revenue", "Revenue", [Granularity.digit]),
-            NumberXAxisEndpointPropertyValidator,
-            IntegerXAxisEndpointPropertyParser
-        ))
-        x_axis_property_providers.append(XAxisPropertyProcessorProvider(
-            XAxisEndpointPropertyAvailable("revenue_mil", "Revenue Millions", [Granularity.float]),
+            XAxisEndpointPropertyAvailable("revenue_bil", "Revenue Billions", [Granularity.digit]),
             NumberXAxisEndpointPropertyValidator,
             FloatXAxisEndpointPropertyParser
         ))

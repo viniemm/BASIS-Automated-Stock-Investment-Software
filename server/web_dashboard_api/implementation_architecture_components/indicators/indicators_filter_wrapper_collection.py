@@ -2,14 +2,14 @@ from web_dashboard_api.base_architecture_components.filter.base_filter_collectio
 from web_dashboard_api.base_architecture_components.filter.base_filter_wrapper import DerivedFilterWrapper, \
     QueryFilterWrapper
 from web_dashboard_api.base_architecture_components.filter.filter_available_implementation import \
-    CategoryFilterAvailable
+    CategoryFilterAvailable, IntegerFilterAvailable
 from web_dashboard_api.base_architecture_components.filter_derived.derived_filter_parser import DerivedFilterParser
 from web_dashboard_api.base_architecture_components.filter_derived.derived_filter_validator import \
     CategoryDerivedFilterValidator
 from web_dashboard_api.base_architecture_components.filter_query.query_filter_models import QueryComplexFilter
 from web_dashboard_api.base_architecture_components.filter_query.query_filter_parser import QueryFilterParser
 from web_dashboard_api.base_architecture_components.filter_query.query_filter_validator import \
-    CategoryQueryFilterValidator
+    CategoryQueryFilterValidator, IntegerQueryFilterValidator
 from web_dashboard_api.base_architecture_components.properties import FieldValueLabel
 from web_dashboard_api.implementation_architecture_components.indicators.analytics.indicators_analytics_parser import \
     IndicatorsAnalyticsDerivedModelParser
@@ -31,7 +31,8 @@ class IndicatorsFilterWrapperCollection(BaseFilterWrapperCollection):
             for derived_model in derived_models:
                 years.append((derived_model.year, derived_model.year))
         # Make sure no duplicates
-        years = set(years)
+        years = list(set(years))
+        years.sort()
         years_list = []
         for value, label in years:
             years_list.append(FieldValueLabel(value, label))
@@ -54,7 +55,8 @@ class IndicatorsFilterWrapperCollection(BaseFilterWrapperCollection):
             for derived_model in derived_models:
                 symbols.append(derived_model.symbol)
         # Make sure no duplicates
-        symbols = set(symbols)
+        symbols = list(set(symbols))
+        symbols.sort()
         symbols_list = []
         for symbol in symbols:
             symbols_list.append(FieldValueLabel(symbol, symbol))
@@ -63,6 +65,13 @@ class IndicatorsFilterWrapperCollection(BaseFilterWrapperCollection):
                 CategoryFilterAvailable(field="symbol", label="Symbol", required=False,
                                              options=symbols_list),
                 CategoryQueryFilterValidator,
+                QueryFilterParser
+            )
+        )
+        filter_wrappers.append(
+            QueryFilterWrapper(
+                IntegerFilterAvailable(field="revenue_bil", label="Revenue Billions", required=False),
+                IntegerQueryFilterValidator,
                 QueryFilterParser
             )
         )
