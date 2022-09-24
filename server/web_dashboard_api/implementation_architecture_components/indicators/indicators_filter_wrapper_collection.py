@@ -1,15 +1,11 @@
 from web_dashboard_api.base_architecture_components.filter.base_filter_collection import BaseFilterWrapperCollection
-from web_dashboard_api.base_architecture_components.filter.base_filter_wrapper import QueryFilterWrapper, \
-    DerivedFilterWrapper
+from web_dashboard_api.base_architecture_components.filter.base_filter_wrapper import DerivedFilterWrapper
 from web_dashboard_api.base_architecture_components.filter.filter_available_implementation import \
-    PartNumberFilterAvailable, CategoryFilterAvailable
+    CategoryFilterAvailable
 from web_dashboard_api.base_architecture_components.filter_derived.derived_filter_parser import DerivedFilterParser
 from web_dashboard_api.base_architecture_components.filter_derived.derived_filter_validator import \
     CategoryDerivedFilterValidator
 from web_dashboard_api.base_architecture_components.filter_query.query_filter_models import QueryComplexFilter
-from web_dashboard_api.base_architecture_components.filter_query.query_filter_parser import QueryFilterParser
-from web_dashboard_api.base_architecture_components.filter_query.query_filter_validator import \
-    CategoryQueryFilterValidator
 from web_dashboard_api.base_architecture_components.properties import FieldValueLabel
 from web_dashboard_api.implementation_architecture_components.indicators.analytics.indicators_analytics_parser import \
     IndicatorsAnalyticsDerivedModelParser
@@ -53,12 +49,4 @@ class IndicatorsFilterWrapperCollection(BaseFilterWrapperCollection):
             derived_models = burnintime_derived_model_parser.get_derived_model_list_from_filters(complex_filter)
             for derived_model in derived_models:
                 part_numbers.append(derived_model.part_number)
-        filter_wrappers.append(
-            QueryFilterWrapper(
-                PartNumberFilterAvailable(field="order_code", label="Part Number", required=False,
-                                          part_numbers=part_numbers, foreign_table="lamp"),
-                CategoryQueryFilterValidator,
-                QueryFilterParser
-            )
-        )
         super().__init__(filter_wrappers)

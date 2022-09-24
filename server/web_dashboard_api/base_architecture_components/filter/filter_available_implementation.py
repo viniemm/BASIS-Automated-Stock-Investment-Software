@@ -3,7 +3,6 @@ from web_dashboard_api.base_architecture_components.operators.base_operators_ava
     IntegerOperatorsAvailable, DateOperatorsAvailable, TextOperatorsAvailable, CategoryOperatorsAvailable
 from web_dashboard_api.base_architecture_components.properties import FieldValueLabel
 from web_dashboard_api.base_architecture_components.filter.filter_available import FilterAvailable
-from web_dashboard_api.implementation_architecture_components.partnumber.partnumber_parser import PartNumberDerivedModelParser
 
 
 class LogicFilterAvailable(FilterAvailable):
@@ -42,15 +41,3 @@ class CategoryFilterAvailable(FilterAvailable):
         for option in self.options:
             option_dict[option.field_value] = option.label
         return option_dict
-
-
-class PartNumberFilterAvailable(CategoryFilterAvailable):
-    def __init__(self, field: str, label: str, required: bool, part_numbers: [str], **kwargs):
-        super().__init__(field, label, required, self.get_part_number_names(part_numbers), **kwargs)
-
-    def get_part_number_names(self, part_numbers) -> [FieldValueLabel]:
-        part_number_labels_dict = PartNumberDerivedModelParser().get_part_number_labels_dict(part_numbers)
-        part_number_labels = []
-        for part_number, label in part_number_labels_dict.items():
-            part_number_labels.append(FieldValueLabel(part_number, label))
-        return part_number_labels
