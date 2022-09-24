@@ -30,26 +30,20 @@ class IndicatorsDerivedModelParser(BaseDerivedModelParser):
 
     def get_queryset_value_list(self) -> [str]:
         values_list = []
-        values_list.append("lamp__lamp_id")
-        values_list.append("lamp__device_type")
-        values_list.append("lamp__order_code")
-        values_list.append("initial_start")
-        values_list.append("attempt_duration")
-        values_list.append("attempt")
-        values_list.append("attempt_start")
-        values_list.append("current_seconds")
+        values_list.append("year")
+        values_list.append("symbol")
+        values_list.append("revenue")
+        values_list.append("revenue_growth")
+        values_list.append("gross_profit")
         return values_list
 
     def get_derived_model_field_list(self) -> [str]:
         values_list = []
-        values_list.append("lamp_id")
-        values_list.append("device_type")
-        values_list.append("part_number")
-        values_list.append("initial_start")
-        values_list.append("attempt_duration")
-        values_list.append("attempt_number")
-        values_list.append("attempt_start")
-        values_list.append("current_seconds")
+        values_list.append("year")
+        values_list.append("symbol")
+        values_list.append("revenue")
+        values_list.append("revenue_growth")
+        values_list.append("gross_profit")
         return values_list
 
     def get_derived_model_list_from_filters(self, complex_filter: QueryComplexFilter) -> [IndicatorsDerivedModel]:

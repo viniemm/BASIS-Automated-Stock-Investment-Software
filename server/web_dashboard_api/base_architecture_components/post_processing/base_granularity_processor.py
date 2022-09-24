@@ -25,8 +25,22 @@ class IntegerGranularityProcessor(BaseGranularityProcessor):
     def get_all_buckets(self, values, granularity):
         if len(values) > 0:
             max_num = self.get_granularity_bucket(max(values), granularity)
-            min_num = 0
+            min_num = self.get_granularity_bucket(min(values), granularity)
             return list(range(min_num, max_num + 1, granularity))
+        else:
+            return []
+
+    def get_granularity_bucket(self, value, granularity):
+        return round(value / granularity) * granularity
+
+
+class FloatGranularityProcessor(BaseGranularityProcessor):
+    def get_all_buckets(self, values, granularity):
+        if len(values) > 0:
+            max_num = self.get_granularity_bucket(max(values), granularity)
+            min_num = self.get_granularity_bucket(min(values), granularity)
+            return [min_num + granularity*i for i in range(int((max_num-min_num)//granularity))]
+            # return list(range(min_num, max_num + 1, granularity))
         else:
             return []
 

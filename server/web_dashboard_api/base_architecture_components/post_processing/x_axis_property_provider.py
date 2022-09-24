@@ -27,5 +27,5 @@ class XAxisPropertyProcessorProvider:
             x_axis_property.attribute_label = self.x_axis_property_available.label
             return x_axis_property
         else:
-            raise ParsingException("XAxis property is supported at this endpoint.")
+            raise ParsingException("XAxis property is not supported at this endpoint.")
 

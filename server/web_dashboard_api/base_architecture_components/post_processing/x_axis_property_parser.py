@@ -1,9 +1,10 @@
 from web_dashboard_api.base_architecture_components.post_processing.base_endpoint_property_available import \
     BaseEndpointPropertyAvailable
 from web_dashboard_api.base_architecture_components.post_processing.base_granularity_parser import \
-    BaseGranularityParser, CategoryGranularityParser, IntegerGranularityParser, DateGranularityParser
+    BaseGranularityParser, CategoryGranularityParser, IntegerGranularityParser, DateGranularityParser, \
+    FloatGranularityParser
 from web_dashboard_api.base_architecture_components.post_processing.x_axis_processor import BaseXAxisProcessor, \
-    CategoryXAxisProcessor, IntegerXAxisProcessor, DateXAxisProcessor, FinishesAtDateXAxisProcessor
+    CategoryXAxisProcessor, IntegerXAxisProcessor, DateXAxisProcessor, FinishesAtDateXAxisProcessor, FloatXAxisProcessor
 from web_dashboard_api.base_architecture_components.post_processing.x_axis_property_validator import \
     BaseXAxisEndpointPropertyValidator
 
@@ -52,6 +53,19 @@ class IntegerXAxisEndpointPropertyParser(BaseXAxisEndpointPropertyParser):
 
     def get_x_axis_processor(self, attribute: str, granularity) -> BaseXAxisProcessor:
         return IntegerXAxisProcessor(attribute, granularity)
+
+
+class FloatXAxisEndpointPropertyParser(BaseXAxisEndpointPropertyParser):
+    def __init__(self, endpoint_property_available: BaseEndpointPropertyAvailable,
+                 endpoint_property_validator: BaseXAxisEndpointPropertyValidator,
+                 **kwargs):
+        super().__init__(endpoint_property_available,
+                         endpoint_property_validator,
+                         granularity_parser=FloatGranularityParser(),
+                         **kwargs)
+
+    def get_x_axis_processor(self, attribute: str, granularity) -> BaseXAxisProcessor:
+        return FloatXAxisProcessor(attribute, granularity)
 
 
 class DateXAxisEndpointPropertyParser(BaseXAxisEndpointPropertyParser):

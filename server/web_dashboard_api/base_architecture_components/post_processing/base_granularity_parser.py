@@ -15,6 +15,11 @@ class IntegerGranularityParser(BaseGranularityParser):
         return int(granularity)
 
 
+class FloatGranularityParser(BaseGranularityParser):
+    def parse_granularity(self, granularity):
+        return float(granularity)
+
+
 class DateGranularityParser(BaseGranularityParser):
     def parse_granularity(self, granularity):
         return granularity

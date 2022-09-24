@@ -30,6 +30,7 @@ class BaseBreakdownProcessor:
         # Handles attribute is None
         if getattr(derived_model, self.breakdown_attribute) is None:
             return None
+        return ''
 
 
 class NoBreakdownProcessor(BaseBreakdownProcessor):
@@ -37,7 +38,8 @@ class NoBreakdownProcessor(BaseBreakdownProcessor):
         super().__init__("x", BaseGranularityProcessor())
 
     def get_breakdown_key(self, derived_model: BaseDerivedModel) -> str:
-        super().get_breakdown_key(derived_model)
+        if super().get_breakdown_key(derived_model) is None:
+            return None
         return self.breakdown_attribute
 
 
@@ -46,7 +48,8 @@ class CategoryBreakdownProcessor(BaseBreakdownProcessor):
         super().__init__(breakdown_attribute, CategoryGranularityProcessor())
 
     def get_breakdown_key(self, derived_model: BaseDerivedModel) -> str:
-        super().get_breakdown_key(derived_model)
+        if super().get_breakdown_key(derived_model) is None:
+            return None
         return self.get_granularity_bucket(getattr(derived_model, self.breakdown_attribute), "")
 
 
@@ -56,7 +59,8 @@ class IntegerBreakdownProcessor(BaseBreakdownProcessor):
         self.granularity = granularity
 
     def get_breakdown_key(self, derived_model: BaseDerivedModel) -> str:
-        super().get_breakdown_key(derived_model)
+        if super().get_breakdown_key(derived_model) is None:
+            return None
         return self.get_granularity_bucket(getattr(derived_model, self.breakdown_attribute), self.granularity)
 
 
@@ -66,5 +70,6 @@ class DateBreakdownProcessor(BaseBreakdownProcessor):
         self.granularity = granularity
 
     def get_breakdown_key(self, derived_model: BaseDerivedModel) -> str:
-        super().get_breakdown_key(derived_model)
+        if super().get_breakdown_key(derived_model) is None:
+            return None
         return self.get_granularity_bucket(getattr(derived_model, self.breakdown_attribute), self.granularity)

@@ -1,7 +1,7 @@
 from web_dashboard_api.base_architecture_components.derived_model.base_derived_model import BaseDerivedModel
 from web_dashboard_api.base_architecture_components.post_processing.base_granularity_processor import \
     IntegerGranularityProcessor, CategoryGranularityProcessor, BaseGranularityProcessor, DateGranularityProcessor, \
-    FinishesAtDateGranularityProcessor
+    FinishesAtDateGranularityProcessor, FloatGranularityProcessor
 
 
 class BaseXAxisProcessor:
@@ -54,6 +54,11 @@ class CategoryXAxisProcessor(BaseXAxisProcessor):
 class IntegerXAxisProcessor(BaseXAxisProcessor):
     def __init__(self, attribute: str, granularity):
         super().__init__(attribute, granularity, IntegerGranularityProcessor())
+
+
+class FloatXAxisProcessor(BaseXAxisProcessor):
+    def __init__(self, attribute: str, granularity):
+        super().__init__(attribute, granularity, FloatGranularityProcessor())
 
 
 class DateXAxisProcessor(BaseXAxisProcessor):

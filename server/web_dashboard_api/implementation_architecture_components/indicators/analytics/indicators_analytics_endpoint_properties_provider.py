@@ -4,13 +4,13 @@ from web_dashboard_api.base_architecture_components.post_processing.base_endpoin
 from web_dashboard_api.base_architecture_components.post_processing.base_endpoint_property_available import \
     BreakdownEndpointPropertyAvailable, XAxisEndpointPropertyAvailable, YAxisEndpointPropertyAvailable
 from web_dashboard_api.base_architecture_components.post_processing.breakdown_property_parser import \
-    CategoryBreakdownEndpointPropertyParser
+    CategoryBreakdownEndpointPropertyParser, IntegerBreakdownEndpointPropertyParser
 from web_dashboard_api.base_architecture_components.post_processing.breakdown_property_provider import \
     BreakdownPropertyProcessorProvider
 from web_dashboard_api.base_architecture_components.post_processing.breakdown_property_validator import \
-    CategoryBreakdownEndpointPropertyValidator
+    CategoryBreakdownEndpointPropertyValidator, NumberBreakdownEndpointPropertyValidator
 from web_dashboard_api.base_architecture_components.post_processing.x_axis_property_parser import \
-    IntegerXAxisEndpointPropertyParser, FinishesAtDateXAxisEndpointPropertyParser
+    IntegerXAxisEndpointPropertyParser, FinishesAtDateXAxisEndpointPropertyParser, FloatXAxisEndpointPropertyParser
 from web_dashboard_api.base_architecture_components.post_processing.x_axis_property_provider import \
     XAxisPropertyProcessorProvider
 from web_dashboard_api.base_architecture_components.post_processing.x_axis_property_validator import \
@@ -22,37 +22,42 @@ from web_dashboard_api.base_architecture_components.post_processing.y_axis_prope
 from web_dashboard_api.base_architecture_components.post_processing.y_axis_property_validator import \
     BaseYAxisEndpointPropertyValidator
 
-# TODO: fix this one
+
 class IndicatorsAnalyticsEndpointPropertiesProvider(BaseEndpointPropertiesProvider):
     def __init__(self):
         # IMPORTANT: Attributes have to conform to filter_derived models field names
         breakdown_property_providers = []
         breakdown_property_providers.append(BreakdownPropertyProcessorProvider(
-            BreakdownEndpointPropertyAvailable("part_number_label", "Part Number", [Granularity.category]),
+            BreakdownEndpointPropertyAvailable("year", "Year", [Granularity.category]),
             CategoryBreakdownEndpointPropertyValidator,
             CategoryBreakdownEndpointPropertyParser
         ))
         breakdown_property_providers.append(BreakdownPropertyProcessorProvider(
-            BreakdownEndpointPropertyAvailable("device_type_label", "Device Type", [Granularity.category]),
+            BreakdownEndpointPropertyAvailable("symbol", "Symbol", [Granularity.category]),
             CategoryBreakdownEndpointPropertyValidator,
             CategoryBreakdownEndpointPropertyParser
+        ))
+        breakdown_property_providers.append(BreakdownPropertyProcessorProvider(
+            BreakdownEndpointPropertyAvailable("revenue", "Revenue", [Granularity.digit]),
+            NumberBreakdownEndpointPropertyValidator,
+            IntegerBreakdownEndpointPropertyParser
         ))
 
         x_axis_property_providers = []
         x_axis_property_providers.append(XAxisPropertyProcessorProvider(
-            XAxisEndpointPropertyAvailable("current_hours", "Current Hours", [Granularity.digit]),
+            XAxisEndpointPropertyAvailable("year", "Year", [Granularity.digit]),
             NumberXAxisEndpointPropertyValidator,
             IntegerXAxisEndpointPropertyParser
         ))
         x_axis_property_providers.append(XAxisPropertyProcessorProvider(
-            XAxisEndpointPropertyAvailable("hours_left", "Hours Left", [Granularity.digit]),
+            XAxisEndpointPropertyAvailable("revenue", "Revenue", [Granularity.digit]),
             NumberXAxisEndpointPropertyValidator,
             IntegerXAxisEndpointPropertyParser
         ))
         x_axis_property_providers.append(XAxisPropertyProcessorProvider(
-            XAxisEndpointPropertyAvailable("finish_at", "Finishes at", [Granularity.half_hour, Granularity.hour, Granularity.three_hour, Granularity.day, Granularity.shift]),
-            DateXAxisEndpointPropertyValidator,
-            FinishesAtDateXAxisEndpointPropertyParser
+            XAxisEndpointPropertyAvailable("revenue_mil", "Revenue Millions", [Granularity.float]),
+            NumberXAxisEndpointPropertyValidator,
+            FloatXAxisEndpointPropertyParser
         ))
 
         y_axis_property_providers = []
