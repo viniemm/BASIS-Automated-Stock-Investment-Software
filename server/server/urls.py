@@ -20,10 +20,6 @@ from web_dashboard_api import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/burninprogress', views.BurnInTimeProgressReport.as_view()),
-    path('api/burninprogress/filters', views.BurnInTimeProgressReportFilters.as_view()),
-    path('api/calibrationinprogress', views.CalibrationEventProgressReport.as_view()),
-    path('api/calibrationinprogress/filters', views.CalibrationEventProgressReportFilters.as_view()),
-    path('api/calibrationyield', views.CalibrationEventYieldReport.as_view()),
-    path('api/calibrationyield/filters', views.CalibrationEventYieldReportFilters.as_view()),
+    path('api/indicators', views.IndicatorsReport.as_view()),
+    path('api/indicators/filters', views.IndicatorsReportFilters.as_view())
 ]

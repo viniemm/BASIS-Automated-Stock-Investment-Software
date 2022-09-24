@@ -4,8 +4,8 @@ import pytz
 
 from web_dashboard_api.base_architecture_components.derived_model.base_derived_model import BaseDerivedModel
 
-
-class BurnInTimeDerivedModel(BaseDerivedModel):
+# TODO: fix this one
+class IndicatorsDerivedModel(BaseDerivedModel):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.lamp_id = None

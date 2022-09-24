@@ -22,8 +22,8 @@ from web_dashboard_api.base_architecture_components.post_processing.y_axis_prope
 from web_dashboard_api.base_architecture_components.post_processing.y_axis_property_validator import \
     BaseYAxisEndpointPropertyValidator
 
-
-class BurnInTimeInProgressEndpointPropertiesProvider(BaseEndpointPropertiesProvider):
+# TODO: fix this one
+class IndicatorsAnalyticsEndpointPropertiesProvider(BaseEndpointPropertiesProvider):
     def __init__(self):
         # IMPORTANT: Attributes have to conform to filter_derived models field names
         breakdown_property_providers = []
