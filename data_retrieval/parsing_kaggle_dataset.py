@@ -1,5 +1,10 @@
 import pandas as pd
 
+# Datasets: 
+# https://www.kaggle.com/datasets/cnic92/200-financial-indicators-of-us-stocks-20142018?select=2016_Financial_Data.csv
+# https://www.kaggle.com/datasets/hanseopark/sp-500-stocks-value-with-financial-statement
+# https://www.kaggle.com/datasets/andrewmvd/sp-500-stocks?select=sp500_companies.csv
+
 companies_df = pd.read_csv("./data_origin/sp500_companies.csv")
 companies_cols = companies_df.columns.tolist()
 companies_cols = [companies_cols[1]] + companies_cols[:1] + companies_cols[2:]
