@@ -1,4 +1,4 @@
-export const burnInProgressEndpointAvailable = {
+export const indicatorsEndpointAvailable = {
   label: "Stocks Indicators",
   field_value: "indicators",
   endpoint: "/api/indicators",
@@ -11,7 +11,7 @@ export const burnInProgressEndpointAvailable = {
   }
 };
 
-export const burnInProgressDefaultState = {
+export const indicatorsDefaultState = {
   x_axis: {
     "attribute": "year",
     "granularity": "1"

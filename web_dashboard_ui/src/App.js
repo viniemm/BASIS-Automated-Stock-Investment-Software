@@ -6,9 +6,9 @@ import randomColor from "randomcolor";
 import '@progress/kendo-theme-default/dist/all.css';
 import PersistentDrawerLeft from "./components/PersistentDrawer";
 import {
-  burnInProgressDefaultState,
-  burnInProgressEndpointAvailable
-} from "./components/endpoint_constants/BurnInProgressEndpointConstants";
+  indicatorsDefaultState,
+  indicatorsEndpointAvailable
+} from "./components/endpoint_constants/IndicatorsEndpointConstants";
 import TransitionAlert from "./components/TransitionAlert";
 
 
@@ -31,12 +31,12 @@ const getRandomColorList = (colorCount) => {
 const reportsAvailable = {
   label: "Select Report",
   options: [
-    burnInProgressEndpointAvailable
+    indicatorsEndpointAvailable
   ]
 }
 
 const defaultFilterFields = new Map([
-  ["indicators", burnInProgressDefaultState]
+  ["indicators", indicatorsDefaultState]
 ])
 
 class App extends Component {
