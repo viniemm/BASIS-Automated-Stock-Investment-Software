@@ -1,0 +1,34 @@
+
+version: "3.9"
+services:
+  django:
+    restart: always
+    container_name: django_api
+    command : python manage.py runserver 0.0.0.0:8000
+    build:
+      context: ./ketra_pcal_site/
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    networks:
+      - db-net
+
+  frontend:
+    restart: always
+    command: npm run start_docker
+    container_name: front
+    build:
+      context: ./web_dashboard_ui/
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    stdin_open: true
+    depends_on:
+      - django
+    networks:
+      - db-net
+
+
+networks:
+  db-net:
+    driver: bridge

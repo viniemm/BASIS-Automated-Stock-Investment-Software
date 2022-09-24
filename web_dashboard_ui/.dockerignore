@@ -1,0 +1,8 @@
+# Ignore everything
+**
+
+# ... except for dependencies and source
+!public/
+!src/
+!package.json
+!package-lock.json
