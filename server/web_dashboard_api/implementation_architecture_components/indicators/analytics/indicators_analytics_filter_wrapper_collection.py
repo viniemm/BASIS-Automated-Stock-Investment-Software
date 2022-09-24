@@ -1,4 +1,4 @@
-from web_dashboard_api.implementation_architecture_components.burnintime.indicators_filter_wrapper_collection import \
+from web_dashboard_api.implementation_architecture_components.indicators.indicators_filter_wrapper_collection import \
     IndicatorsFilterWrapperCollection
 
 

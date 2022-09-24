@@ -5,7 +5,7 @@ from django.db.models import QuerySet
 from web_dashboard_api.base_architecture_components.derived_model.base_derived_model_parser import \
     BaseDerivedModelParser
 from web_dashboard_api.base_architecture_components.filter_query.query_filter_models import QueryComplexFilter
-from web_dashboard_api.implementation_architecture_components.burnintime.indicators_derived_model import \
+from web_dashboard_api.implementation_architecture_components.indicators.indicators_derived_model import \
     IndicatorsDerivedModel
 from web_dashboard_api.models import Indicators
 

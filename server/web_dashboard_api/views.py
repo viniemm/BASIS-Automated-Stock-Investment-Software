@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from web_dashboard_api.base_architecture_components.json_preprocessor import JsonPreprocessor
-from web_dashboard_api.implementation_architecture_components.burnintime.analytics.indicators_analytics_endpoint_processing import \
+from web_dashboard_api.implementation_architecture_components.indicators.analytics.indicators_analytics_endpoint_processing import \
     IndicatorsAnalyticsEndpointProcessing
 from .base_architecture_components.post_processing.base_endpoint_processing import BaseEndpointProcessing
 from .implementation_architecture_components.endpoint_filters import IndicatorsReportEndpointFilters, EndpointFilters

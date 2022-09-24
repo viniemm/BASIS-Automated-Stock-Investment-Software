@@ -11,7 +11,7 @@ from web_dashboard_api.base_architecture_components.filter_query.query_filter_pa
 from web_dashboard_api.base_architecture_components.filter_query.query_filter_validator import \
     CategoryQueryFilterValidator
 from web_dashboard_api.base_architecture_components.properties import FieldValueLabel
-from web_dashboard_api.implementation_architecture_components.burnintime.analytics.indicators_analytics_parser import \
+from web_dashboard_api.implementation_architecture_components.indicators.analytics.indicators_analytics_parser import \
     IndicatorsAnalyticsDerivedModelParser
 
 

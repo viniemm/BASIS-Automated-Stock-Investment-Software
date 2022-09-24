@@ -1,11 +1,11 @@
 from web_dashboard_api.base_architecture_components.filter_query.query_filter_models import QueryComplexFilter
-from web_dashboard_api.implementation_architecture_components.burnintime.indicators_derived_model import \
+from web_dashboard_api.implementation_architecture_components.indicators.indicators_derived_model import \
     IndicatorsDerivedModel
-from web_dashboard_api.implementation_architecture_components.burnintime.indicators_provider import \
+from web_dashboard_api.implementation_architecture_components.indicators.indicators_provider import \
     IndicatorsDerivedModelProvider
-from web_dashboard_api.implementation_architecture_components.burnintime.analytics.indicators_analytics_filter_wrapper_collection import \
+from web_dashboard_api.implementation_architecture_components.indicators.analytics.indicators_analytics_filter_wrapper_collection import \
     IndicatorsAnalyticsFilterWrapperCollection
-from web_dashboard_api.implementation_architecture_components.burnintime.analytics.indicators_analytics_parser import \
+from web_dashboard_api.implementation_architecture_components.indicators.analytics.indicators_analytics_parser import \
     IndicatorsAnalyticsDerivedModelParser
 
 
