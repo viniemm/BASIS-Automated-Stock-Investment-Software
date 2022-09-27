@@ -83,6 +83,17 @@ DATABASES = {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': BASE_DIR / 'db.sqlite3',
     # }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.postgresql_psycopg2',
+    #     'OPTIONS': {
+    #         'options': '-c search_path=stocks'
+    #     },
+    #     'NAME': 'stocks', # database name
+    #     'USER': 'csds395',
+    #     'PASSWORD': 'csds3950',
+    #     'HOST': '127.0.0.1',
+    #     'PORT': '5432',
+    # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'OPTIONS': {
@@ -91,7 +102,7 @@ DATABASES = {
         'NAME': 'stocks', # database name
         'USER': 'csds395',
         'PASSWORD': 'csds3950',
-        'HOST': '127.0.0.1',
+        'HOST': 'ec2-3-209-1-247.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
