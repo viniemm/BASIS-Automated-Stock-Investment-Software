@@ -87,11 +87,7 @@ class StocksData(models.Model):
     index = models.BigIntegerField(blank=True, null=True)
     date = models.TextField(blank=True, null=True)
     symbol = models.ForeignKey(Companies, models.DO_NOTHING, db_column='symbol', blank=True, null=True)
-    adj_close = models.FloatField(db_column='adj close', blank=True, null=True)  # Field renamed to remove unsuitable characters.
     close = models.FloatField(blank=True, null=True)
-    high = models.FloatField(blank=True, null=True)
-    low = models.FloatField(blank=True, null=True)
-    open = models.FloatField(blank=True, null=True)
     volume = models.FloatField(blank=True, null=True)
 
     class Meta:
