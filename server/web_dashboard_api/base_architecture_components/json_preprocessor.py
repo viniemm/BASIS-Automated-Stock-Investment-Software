@@ -7,6 +7,6 @@ class JsonPreprocessor:
         json_string = request.body.decode("utf-8")
         json_string = json_string.replace("\n", "")
         json_string = json_string.replace("\r", "")
-        json_string = json_string.replace(" ", "")
+        # json_string = json_string.replace(" ", "")
         print(json_string)
         return json.loads(json_string)
