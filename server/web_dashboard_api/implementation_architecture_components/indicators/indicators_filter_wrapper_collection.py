@@ -17,6 +17,7 @@ class IndicatorsFilterWrapperCollection(BaseFilterWrapperCollection):
 
     def __init__(self, filter_wrappers, **kwargs):
         # IMPORTANT: Fields have to conform to django models field names (not including foreign table prefixes)
+        # Years Filter
         years = []
         if "years" in kwargs:
             years = kwargs["years"]
@@ -40,7 +41,8 @@ class IndicatorsFilterWrapperCollection(BaseFilterWrapperCollection):
                 QueryFilterParser
             )
         )
-        # In order to filter out not needed part numbers. Only pass needed part numbers
+        # In order to filter out not needed symbols. Only pass needed symbols
+        # Symbols filter
         symbols = []
         if "symbols" in kwargs:
             symbols = kwargs["symbols"]
@@ -64,6 +66,31 @@ class IndicatorsFilterWrapperCollection(BaseFilterWrapperCollection):
                 QueryFilterParser
             )
         )
+        # Industries Filter
+        industries = []
+        if "industries" in kwargs:
+            industries = kwargs["industries"]
+        else:
+            complex_filter = QueryComplexFilter('and', [])
+            indicators_derived_model_parser = IndicatorsAnalyticsDerivedModelParser(distinct_on=["symbol__industry"])
+            derived_models = indicators_derived_model_parser.get_derived_model_list_from_filters(complex_filter)
+            for derived_model in derived_models:
+                industries.append(derived_model.industry)
+        # Make sure no duplicates
+        industries = list(set(industries))
+        industries.sort()
+        industries_list = []
+        for industry in industries:
+            industries_list.append(FieldValueLabel(industry, industry))
+        filter_wrappers.append(
+            QueryFilterWrapper(
+                CategoryFilterAvailable(field="industry", label="Industry", required=False, foreign_table="symbol",
+                                             options=industries_list),
+                CategoryQueryFilterValidator,
+                QueryFilterParser
+            )
+        )
+        # Revenue Filter
         filter_wrappers.append(
             QueryFilterWrapper(
                 IntegerFilterAvailable(field="revenue_bil", label="Revenue Billions", required=False),
