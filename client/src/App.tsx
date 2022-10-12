@@ -1,6 +1,7 @@
 import React from 'react';
 import { Route, Routes } from "react-router";
 import { Dashboard, Home, About } from "./pages";
+import Questionnaire from "./components/Questionnaire/Questionnaire";
 import {
   BrowserRouter as Router,
   Link
@@ -23,6 +24,9 @@ export default function App() {
           <li>
             <Link to="/dashboard">Dashboard</Link>
           </li>
+          <li>
+            <Link to="/questionnaire">Questionnaire</Link>
+          </li>
         </ul>
 
         <hr />
@@ -38,6 +42,7 @@ export default function App() {
           <Route path="/" element={<Home/>}/>
           <Route path="/about" element={<About/>}/>
           <Route path="/dashboard" element={<Dashboard/>}/>
+          <Route path="/questionnaire" element={<Questionnaire/>}/>
         </Routes>
       </div>
     </Router>
