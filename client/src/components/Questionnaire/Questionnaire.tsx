@@ -1,3 +1,4 @@
+import React from 'react';
 // Class or function
 import * as React from 'react';
 export default function Questionnaire() {

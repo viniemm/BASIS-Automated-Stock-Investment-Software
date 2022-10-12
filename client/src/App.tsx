@@ -1,7 +1,12 @@
 import React, { Component } from 'react';
 import { Route, Routes } from "react-router";
+<<<<<<< HEAD
 import { Dashboard, Home, About, Filtering } from "./pages";
 import Questionnaire from './components/Questionnaire/Questionnaire'
+=======
+import { Dashboard, Home, About } from "./pages";
+import Questionnaire from "./components/Questionnaire/Questionnaire";
+>>>>>>> 1b64068 (Added Questionnaire to Dropdown)
 import {
   BrowserRouter as Router,
   Link
@@ -54,7 +59,11 @@ export default function App() {
             <Link to="/dashboard">Dashboard</Link>
           </li>
           <li>
+<<<<<<< HEAD
             <Link to="/filtering">Filtering</Link>
+=======
+            <Link to="/questionnaire">Questionnaire</Link>
+>>>>>>> 1b64068 (Added Questionnaire to Dropdown)
           </li>
         </ul>
 
@@ -75,6 +84,7 @@ export default function App() {
           <Route path="/" element={<Home/>}/>
           <Route path="/about" element={<About/>}/>
           <Route path="/dashboard" element={<Dashboard/>}/>
+<<<<<<< HEAD
           <Route path="/filtering" element={<Filtering/>}/>
 =======
           <Route path="/" element={<Home />} />
@@ -84,6 +94,9 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 >>>>>>> 97eaf07 (initial navbar build)
+=======
+          <Route path="/questionnaire" element={<Questionnaire/>}/>
+>>>>>>> 1b64068 (Added Questionnaire to Dropdown)
         </Routes>
       </div>
     </Router>
