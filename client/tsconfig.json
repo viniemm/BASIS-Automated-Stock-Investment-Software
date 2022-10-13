@@ -18,7 +18,12 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
+<<<<<<< HEAD
     "jsx": "react-jsx"
+=======
+    "noEmit": true,
+    "jsx": "preserve"
+>>>>>>> cb3de07 (Added question 1)
   },
   "typeRoots": [
     ".node_modules/@types",

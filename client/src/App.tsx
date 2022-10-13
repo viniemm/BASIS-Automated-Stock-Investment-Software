@@ -6,7 +6,12 @@ import Questionnaire from './components/Questionnaire/Questionnaire'
 =======
 import { Dashboard, Home, About } from "./pages";
 import Questionnaire from "./components/Questionnaire/Questionnaire";
+<<<<<<< HEAD
 >>>>>>> 1b64068 (Added Questionnaire to Dropdown)
+=======
+import Questionnaire2 from "./components/Questionnaire/Questionnaire2";
+
+>>>>>>> cb3de07 (Added question 1)
 import {
   BrowserRouter as Router,
   Link

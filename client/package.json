@@ -26,11 +26,13 @@
     "moment": "^2.29.4",
     "randomcolor": "^0.6.2",
     "react": "^18.2.0",
+    "react-compound-slider": "^3.4.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.0.4",
     "react-router": "^6.4.2",
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
+<<<<<<< HEAD
 <<<<<<< HEAD
     "reactstrap": "^9.0.3",
     "recharts": "^2.1.10",
@@ -41,6 +43,9 @@
 =======
     "redux-devtools-extension": "^2.13.9",
 >>>>>>> 46459a4 (Finishing up store work for login and register)
+=======
+    "styled-components": "^5.3.6",
+>>>>>>> cb3de07 (Added question 1)
     "typescript": "^4.8.3",
     "web-vitals": "^2.1.4"
   },
