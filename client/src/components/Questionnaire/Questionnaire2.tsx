@@ -2,32 +2,21 @@ import React from "react";
 import ControlledSlider from "./Slider/Slider";
 import Input from "./Input";
 import "./styles.css";
-import {
-    BrowserRouter as Router,
-    Link
-  } from "react-router-dom";
-import { Route, Routes } from "react-router";
-import Questionnaire2 from "./Questionnaire2";
+import { Link, Route } from "react-router-dom";
 
 // Constands for these for simplicity, would typically be props
-const max = 10000;
-const min = 1000;
-const step = 100;
-const value = 25000;
-const step2 = 1;
-const value2 = 8;
+const max = 10;
+const min = 1;
+const step = 1;
+const value = 1;
 
-class Questionnaire extends React.Component {
+
+class Questionnaire2 extends React.Component {
   state = {
     // Set state values to reflect consts/props
     sum: value,
     sliderSum: value,
     step: step
-  };
-  state2 = {
-    sum: value2,
-    sliderSum: value2,
-    step: step2
   };
 
   onInputChange = (value:string) => {
@@ -87,16 +76,9 @@ class Questionnaire extends React.Component {
           onUpdate={(value: any) => this.onSliderChange(value)}
           onSlideStart={(value: any) => this.onSlideStart(value)}
         />
-          <li>
-            <Link to="/questionnaire2">Question 2</Link>
-          </li>
-
-          <Routes>
-          <Route path="/questionnaire2" element={<Questionnaire2/>}/>
-          </Routes>
       </div>
     );
   }
 }
 
-export default Questionnaire;
+export default Questionnaire2;

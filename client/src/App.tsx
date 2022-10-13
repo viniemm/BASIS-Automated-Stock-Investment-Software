@@ -2,6 +2,8 @@ import React from 'react';
 import { Route, Routes } from "react-router";
 import { Dashboard, Home, About } from "./pages";
 import Questionnaire from "./components/Questionnaire/Questionnaire";
+import Questionnaire2 from "./components/Questionnaire/Questionnaire2";
+
 import {
   BrowserRouter as Router,
   Link
