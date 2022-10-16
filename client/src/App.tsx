@@ -10,6 +10,7 @@ import Questionnaire from "./components/Questionnaire/Questionnaire";
 >>>>>>> 1b64068 (Added Questionnaire to Dropdown)
 =======
 import Questionnaire2 from "./components/Questionnaire/Questionnaire2";
+import Questionnaire3 from "./components/Questionnaire/Questionnaire3";
 
 >>>>>>> cb3de07 (Added question 1)
 import {
@@ -105,7 +106,11 @@ export default function App() {
 >>>>>>> 1b64068 (Added Questionnaire to Dropdown)
 =======
           <Route path="/questionnaire2" element={<Questionnaire2/>}/>
+<<<<<<< HEAD
 >>>>>>> f20033c (Questionnaire 1-2 Done)
+=======
+          <Route path="/questionnaire3" element={<Questionnaire3/>}/>
+>>>>>>> 0c0404a (Added Question 3)
         </Routes>
       </div>
     </Router>
