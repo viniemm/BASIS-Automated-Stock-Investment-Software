@@ -56,7 +56,7 @@ class Questionnaire2 extends React.Component {
       <div className="App">
         <label htmlFor="sliderinput"
         >
-            <h4>1. How much money are you willing to invest?</h4>
+            <h4>2. What is your risk threshold?</h4>
         </label>
         
         <Input 
@@ -64,7 +64,7 @@ class Questionnaire2 extends React.Component {
           name={"sliderinput"}
           id={"sliderinput"}
           value= {this.state.sum}
-          placeholder = "$10000"
+          placeholder = "5"
           onChange={(e: { target: { value: string; }; }) => this.onInputChange(e.target.value)}
           onFocus={() => this.setState({ step: 1 })} // When the input is focused, set step value to 1
         /> 

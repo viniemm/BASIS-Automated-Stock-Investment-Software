@@ -101,7 +101,11 @@ export default function App() {
 >>>>>>> 97eaf07 (initial navbar build)
 =======
           <Route path="/questionnaire" element={<Questionnaire/>}/>
+<<<<<<< HEAD
 >>>>>>> 1b64068 (Added Questionnaire to Dropdown)
+=======
+          <Route path="/questionnaire2" element={<Questionnaire2/>}/>
+>>>>>>> f20033c (Questionnaire 1-2 Done)
         </Routes>
       </div>
     </Router>
