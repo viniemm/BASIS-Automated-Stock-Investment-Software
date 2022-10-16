@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router";
 import { Dashboard, Home, About } from "./pages";
 import Questionnaire from "./components/Questionnaire/Questionnaire";
 import Questionnaire2 from "./components/Questionnaire/Questionnaire2";
+import Questionnaire3 from "./components/Questionnaire/Questionnaire3";
 
 import {
   BrowserRouter as Router,
@@ -46,6 +47,7 @@ export default function App() {
           <Route path="/dashboard" element={<Dashboard/>}/>
           <Route path="/questionnaire" element={<Questionnaire/>}/>
           <Route path="/questionnaire2" element={<Questionnaire2/>}/>
+          <Route path="/questionnaire3" element={<Questionnaire3/>}/>
         </Routes>
       </div>
     </Router>
