@@ -11,6 +11,7 @@ import Questionnaire from "./components/Questionnaire/Questionnaire";
 =======
 import Questionnaire2 from "./components/Questionnaire/Questionnaire2";
 import Questionnaire3 from "./components/Questionnaire/Questionnaire3";
+import Questionnaire4 from "./components/Questionnaire/Questionnaire4";
 
 >>>>>>> cb3de07 (Added question 1)
 import {
@@ -110,7 +111,11 @@ export default function App() {
 >>>>>>> f20033c (Questionnaire 1-2 Done)
 =======
           <Route path="/questionnaire3" element={<Questionnaire3/>}/>
+<<<<<<< HEAD
 >>>>>>> 0c0404a (Added Question 3)
+=======
+          <Route path="/questionnaire4" element={<Questionnaire4/>}/>
+>>>>>>> 383492c (Added Question 4)
         </Routes>
       </div>
     </Router>
