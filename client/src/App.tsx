@@ -12,6 +12,7 @@ import Questionnaire from "./components/Questionnaire/Questionnaire";
 import Questionnaire2 from "./components/Questionnaire/Questionnaire2";
 import Questionnaire3 from "./components/Questionnaire/Questionnaire3";
 import Questionnaire4 from "./components/Questionnaire/Questionnaire4";
+import Questionnaire5 from "./components/Questionnaire/Questionnaire5";
 
 >>>>>>> cb3de07 (Added question 1)
 import {
@@ -115,7 +116,11 @@ export default function App() {
 >>>>>>> 0c0404a (Added Question 3)
 =======
           <Route path="/questionnaire4" element={<Questionnaire4/>}/>
+<<<<<<< HEAD
 >>>>>>> 383492c (Added Question 4)
+=======
+          <Route path="/questionnaire5" element={<Questionnaire5/>}/>
+>>>>>>> 1107b97 (Added Q5)
         </Routes>
       </div>
     </Router>

@@ -1,7 +1,12 @@
-import { render } from '@testing-library/react'
 import React from 'react'
 import { Dropdown } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
+import {
+  BrowserRouter as Router,
+  Link
+} from "react-router-dom";
+import { Route, Routes } from "react-router";
+import Questionnaire5 from "./Questionnaire5";
 
 const answerOptions = [
   {
@@ -33,6 +38,14 @@ class Questionnaire4 extends React.Component {
                     <h4>4. Have you invested in the stock market before?</h4>
                 </label>
                 {DropdownSelection()}
+
+                <li>
+                    <Link to="/questionnaire5">Next Question</Link>
+                </li>
+
+                <Routes>
+                    <Route path="/questionnaire5" element={<Questionnaire5/>} />
+                </Routes>
             </div>
         )
     }
