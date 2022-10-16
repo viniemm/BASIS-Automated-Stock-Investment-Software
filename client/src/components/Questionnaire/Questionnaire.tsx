@@ -88,7 +88,7 @@ class Questionnaire extends React.Component {
           onSlideStart={(value: any) => this.onSlideStart(value)}
         />
           <li>
-            <Link to="/questionnaire2">Question 2</Link>
+            <Link to="/questionnaire2">Next Question</Link>
           </li>
 
           <Routes>
