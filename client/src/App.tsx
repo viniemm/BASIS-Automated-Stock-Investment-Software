@@ -4,6 +4,7 @@ import { Dashboard, Home, About } from "./pages";
 import Questionnaire from "./components/Questionnaire/Questionnaire";
 import Questionnaire2 from "./components/Questionnaire/Questionnaire2";
 import Questionnaire3 from "./components/Questionnaire/Questionnaire3";
+import Questionnaire4 from "./components/Questionnaire/Questionnaire4";
 
 import {
   BrowserRouter as Router,
@@ -48,6 +49,7 @@ export default function App() {
           <Route path="/questionnaire" element={<Questionnaire/>}/>
           <Route path="/questionnaire2" element={<Questionnaire2/>}/>
           <Route path="/questionnaire3" element={<Questionnaire3/>}/>
+          <Route path="/questionnaire4" element={<Questionnaire4/>}/>
         </Routes>
       </div>
     </Router>
