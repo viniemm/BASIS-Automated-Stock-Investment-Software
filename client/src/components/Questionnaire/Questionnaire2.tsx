@@ -2,7 +2,12 @@ import React from "react";
 import ControlledSlider from "./Slider/Slider";
 import Input from "./Input";
 import "./styles.css";
-import { Link, Route } from "react-router-dom";
+import {
+    BrowserRouter as Router,
+    Link
+  } from "react-router-dom";
+import { Route, Routes } from "react-router";
+import Questionnaire3 from "./Questionnaire3";
 
 // Constands for these for simplicity, would typically be props
 const max = 10;
@@ -76,6 +81,14 @@ class Questionnaire2 extends React.Component {
           onUpdate={(value: any) => this.onSliderChange(value)}
           onSlideStart={(value: any) => this.onSlideStart(value)}
         />
+
+          <li>
+            <Link to="/questionnaire3">Next Question</Link>
+          </li>
+
+          <Routes>
+          <Route path="/questionnaire3" element={<Questionnaire3/>}/>
+          </Routes>
       </div>
     );
   }
