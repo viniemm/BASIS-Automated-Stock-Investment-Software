@@ -67,7 +67,7 @@ class Questionnaire extends React.Component {
       <div className="App">
         <label htmlFor="sliderinput"
         >
-            <h4>1. How much money are you willing to invest?</h4>
+            <h4>1. How much money are you willing to invest (In $)?</h4>
         </label>
         
         <Input 
