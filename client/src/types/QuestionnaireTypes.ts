@@ -3,7 +3,8 @@ export interface QuestionnaireState {
     // Slider Info
     sum?: number | string,
     sliderSum?: number,
-    step?: number
+    step?: number,
+    questionnaireDone?: boolean
 }
 
 export interface QuestionnaireProps {

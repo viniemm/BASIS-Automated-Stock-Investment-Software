@@ -2,6 +2,7 @@ import React from 'react'
 import { Dropdown } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
 import { QuestionnaireState, QuestionnaireProps } from "../../types/QuestionnaireTypes";
+import { Dashboard } from '../../pages';
 
 const options = [
   { key: 'oil', text: 'Oil and Gas', value: 'oil' },
@@ -23,6 +24,7 @@ const options = [
 class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireState> {
     state:QuestionnaireState = {
         answers: {},
+        questionnaireDone: false 
       };
       DropdownMultipleSelection = () => (
         <Dropdown
@@ -31,13 +33,18 @@ class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireSt
           multiple
           selection
           options={options}
-          onChange={(e,data) => {this.state.answers.termPeriod=data.value+""}}
+          onChange={(e,data) => {this.state.answers.industries=data.value as string[]}}
         />
       )
       constructor(props:QuestionnaireProps) {
         super(props)
         this.state.answers = props.answers
-        this.state.answers.termPeriod = '<2 years';
+        this.state.answers.termPeriod = [];
+      }
+
+      submitClick() {
+        // Make request
+
       }
 
     render() {
@@ -47,6 +54,8 @@ class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireSt
                     <h4>5. Which industry of stocks are you interested in investing in?</h4>
                 </label>
                 {this.DropdownMultipleSelection()}
+                <input type="submit" onClick={this.submitClick} value="Submit" />
+
             </div>
         )
     }
