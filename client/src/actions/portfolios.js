@@ -8,7 +8,7 @@ import { GET_PORTFOLIO, DELETE_PORTFOLIO, ADD_PORTFOLIO, GET_ERRORS } from './ty
 import { tokenConfig } from './auth';
 
 // GET PORTFOLIO
-export const getPortfolio = () => (dispatch, getState) => {
+export const getPortfolios = () => (dispatch, getState) => {
     axios
         .get('/api/ideas/', tokenConfig(getState))
         .then(response => {
@@ -33,9 +33,9 @@ export const deletePortfolio = (id) => (dispatch, getState) => {
 };
 
 // ADD PORTFOLIO
-export const addPortfolio = (idea) => (dispatch, getState) => {
+export const addPortfolio = (portfolio) => (dispatch, getState) => {
     axios
-        .post('/api/portfolio/', idea, tokenConfig(getState))
+        .post('/api/portfolio/', portfolio, tokenConfig(getState))
         .then(response => {
             dispatch(createMessage({ addPortfolio: 'Portfolio Added' }));
             dispatch({
