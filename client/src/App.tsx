@@ -105,6 +105,7 @@ export default function App() {
 =======
           <Route path="/questionnaire" element={<Questionnaire/>}/>
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 1b64068 (Added Questionnaire to Dropdown)
 =======
           <Route path="/questionnaire2" element={<Questionnaire2/>}/>
@@ -121,6 +122,12 @@ export default function App() {
 =======
           <Route path="/questionnaire5" element={<Questionnaire5/>}/>
 >>>>>>> 1107b97 (Added Q5)
+=======
+          <Route path="/questionnaire2" element={<Questionnaire2 answers={{}}/>}/>
+          <Route path="/questionnaire3" element={<Questionnaire3 answers={{}}/>}/>
+          <Route path="/questionnaire4" element={<Questionnaire4 answers={{}}/>}/>
+          <Route path="/questionnaire5" element={<Questionnaire5 answers={{}}/>}/>
+>>>>>>> de9ece6 (Passed data through from Questions)
         </Routes>
       </div>
     </Router>

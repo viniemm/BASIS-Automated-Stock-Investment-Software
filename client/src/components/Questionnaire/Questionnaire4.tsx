@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import { Route, Routes } from "react-router";
 import Questionnaire5 from "./Questionnaire5";
+import { QuestionnaireState, QuestionnaireProps } from "../../types/QuestionnaireTypes";
 
 const answerOptions = [
   {
@@ -21,30 +22,39 @@ const answerOptions = [
   },
 ]
 
-const DropdownSelection = () => (
-  <Dropdown
-    placeholder='Select Answer'
-    fluid
-    selection
-    options={answerOptions}
-  />
-)
+class Questionnaire4 extends React.Component<QuestionnaireProps, QuestionnaireState> {
+  state:QuestionnaireState = {
+    answers: {},
+  };
+  DropdownSelection = () => (
+    <Dropdown
+      placeholder='Select Answer'
+      fluid
+      selection
+      options={answerOptions}
+      onChange={(e,data) => {this.state.answers.termPeriod=data.value+""}}
+    />
+  )
+  constructor(props:QuestionnaireProps) {
+    super(props)
+    this.state.answers = props.answers
+    this.state.answers.termPeriod = '<2 years';
+  }
 
-class Questionnaire4 extends React.Component {
     render() {
         return (
             <div className="App">
                 <label htmlFor="sliderinput" >
                     <h4>4. Have you invested in the stock market before?</h4>
                 </label>
-                {DropdownSelection()}
+                {this.DropdownSelection()}
 
                 <li>
                     <Link to="/questionnaire5">Next Question</Link>
                 </li>
 
                 <Routes>
-                    <Route path="/questionnaire5" element={<Questionnaire5/>} />
+                    <Route path="/questionnaire5" element={<Questionnaire5 answers={this.state.answers}/>} />
                 </Routes>
             </div>
         )
