@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -8,9 +9,11 @@ import {Checkbox, Chip} from "@mui/material";
 import ListItemText from "@mui/material/ListItemText";
 import {MenuProps} from "../MenuProps";
 import {getStoredOptions} from "./CommonFilterLogic";
+import { CategoryFilterProps } from '../../../types/Filtering/CategoryFilter';
+import { Filter } from '../../../types/Filtering/Types';
 
 
-export default function CategoryFilter(props:any) {
+export default function CategoryFilter(props:CategoryFilterProps) {
   const {filterAvailable, storedFilter, filterChanged} = props;
   const [optionsSelected, setOptionsSelected] = React.useState(() => {
     return getStoredOptions(storedFilter);
@@ -50,11 +53,6 @@ export default function CategoryFilter(props:any) {
     values.forEach((optionLabel: any) => {
       selectedFields = selectedFields.concat(findAllOptions(optionLabel))
     })
-    interface Filter {
-      field:any,
-      operator: string,
-      value: any
-    }
     const filters:Filter[] = []
     const complexFilter = {
       logic: 'or',

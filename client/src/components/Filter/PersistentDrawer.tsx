@@ -18,6 +18,7 @@ import ReportDropdown from "./ReportDropdown";
 import Loading from "./Loading";
 import DateFilter from "./filters/DateFilter";
 import ChartType from "./ChartType";
+import { Filter } from '../../types/Filtering/Types';
 
 const drawerWidth = 400;
 
@@ -94,7 +95,7 @@ export default function PersistentDrawerLeft(props:any) {
   const parseFilterStateToMap = () => {
     // TODO: this function makes a bunch of assumptions about formatting
     if (filterState != null) {
-      filterState.complex_filter.filters.forEach((filter: { filters: any[]; logic: any; } | null) => {
+      filterState.complex_filter.filters.forEach((filter: { filters: Filter[]; logic: string; } | null) => {
         if (filter != null && 'filters' in filter && 'logic' in filter && filter.filters.length > 0 && 'field' in filter.filters[0]) {
           const field = filter.filters[0].field;
           const filters: Subfilters[] = [];
@@ -102,7 +103,7 @@ export default function PersistentDrawerLeft(props:any) {
             "logic": filter.logic,
             filters
           };
-          filter.filters.forEach((subfilter: { field: any; }) => {
+          filter.filters.forEach((subfilter) => {
             if ('field' in subfilter && subfilter.field === field) {
               complexFilter.filters.push(subfilter)
             }
@@ -129,19 +130,19 @@ export default function PersistentDrawerLeft(props:any) {
     setOpen(false);
   };
 
-  const XAxisPropertyChanged = (filter: any) => {
+  const XAxisPropertyChanged = (filter: Filter) => {
     filtersChanged({ x_axis: filter });
   };
 
-  const YAxisPropertyChanged = (filter: any) => {
+  const YAxisPropertyChanged = (filter: Filter) => {
     filtersChanged({ y_axis: filter });
   };
 
-  const BreakdownPropertyChanged = (filter: any) => {
+  const BreakdownPropertyChanged = (filter: Filter) => {
     filtersChanged({ breakdown: filter });
   };
 
-  const filterChanged = (filterId: any, filter: any) => {
+  const filterChanged = (filterId: string, filter: unknown) => {
     console.log(filterId)
     console.log(filter)
     filterMap.set(filterId, filter);

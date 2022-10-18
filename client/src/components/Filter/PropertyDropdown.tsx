@@ -9,7 +9,7 @@ import {TextField} from "@mui/material";
 let updateTimer: NodeJS.Timeout | null = null;
 
 export default function PropertyDropdown(props:any) {
-  const {children, optionsAvailable, savedState, title, dropdownChanged, ...rest} = props;
+  const { optionsAvailable, savedState, title, dropdownChanged } = props;
 
   const findPropertyAvailable = (propSelection: any) => {
     // Find property available
