@@ -1,18 +1,18 @@
-import './App.css';
+import './Filtering.css';
 import React, { Component } from "react";
 import {BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer, Label} from 'recharts';
 import axios from "axios";
 import randomColor from "randomcolor";
 import '@progress/kendo-theme-default/dist/all.css';
-import PersistentDrawerLeft from "./components/PersistentDrawer";
+import PersistentDrawerLeft from '../../components/Filter/PersistentDrawer';
 import {
   indicatorsDefaultState,
   indicatorsEndpointAvailable
-} from "./components/endpoint_constants/IndicatorsEndpointConstants";
-import TransitionAlert from "./components/TransitionAlert";
+} from '../../components/Filter/endpoint_constants/IndicatorsEndpointConstants';
+import TransitionAlert from '../../components/Filter/TransitionAlert';
 
 
-const getRandomColorList = (colorCount) => {
+const getRandomColorList = (colorCount: number) => {
   let generated_colors = [
     "#673ab7", "#00bcd4", "#cddc39",
     "#8d6e63", "#d81b60", "#618833", "#b26a00",
@@ -23,7 +23,7 @@ const getRandomColorList = (colorCount) => {
     "#3f51b5", "#009688", "#ffeb3b",
   ];
   if (colorCount >= generated_colors.length) {
-    generated_colors += randomColor({seed: 34564, luminosity: 'dark', count: colorCount - generated_colors.length + 1});
+    generated_colors = generated_colors.concat(randomColor({seed: 34564, luminosity: 'dark', count: colorCount - generated_colors.length + 1}));
   }
   return generated_colors;
 }
@@ -39,9 +39,23 @@ const defaultFilterFields = new Map([
   ["indicators", indicatorsDefaultState]
 ])
 
-class App extends Component {
+interface FilteringState {
+  processingRequest: boolean,
+  chartType: string,
+  errorOpen: boolean,
+  error: any,
+  reportState: any,
+  filtersAvailable: any,
+  filterFields:any,
+  data: any,
+  open?: any
+}
 
-  constructor(props) {
+class Filtering extends Component<any, FilteringState> {
+  updateTimer: any;
+  cancelTokenSource: any;
+
+  constructor(props: Record<string, unknown> | Readonly<unknown>) {
     super(props);
     this.updateTimer = null;
     this.cancelTokenSource = axios.CancelToken.source();
@@ -81,14 +95,14 @@ class App extends Component {
     setInterval(this.refreshAll, 300000);
   }
 
-  setErrorOpen(open) {
+  setErrorOpen(open: any) {
     console.log("Set error open called")
     this.setState({
       open: open
     })
   }
 
-  handleBadReturn(err) {
+  handleBadReturn(err: string) {
     console.log("Error Handler Called")
     console.log(err)
     this.setState({
@@ -131,7 +145,7 @@ class App extends Component {
         if (res.status !== 200) {
           this.handleBadReturn(res.statusText);
         } else {
-          let endpoint_return = res.data;
+          const endpoint_return = res.data;
           this.setState({
             filtersAvailable: structuredClone(endpoint_return)
           })
@@ -157,7 +171,7 @@ class App extends Component {
 
   renderStackedBars = () => {
     let colorCount = 0;
-    const bars = this.state.data.data_keys.map((value) => (
+    const bars = this.state.data.data_keys.map((value: any) => (
       <Bar
         key={value}
         dataKey={value}
@@ -170,7 +184,7 @@ class App extends Component {
 
   renderSideBySideBars = () => {
     let colorCount = 0;
-    const bars = this.state.data.data_keys.map((value) => (
+    const bars = this.state.data.data_keys.map((value: any) => (
       <Bar
         key={value}
         dataKey={value}
@@ -180,7 +194,7 @@ class App extends Component {
     return bars;
   }
 
-  renderChart(chartType) {
+  renderChart(chartType: string) {
     if (chartType === "stacked_bar") {
       return this.renderStackedBars();
     }
@@ -189,10 +203,10 @@ class App extends Component {
     }
   }
 
-  filtersChanged(filter) {
+  filtersChanged(filter: { x_axis: any; y_axis: any; breakdown: any; complex_filter: any; }) {
     console.log("Changing Filters")
     console.log(filter);
-    let filterFields = this.state.filterFields;
+    const filterFields = this.state.filterFields;
     if ('x_axis' in filter) {
       filterFields.x_axis = filter.x_axis;
     }
@@ -210,9 +224,9 @@ class App extends Component {
     }, () => {
       this.scheduleRefreshGraphData();
     });
-  };
+  }
 
-  reportChanged(newReport) {
+  reportChanged(newReport: { field_value: string; }) {
     this.setState({
       reportState: newReport,
       filterFields: defaultFilterFields.get(newReport.field_value)
@@ -225,16 +239,17 @@ class App extends Component {
       });
       this.refreshAll();
     });
-  };
+  }
 
-  chartTypeChanged(event) {
+  chartTypeChanged(event: { target: { value: any; }; }) {
 
     this.setState({
       chartType: event.target.value
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     }, () => {
 
     });
-  };
+  }
 
   render() {
     return (
@@ -271,4 +286,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default Filtering;

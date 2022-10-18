@@ -6,7 +6,7 @@ import Collapse from '@mui/material/Collapse';
 import CloseIcon from '@mui/icons-material/Close';
 import {AlertTitle} from "@mui/material";
 
-export default function TransitionAlert(props) {
+export default function TransitionAlert(props:any) {
   const {
     children,
     text,

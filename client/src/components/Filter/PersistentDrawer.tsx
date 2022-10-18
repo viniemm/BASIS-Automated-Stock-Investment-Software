@@ -21,7 +21,11 @@ import ChartType from "./ChartType";
 
 const drawerWidth = 400;
 
-const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
+type ExtraProps = {
+  open: any;
+}
+
+const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<ExtraProps>(
   ({ theme, open }) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
@@ -42,7 +46,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
-})(({ theme, open }) => ({
+})<ExtraProps>(({ theme, open }) => ({
   transition: theme.transitions.create(['margin', 'width'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -69,7 +73,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 // Specifies default filters
 let filterMap = new Map();
 
-export default function PersistentDrawerLeft(props) {
+export default function PersistentDrawerLeft(props:any) {
   const {
     loading,
     chartType,
@@ -80,23 +84,25 @@ export default function PersistentDrawerLeft(props) {
     reportState,
     filtersAvailable,
     filtersChanged,
-    filterState,
-    ...rest
+    filterState
   } = props;
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-
+  interface Subfilters {
+    field: any
+  }
   const parseFilterStateToMap = () => {
     // TODO: this function makes a bunch of assumptions about formatting
     if (filterState != null) {
-      filterState.complex_filter.filters.forEach((filter) => {
+      filterState.complex_filter.filters.forEach((filter: { filters: any[]; logic: any; } | null) => {
         if (filter != null && 'filters' in filter && 'logic' in filter && filter.filters.length > 0 && 'field' in filter.filters[0]) {
-          let field = filter.filters[0].field;
-          let complexFilter = {
+          const field = filter.filters[0].field;
+          const filters: Subfilters[] = [];
+          const complexFilter = {
             "logic": filter.logic,
-            "filters": []
+            filters
           };
-          filter.filters.forEach((subfilter) => {
+          filter.filters.forEach((subfilter: { field: any; }) => {
             if ('field' in subfilter && subfilter.field === field) {
               complexFilter.filters.push(subfilter)
             }
@@ -123,24 +129,26 @@ export default function PersistentDrawerLeft(props) {
     setOpen(false);
   };
 
-  const XAxisPropertyChanged = (filter) => {
+  const XAxisPropertyChanged = (filter: any) => {
     filtersChanged({ x_axis: filter });
   };
 
-  const YAxisPropertyChanged = (filter) => {
+  const YAxisPropertyChanged = (filter: any) => {
     filtersChanged({ y_axis: filter });
   };
 
-  const BreakdownPropertyChanged = (filter) => {
+  const BreakdownPropertyChanged = (filter: any) => {
     filtersChanged({ breakdown: filter });
   };
 
-  const filterChanged = (filterId, filter) => {
+  const filterChanged = (filterId: any, filter: any) => {
+    console.log(filterId)
+    console.log(filter)
     filterMap.set(filterId, filter);
-
-    let complexFilter = {
+    const filters:Subfilters[] = []
+    const complexFilter = {
       "logic": "and",
-      "filters": []
+      filters
     }
     filterMap.forEach((value, key) => {
       if (value !== null) {
@@ -189,26 +197,29 @@ export default function PersistentDrawerLeft(props) {
 
   const buildFilter = () => {
     parseFilterStateToMap();
-    let filters = filtersAvailable.filters.map((filter) => {
+    const filters = filtersAvailable.filters.map((filter: any) => {
       if (filter.field_type === "category") {
+        // eslint-disable-next-line react/jsx-key
         return <CategoryFilter
           filterAvailable={filter}
           storedFilter={(filterMap.has(filter.field)) && filterMap.get(filter.field)}
-          filterChanged={(buildFilter) => {filterChanged(filter.field, buildFilter)}}
+          filterChanged={(buildFilter: unknown) => {filterChanged(filter.field, buildFilter)}}
         ></CategoryFilter>
       }
       if (filter.field_type === "text") {
+        // eslint-disable-next-line react/jsx-key
         return <TextFilter
           filterAvailable={filter}
           storedFilter={(filterMap.has(filter.field)) && filterMap.get(filter.field)}
-          filterChanged={(buildFilter) => {filterChanged(filter.field, buildFilter)}}
+          filterChanged={(buildFilter: unknown) => {filterChanged(filter.field, buildFilter)}}
         ></TextFilter>
       }
       if (filter.field_type === "date") {
+        // eslint-disable-next-line react/jsx-key
         return <DateFilter
           filterAvailable={filter}
           storedFilter={(filterMap.has(filter.field)) && filterMap.get(filter.field)}
-          filterChanged={(buildFilter) => {filterChanged(filter.field, buildFilter)}}
+          filterChanged={(buildFilter: any) => {filterChanged(filter.field, buildFilter)}}
         ></DateFilter>
       }
       return null

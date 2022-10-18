@@ -7,20 +7,20 @@ import {Chip} from "@mui/material";
 import {getStoredOptions} from "./CommonFilterLogic";
 
 
-const arrayRemove = (arr, value) => {
-  return arr.filter(function(ele){
+const arrayRemove = (arr: any[], value: any) => {
+  return arr.filter(function(ele: any){
     return ele != value;
   });
 }
 
-export default function TextFilter(props) {
-  const {children, filterAvailable, storedFilter, filterChanged, ...rest} = props;
+export default function TextFilter(props: { [x: string]: any; filterAvailable: any; storedFilter: any; filterChanged: any; }) {
+  const {filterAvailable, storedFilter, filterChanged} = props;
   const [optionsSelected, setOptionsSelected] = React.useState(() => {
     return getStoredOptions(storedFilter);
   });
 
 
-  const handleOptionsSelectedChange = (event, newValue, reason, details) => {
+  const handleOptionsSelectedChange = (reason: string, details: { option: any; }) => {
     let currentOptionsSelected = optionsSelected;
     if (reason === 'createOption') {
       currentOptionsSelected.push(details.option);
@@ -34,9 +34,15 @@ export default function TextFilter(props) {
     );
     // Building filterAvailable
     // Finding selected fields
-    let complexFilter = {
+    interface Filters {
+      field: any,
+      operator: string,
+      value: any
+    }
+    const filters:Filters[] = []
+    const complexFilter = {
       logic: 'or',
-      filters: []
+      filters
     }
     currentOptionsSelected.forEach(optionFieldValue => {
       complexFilter.filters.push({
@@ -60,15 +66,17 @@ export default function TextFilter(props) {
         <Autocomplete
           multiple
           value={optionsSelected}
-          onChange={handleOptionsSelectedChange}
+          // This line might not work
+          onChange={(e:any) => handleOptionsSelectedChange(e.reason, e.details)}
           id="tags-filled"
           options={[]}
           defaultValue={[]}
           freeSolo
           renderTags={(value, getTagProps) =>
             value.map((option, index) => (
+              // eslint-disable-next-line react/jsx-key
               <Chip
-                onClick={handleOptionsSelectedChange}
+                onClick={(e:any) => handleOptionsSelectedChange(e.reason, e.details)}
                 variant="outlined"
                 label={option}
                 {...getTagProps({ index })}

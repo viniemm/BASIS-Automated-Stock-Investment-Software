@@ -6,12 +6,12 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import {TextField} from "@mui/material";
 
-let updateTimer = null;
+let updateTimer: NodeJS.Timeout | null = null;
 
-export default function PropertyDropdown(props) {
+export default function PropertyDropdown(props:any) {
   const {children, optionsAvailable, savedState, title, dropdownChanged, ...rest} = props;
 
-  const findPropertyAvailable = (propSelection) => {
+  const findPropertyAvailable = (propSelection: any) => {
     // Find property available
     let propertyAvailable = null;
     let granularityAvailable = null;
@@ -25,7 +25,7 @@ export default function PropertyDropdown(props) {
     return {propertyAvailable, granularityAvailable}
   }
 
-  const getDefaultGranularityForSelectedProperty = (propSelection) => {
+  const getDefaultGranularityForSelectedProperty = (propSelection:any) => {
     // Find property available
     const {propertyAvailable, granularityAvailable} = findPropertyAvailable(propSelection)
     // Set default granularity
@@ -64,23 +64,23 @@ export default function PropertyDropdown(props) {
     }
   });
 
-  const handlePropertyChange = (event) => {
+  const handlePropertyChange = (event: { target: { value: any; }; }) => {
     if (event.target.value === mergedState.attribute) {
       return;
     }
     handleGranularityUpdateOnPropertyChange(event.target.value);
   };
 
-  const handleGranularityChange = (event) => {
+  const handleGranularityChange = (event: { target: { value: any; }; }) => {
     updatedDropdown({
       attribute: mergedState.attribute,
       granularity: event.target.value
     });
   };
 
-  const handleGranularityUpdateOnPropertyChange = (propSelection) => {
-    let {propertyAvailable, granularityAvailable} = findPropertyAvailable(propSelection);
-    let defaultGranularity = getDefaultGranularityForSelectedProperty(propSelection);
+  const handleGranularityUpdateOnPropertyChange = (propSelection: any) => {
+    const {propertyAvailable, granularityAvailable} = findPropertyAvailable(propSelection);
+    const defaultGranularity = getDefaultGranularityForSelectedProperty(propSelection);
     let selectedGranularity = mergedState.granularity;
     if (granularityAvailable.includes("category")) {
       // In case it does not have granularity
@@ -100,8 +100,8 @@ export default function PropertyDropdown(props) {
     });
   }
 
-  const updatedDropdown = (state) => {
-    let {propertyAvailable, granularityAvailable} = findPropertyAvailable(state.attribute);
+  const updatedDropdown = (state: { attribute: any; granularity?: any; operation?: any; }) => {
+    const {propertyAvailable, granularityAvailable} = findPropertyAvailable(state.attribute);
     if ('operations_available' in propertyAvailable) {
       state.operation = propertyAvailable.operations_available[0];
     }
@@ -119,7 +119,7 @@ export default function PropertyDropdown(props) {
     [savedState]
   )
 
-  const generateGranularitySelector = (property) => {
+  const generateGranularitySelector = (property: { granularity_available: any[]; }) => {
     return (
       <FormControl fullWidth>
       <InputLabel id="demo-simple-select-label">{title + " Bucket Size"}</InputLabel>
@@ -132,7 +132,8 @@ export default function PropertyDropdown(props) {
         onChange={handleGranularityChange}
       >
         {
-          property.granularity_available.map((granularity) => (
+          property.granularity_available.map((granularity: any) => (
+            // eslint-disable-next-line react/jsx-key
             <MenuItem value={granularity}>{granularity}</MenuItem>
           ))
         }
@@ -140,7 +141,7 @@ export default function PropertyDropdown(props) {
       </FormControl>)
   };
 
-  const generateGranularityInput = (property) => {
+  const generateGranularityInput = (property: any) => {
     return <FormControl fullWidth><TextField
       id="outlined-number"
       label={title + " Bucket Size"}
@@ -156,7 +157,7 @@ export default function PropertyDropdown(props) {
 
   const generateGranularity = () => {
 
-    let {propertyAvailable, granularityAvailable} = findPropertyAvailable(mergedState.attribute);
+    const {propertyAvailable, granularityAvailable} = findPropertyAvailable(mergedState.attribute);
     if (granularityAvailable !== null) {
       if (granularityAvailable.includes("digit")) {
         return generateGranularityInput(propertyAvailable)
@@ -181,7 +182,8 @@ export default function PropertyDropdown(props) {
         >
 
           {
-            optionsAvailable.map((property) => (
+            optionsAvailable.map((property: { attribute: string | number | readonly string[] | undefined; label: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }) => (
+              // eslint-disable-next-line react/jsx-key
               <MenuItem value={property.attribute}>{property.label}</MenuItem>
             ))
           }

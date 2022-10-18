@@ -8,13 +8,13 @@ import {Stack} from "@mui/material";
 import Typography from "@mui/material/Typography";
 
 
-const arrayRemove = (arr, value) => {
-  return arr.filter(function(ele){
+const arrayRemove = (arr: any[], value: any) => {
+  return arr.filter(function(ele: any){
     return ele != value;
   });
 }
 
-const getStoredDates = (storedFilter) => {
+const getStoredDates = (storedFilter: { value: any[]; }) => {
   let storedDates = {
     start: null,
     end: null
@@ -32,8 +32,8 @@ const getStoredDates = (storedFilter) => {
 let endDateWasSet = false;
 let startDateWasSet = false;
 
-export default function DateFilter(props) {
-  const {children, filterAvailable, storedFilter, filterChanged, ...rest} = props;
+export default function DateFilter(props: { [x: string]: any; filterAvailable: any; storedFilter: any; filterChanged: any; }) {
+  const {filterAvailable, storedFilter, filterChanged} = props;
   const [storedDates, setStoredDates] = React.useState(() => {
     return getStoredDates(storedFilter);
   });
@@ -44,7 +44,7 @@ export default function DateFilter(props) {
     [storedFilter]
   );
 
-  function handleStartTimeChange(value, keyBoardInput) {
+  function handleStartTimeChange(value: string | null, keyBoardInput: any) {
     console.log(value)
     if (value !== 'Invalid Date') {
       if (value === null) {
@@ -53,7 +53,7 @@ export default function DateFilter(props) {
       }
       console.log(endDateWasSet);
       startDateWasSet = true;
-      let endDate = storedDates.end
+      let endDate:Date|null = storedDates.end
       if (endDate === null || !endDateWasSet) {
         endDate = new Date();
       }
@@ -65,7 +65,7 @@ export default function DateFilter(props) {
     }
   }
 
-  function handleEndTimeChange(value, keyBoardInput) {
+  function handleEndTimeChange(value: string | null, keyBoardInput: any) {
     console.log(value)
     if (value !== 'Invalid Date') {
       if (value === null) {
@@ -74,7 +74,7 @@ export default function DateFilter(props) {
       }
       console.log(startDateWasSet);
       endDateWasSet = true;
-      let startDate = storedDates.start
+      let startDate:Date | null = storedDates.start
       if (startDate === null || !startDateWasSet) {
         startDate = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
       }
@@ -90,7 +90,7 @@ export default function DateFilter(props) {
     <Box sx={{ minWidth: 120, display: "flex", m: 3, flexDirection: "column", gap: 1}}>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
 
-        <Typography variant="b" component="div" sx={{textAlign: "center"}}>
+        <Typography variant="body1" component="div" sx={{textAlign: "center"}}>
           {filterAvailable.label}
         </Typography>
         <Stack spacing={3}>

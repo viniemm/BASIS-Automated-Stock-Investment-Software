@@ -10,24 +10,24 @@ import {MenuProps} from "../MenuProps";
 import {getStoredOptions} from "./CommonFilterLogic";
 
 
-export default function CategoryFilter(props) {
-  const {children, filterAvailable, storedFilter, filterChanged, ...rest} = props;
+export default function CategoryFilter(props:any) {
+  const {filterAvailable, storedFilter, filterChanged} = props;
   const [optionsSelected, setOptionsSelected] = React.useState(() => {
     return getStoredOptions(storedFilter);
   });
 
-  const findAllOptions = (optionLabel) => {
-    let optionsFound = []
-    filterAvailable.options.forEach(element => {
+  const findAllOptions = (optionLabel: any) => {
+    const optionsFound: any[] = []
+    filterAvailable.options.forEach((element: { label: any; field_value: any; }) => {
       if (element.label === optionLabel) {
         optionsFound.push(element.field_value)
       }
     })
     return optionsFound;
   };
-  const findAllLabels = (field_value) => {
-    let optionsFound = []
-    filterAvailable.options.forEach(element => {
+  const findAllLabels = (field_value: any) => {
+    const optionsFound: any[] = []
+    filterAvailable.options.forEach((element: { field_value: any; label: any; }) => {
       if (element.field_value === field_value) {
         optionsFound.push(element.label)
       }
@@ -35,24 +35,30 @@ export default function CategoryFilter(props) {
     return optionsFound;
   };
 
-  const handleOptionsSelectedChange = (event) => {
+  const handleOptionsSelectedChange = (event: { target: { value: any; }; }) => {
     const {
       target: { value },
     } = event;
     // On autofill we get a stringified value.
-    let values = typeof value === 'string' ? value.split(',') : value;
+    const values = typeof value === 'string' ? value.split(',') : value;
     setOptionsSelected(
       values,
     );
     // Building filter
     // Finding selected fields
-    let selectedFields = []
-    values.forEach(optionLabel => {
+    let selectedFields: any[] = []
+    values.forEach((optionLabel: any) => {
       selectedFields = selectedFields.concat(findAllOptions(optionLabel))
     })
-    let complexFilter = {
+    interface Filter {
+      field:any,
+      operator: string,
+      value: any
+    }
+    const filters:Filter[] = []
+    const complexFilter = {
       logic: 'or',
-      filters: []
+      filters
     }
     selectedFields.forEach(optionFieldValue => {
       complexFilter.filters.push({
@@ -65,8 +71,8 @@ export default function CategoryFilter(props) {
   };
 
   React.useEffect(() => {
-      let storedOptions = getStoredOptions(storedFilter);
-      let allOptions = []
+      const storedOptions = getStoredOptions(storedFilter);
+      const allOptions:any = []
       storedOptions.forEach((field_value) => {
         allOptions.push(...findAllLabels(field_value))
       })
@@ -89,13 +95,15 @@ export default function CategoryFilter(props) {
           renderValue={(selected) => (
             <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5 }}>
               {selected.map((value) => (
+                // eslint-disable-next-line react/jsx-key
                 <Chip label={value} />
               ))}
             </Box>
           )}
           MenuProps={MenuProps}
         >
-          {filterAvailable.options.map((option) => (
+          {filterAvailable.options.map((option: any) => (
+            // eslint-disable-next-line react/jsx-key
             <MenuItem value={option.label}>
               <Checkbox checked={optionsSelected.indexOf(option.label) > -1} />
               <ListItemText primary={option.label} />

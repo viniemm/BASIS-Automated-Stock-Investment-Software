@@ -7,13 +7,11 @@ import Select from '@mui/material/Select';
 import {MenuProps} from "./MenuProps";
 
 
-export default function ReportDropdown(props) {
+export default function ReportDropdown(props: { reportsAvailable: any; reportChanged: any; reportState: any; }) {
   const {
-    children,
     reportsAvailable,
     reportChanged,
     reportState,
-    ...rest
   } = props;
   const [selected, setSelected] = React.useState(() => {
     if (reportState) {
@@ -22,9 +20,9 @@ export default function ReportDropdown(props) {
     return "";
   });
 
-  const findAllOptions = (option) => {
-    let optionsFound = []
-    reportsAvailable.options.forEach(element => {
+  const findAllOptions = (option: any) => {
+    const optionsFound: any[] = []
+    reportsAvailable.options.forEach((element: { field_value: any; }) => {
       if (element.field_value === option) {
         optionsFound.push(element)
       }
@@ -32,9 +30,9 @@ export default function ReportDropdown(props) {
     return optionsFound;
   };
 
-  const handleChange = (event) => {
+  const handleChange = (event: { target: { value: any; }; }) => {
     setSelected(event.target.value);
-    let optionsFound = findAllOptions(event.target.value);
+    const optionsFound = findAllOptions(event.target.value);
     reportChanged(optionsFound[0]);
   };
 
@@ -50,7 +48,7 @@ export default function ReportDropdown(props) {
           onChange={handleChange}
           MenuProps={MenuProps}
         >
-          {reportsAvailable.options.map((option) => (
+          {reportsAvailable.options.map((option: { field_value: any; label: string | number | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | React.ReactFragment | React.ReactPortal | null | undefined; }) => (
             <MenuItem key={option.field_value} value={option.field_value}>{option.label}</MenuItem>
           ))}
         </Select>
