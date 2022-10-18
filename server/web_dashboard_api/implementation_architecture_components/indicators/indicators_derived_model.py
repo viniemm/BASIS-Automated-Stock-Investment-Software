@@ -19,3 +19,4 @@ class IndicatorsDerivedModel(BaseDerivedModel):
         self.revenue_bil = None
         if self.revenue:
             self.revenue_bil = self.revenue / 100000000
+        self.industry_type = None
