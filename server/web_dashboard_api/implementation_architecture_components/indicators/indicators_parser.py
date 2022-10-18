@@ -35,6 +35,7 @@ class IndicatorsDerivedModelParser(BaseDerivedModelParser):
         values_list.append("revenue")
         values_list.append("revenue_growth")
         values_list.append("gross_profit")
+        values_list.append("symbol__industry")
         return values_list
 
     def get_derived_model_field_list(self) -> [str]:
@@ -44,6 +45,7 @@ class IndicatorsDerivedModelParser(BaseDerivedModelParser):
         values_list.append("revenue")
         values_list.append("revenue_growth")
         values_list.append("gross_profit")
+        values_list.append("industry")
         return values_list
 
     def get_derived_model_list_from_filters(self, complex_filter: QueryComplexFilter) -> [IndicatorsDerivedModel]:
