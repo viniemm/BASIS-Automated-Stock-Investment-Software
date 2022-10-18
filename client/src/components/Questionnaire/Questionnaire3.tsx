@@ -45,7 +45,7 @@ class Questionnaire3 extends React.Component<QuestionnaireProps, QuestionnaireSt
       fluid
       selection
       options={termPeriods}
-      onChange={(e,data) => {this.state.answers.termPeriod=data.value+""}}
+      onChange={(e,data) => {this.state.answers.termPeriod=data.value as string}}
     />
   )
   constructor(props:QuestionnaireProps) {

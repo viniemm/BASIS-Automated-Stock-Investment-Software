@@ -32,13 +32,13 @@ class Questionnaire4 extends React.Component<QuestionnaireProps, QuestionnaireSt
       fluid
       selection
       options={answerOptions}
-      onChange={(e,data) => {this.state.answers.termPeriod=data.value+""}}
+      onChange={(e,data) => {this.state.answers.investPrev=data.value === "Yes"}}
     />
   )
   constructor(props:QuestionnaireProps) {
     super(props)
     this.state.answers = props.answers
-    this.state.answers.termPeriod = '<2 years';
+    this.state.answers.investPrev = false;
   }
 
     render() {
