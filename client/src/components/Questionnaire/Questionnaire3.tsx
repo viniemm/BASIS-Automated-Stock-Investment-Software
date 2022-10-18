@@ -8,6 +8,7 @@ import {
   } from "react-router-dom";
 import { Route, Routes } from "react-router";
 import Questionnaire4 from "./Questionnaire4";
+import { QuestionnaireState, QuestionnaireProps } from "../../types/QuestionnaireTypes";
 
 const termPeriods = [
   {
@@ -32,30 +33,41 @@ const termPeriods = [
   },
 ]
 
-const DropdownSelection = () => (
-  <Dropdown
-    placeholder='Select Term'
-    fluid
-    selection
-    options={termPeriods}
-  />
-)
 
-class Questionnaire3 extends React.Component {
+
+class Questionnaire3 extends React.Component<QuestionnaireProps, QuestionnaireState> {
+  state:QuestionnaireState = {
+    answers: {},
+  };
+  DropdownSelection = () => (
+    <Dropdown
+      placeholder='Select Term'
+      fluid
+      selection
+      options={termPeriods}
+      onChange={(e,data) => {this.state.answers.termPeriod=data.value+""}}
+    />
+  )
+  constructor(props:QuestionnaireProps) {
+    super(props)
+    this.state.answers = props.answers
+    this.state.answers.termPeriod = '<2 years';
+  }
+
     render() {
         return (
             <div className="App">
                 <label htmlFor="sliderinput" >
                     <h4>3. What is the estimated term period of the portfolio?</h4>
                 </label>
-                {DropdownSelection()}
+                {this.DropdownSelection()}
 
                 <li>
                     <Link to="/questionnaire4">Next Question</Link>
                 </li>
 
                 <Routes>
-                    <Route path="/questionnaire4" element={<Questionnaire4 />} />
+                    <Route path="/questionnaire4" element={<Questionnaire4 answers={this.state.answers}/>} />
                 </Routes>
             </div>
         )

@@ -8,6 +8,7 @@ import {
   } from "react-router-dom";
 import { Route, Routes } from "react-router";
 import Questionnaire3 from "./Questionnaire3";
+import { QuestionnaireState, QuestionnaireProps } from "../../types/QuestionnaireTypes";
 
 // Constands for these for simplicity, would typically be props
 const max = 10;
@@ -15,14 +16,20 @@ const min = 1;
 const step = 1;
 const value = 1;
 
-
-class Questionnaire2 extends React.Component {
-  state = {
-    // Set state values to reflect consts/props
+class Questionnaire2 extends React.Component<QuestionnaireProps, QuestionnaireState> {
+  state:QuestionnaireState = {
+    answers: {},
+      // Set state values to reflect consts/props
     sum: value,
     sliderSum: value,
     step: step
   };
+  constructor(props:QuestionnaireProps) {
+    super(props)
+    this.state.answers = props.answers
+    this.state.answers.riskThreshold = 1;
+  }
+  
 
   onInputChange = (value:string) => {
     if (value) {
@@ -48,7 +55,7 @@ class Questionnaire2 extends React.Component {
 
   onSliderChange = (value: string) => {
     const sum = parseInt(value, 10);
-
+    this.state.answers.riskThreshold = sum;
     // When the slider is changed, set both input and slider values to reflect new value
     this.setState({
       sum,
@@ -87,7 +94,7 @@ class Questionnaire2 extends React.Component {
           </li>
 
           <Routes>
-          <Route path="/questionnaire3" element={<Questionnaire3/>}/>
+          <Route path="/questionnaire3" element={<Questionnaire3 answers={this.state.answers}/>}/>
           </Routes>
       </div>
     );

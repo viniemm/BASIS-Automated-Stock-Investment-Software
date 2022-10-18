@@ -1,6 +1,7 @@
 import React from 'react'
 import { Dropdown } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
+import { QuestionnaireState, QuestionnaireProps } from "../../types/QuestionnaireTypes";
 
 const options = [
   { key: 'oil', text: 'Oil and Gas', value: 'oil' },
@@ -19,25 +20,33 @@ const options = [
   { key: 'banks', text: 'Banks, Business, and Finance', value: 'banks' },
 ]
 
-const DropdownMultipleSelection = () => (
-    <Dropdown 
-        placeholder='Skills'
-        fluid
-        multiple
-        selection
-        options={options}
-    />
-)
+class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireState> {
+    state:QuestionnaireState = {
+        answers: {},
+      };
+      DropdownMultipleSelection = () => (
+        <Dropdown
+          placeholder='Skills'
+          fluid
+          multiple
+          selection
+          options={options}
+          onChange={(e,data) => {this.state.answers.termPeriod=data.value+""}}
+        />
+      )
+      constructor(props:QuestionnaireProps) {
+        super(props)
+        this.state.answers = props.answers
+        this.state.answers.termPeriod = '<2 years';
+      }
 
-
-class Questionnaire5 extends React.Component {
     render() {
         return (
             <div className="App">
                 <label htmlFor="sliderinput" >
                     <h4>5. Which industry of stocks are you interested in investing in?</h4>
                 </label>
-                {DropdownMultipleSelection()}
+                {this.DropdownMultipleSelection()}
             </div>
         )
     }

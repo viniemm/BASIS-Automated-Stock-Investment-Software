@@ -14,8 +14,6 @@ const max = 10000;
 const min = 1000;
 const step = 100;
 const value = 25000;
-const step2 = 1;
-const value2 = 8;
 
 class Questionnaire extends React.Component {
   state = {
@@ -23,11 +21,6 @@ class Questionnaire extends React.Component {
     sum: value,
     sliderSum: value,
     step: step
-  };
-  state2 = {
-    sum: value2,
-    sliderSum: value2,
-    step: step2
   };
 
   onInputChange = (value:string) => {
@@ -92,7 +85,7 @@ class Questionnaire extends React.Component {
           </li>
 
           <Routes>
-          <Route path="/questionnaire2" element={<Questionnaire2/>}/>
+          <Route path="/questionnaire2" element={<Questionnaire2 answers={{moneyInvested:this.state.sliderSum}}/>}/>
           </Routes>
       </div>
     );
