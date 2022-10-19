@@ -1,11 +1,12 @@
 import React from 'react';
 import { Route, Routes } from "react-router";
 import { Dashboard, Home, About, Filtering } from "./pages";
-import Questionnaire from './components/Questionnaire/Questionnaire'
 import {
   BrowserRouter as Router,
   Link
 } from "react-router-dom";
+import Login from './pages/Login/Login';
+import Register from './pages/Register/Register';
 
 // This site has 3 pages, all of which are rendered
 // dynamically in the browser (not server rendered).
@@ -14,6 +15,7 @@ export default function App() {
   return (
     <Router>
       <div>
+        <div id="nav">
         <ul>
           <li>
             <Link to="/">Home</Link>
@@ -28,7 +30,7 @@ export default function App() {
             <Link to="/filtering">Filtering</Link>
           </li>
         </ul>
-
+        </div>
         <hr />
 
         {/*
@@ -43,6 +45,8 @@ export default function App() {
           <Route path="/about" element={<About/>}/>
           <Route path="/dashboard" element={<Dashboard/>}/>
           <Route path="/filtering" element={<Filtering/>}/>
+          <Route path="/login" element={<Login/>}/>
+          <Route path="/register" element={<Register/>}/>
         </Routes>
       </div>
     </Router>

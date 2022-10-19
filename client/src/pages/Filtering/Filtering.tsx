@@ -241,13 +241,9 @@ class Filtering extends Component<any, FilteringState> {
     });
   }
 
-  chartTypeChanged(event: { target: { value: any; }; }) {
-
+  chartTypeChanged(event:any) {
     this.setState({
       chartType: event.target.value
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
-    }, () => {
-
     });
   }
 
