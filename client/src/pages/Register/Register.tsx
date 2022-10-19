@@ -1,11 +1,28 @@
 import React, { Component } from 'react';
-import { Link, redirect } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { register } from '../../actions/auth';
 import { createMessage } from '../../actions/messages';
 
-export class Register extends Component {
+interface RegisterState {
+    username: string,
+    email: string,
+    password: string,
+    password2: string
+}
+
+interface NewUser {
+    username: string,
+    password: string,
+    email: string
+}
+
+interface RegisterProps {
+    register: (newUser: NewUser) => void,
+    isAuthenticated: boolean,
+    createMessage: (msg: any) => void
+}
+export class Register extends Component<RegisterProps, RegisterState> {
     state = {
         username: '',
         email: '',
@@ -13,12 +30,8 @@ export class Register extends Component {
         password2: ''
     };
 
-    static propTypes = {
-        register: PropTypes.func.isRequired,
-        isAuthenticated: PropTypes.bool
-    };
 
-    onSubmit = (e) => {
+    onSubmit = (e: any) => {
         e.preventDefault();
         const { username, email, password, password2 } = this.state;
         if (password !== password2) {
@@ -33,11 +46,15 @@ export class Register extends Component {
         }
     };
 
-    onChange = (e) => this.setState({ [e.target.name]: e.target.value });
+    onChange = (e: any) => {
+        const field:"username"|"password" = e.target.name as "username"|"password";
+        // eslint-disable-next-line react/no-direct-mutation-state
+        this.state[field] = e.target.value;
+    }
 
     render() {
         if (this.props.isAuthenticated) { // login user, redirect user to main page
-            return <redirect to="/" />
+            return <Navigate to={{ pathname: "/login" }} />;
         }
         const { username, email, password, password2 } = this.state;
         return (
@@ -100,7 +117,7 @@ export class Register extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     isAuthenticated: state.auth.isAuthenticated,
 });
 

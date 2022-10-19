@@ -1,5 +1,5 @@
 import axios from 'axios';
-const returnErrors = {} as any;
+import { returnErrors } from './messages'
 
 import {
     USER_LOADED,
