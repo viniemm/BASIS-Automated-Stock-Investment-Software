@@ -3,23 +3,21 @@ import { Alert } from '@mui/material';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import errors from '../../reducers/errors';
+import { deletePortfolio } from '../../actions/portfolios';
+import { addPortfolioMsg, deletePortfolioMsg, passwordNotMatch } from '../../actions/messages';
 
 interface AlertProps {
-    error: AlertState,
-    message: object
+    error: any,
+    message: string
 }
 
 interface AlertState {
-    errors: Error,
-    messages: object
+    error: Error,
+    message: string
 }
 
 // handle UI alerts, single Alerts component
 export class Alerts extends Component<AlertProps, AlertState> {
-    static propTypes = {
-        error: PropTypes.object.isRequired,
-        message: PropTypes.object.isRequired
-    }
 
     componentDidUpdate(prevProps: AlertProps) {
         const { error, message } = this.props;
@@ -28,17 +26,21 @@ export class Alerts extends Component<AlertProps, AlertState> {
         // instead of hardcode
         if (error !== prevProps.error) {
             // error in fields  
-            if (error.msg.name) <Alert>Name: ${error.msg.join()}</Alert>
-            if (error.message.non_field_errors) alert.error(error.msg.non_field_errors.join());         // error in non-field errors
-            if (error.message.username) alert.error(error.msg.username.join());                         // error in username
-            else alert.error("unknown error occured");
+            if (error.msg.name) return <Alert severity='error'>Name: ${error.msg.name.join()}</Alert>
+            if (error.msg.non_field_errors) return <Alert severity='error'>NonField: ${error.msg.non_field_errors.join()}</Alert>         // error in non-field errors
+            if (error.msg.username) return <Alert severity='error'>Username: ${error.msg.username.join()}</Alert>;                         // error in username
+            else return <Alert severity='error'>Unknown Error Occurred</Alert>;
         }
 
         // message handling
         if (message !== prevProps.message) {
-            if (message.deletePortfolio) alert.success(message.deletePortfolio);
-            if (message.addPortfolio) alert.success(message.addPortfolio);
-            if (message.passwordNotMatch) alert.error(message.passwordNotMatch);
+            switch (message) {
+                case deletePortfolioMsg:
+                case addPortfolioMsg:
+                    return <Alert severity='success'>message</Alert>
+                case passwordNotMatch:
+                    return <Alert severity='error'>message</Alert>
+            }
         }
     }
 
@@ -47,9 +49,9 @@ export class Alerts extends Component<AlertProps, AlertState> {
     }
 }
 
-const mapStateToProps = (state: any) => ({
-    error: state.errors,
-    message: state.messages
+const mapStateToProps = (state: AlertState) => ({
+    error: state.error,
+    message: state.message
 });
 
-export default connect(mapStateToProps)(withAlert(Alerts));
+export default connect(mapStateToProps)(Alerts);
