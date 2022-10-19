@@ -47,7 +47,11 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1666137690965</updated>
+<<<<<<< HEAD
       <workItem from="1666137693588" duration="1327000" />
+=======
+      <workItem from="1666137693588" duration="1082000" />
+>>>>>>> f2715aa (Create workspace.xml)
     </task>
     <servers />
   </component>
