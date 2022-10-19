@@ -1,15 +1,22 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import { AnyIfEmpty, connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { logout } from '../../actions/auth';
 
+interface UserSessionProps {
+    auth: UserSessionState,
+    logout: React.MouseEventHandler<HTMLButtonElement>
+};
+
+interface UserSessionState {
+    isAuthenticated: boolean,
+    user: any
+}
+
+
 // Navigation Bar for client web app
-export class BasisHeader extends Component {
-    static PropTypes = {
-        auth: PropTypes.object.isRequired,
-        logout: PropTypes.func.isRequired
-    }
+export class BasisHeader extends Component<UserSessionProps, UserSessionState> {
 
     render() {
         const { isAuthenticated, user } = this.props.auth;
@@ -18,7 +25,7 @@ export class BasisHeader extends Component {
             <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                 <span className='navbar-text mr-3'>
                     <strong>
-                        {user ? `Welcome ${user.username}` : ""}
+                        {this.state.user ? `Welcome ${this.state.user.username}` : ""}
                     </strong>
                 </span>
                 <li className='nav-item'>
@@ -34,8 +41,7 @@ export class BasisHeader extends Component {
                     <Link to='/filtering' className='nav-link'>Filtering</Link>
                 </li>
                 <li className='nav-item'>
-                    <button className='nav-link btn btn-info btn-sm text-light'
-                        onClick={this.props.logout}>
+                    <button className='nav-link btn btn-info btn-sm text-light' onClick={this.props.logout}>
                         Logout
                     </button>
                 </li>
@@ -68,14 +74,14 @@ export class BasisHeader extends Component {
                     <div className="collapse navbar-collapse" id="navbarTogglerDemo01">
                         <a className="navbar-brand" href="#">BASIS</a>
                     </div>
-                    {isAuthenticated ? authLinks : guestLinks}
+                    {this.state.isAuthenticated ? authLinks : guestLinks}
                 </div>
             </nav>
         )
     }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: any) => ({
     auth: state.auth
 });
 
