@@ -9,6 +9,7 @@ class IndicatorsDerivedModel(BaseDerivedModel):
         self.revenue = None
         self.revenue_growth = None
         self.gross_profit = None
+        self.industry = None
         for key, value in kwargs.items():
             setattr(self, key, value)
         # Get filter_derived properties
@@ -18,3 +19,4 @@ class IndicatorsDerivedModel(BaseDerivedModel):
         self.revenue_bil = None
         if self.revenue:
             self.revenue_bil = self.revenue / 100000000
+        self.industry_type = None

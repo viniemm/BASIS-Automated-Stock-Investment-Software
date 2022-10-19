@@ -6,6 +6,8 @@
 #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
 # Feel free to rename the models, but don't rename db_table values or field names.
 from django.db import models
+from django.contrib.auth.models import User
+from uuid import uuid4
 
 
 class Companies(models.Model):
@@ -93,3 +95,30 @@ class StocksData(models.Model):
     class Meta:
         managed = False
         db_table = 'stocks_data'
+
+
+# Create your models here.
+DEFAULT_USER = 'default_user'
+
+
+def generate_new_id():
+    return uuid4().hex
+
+
+def get_parked_user():
+    return User.objects.get_or_create(username=DEFAULT_USER)[0]
+
+
+class Portfolio(models.Model):
+    id = models.CharField(db_index=True, max_length=12, primary_key=True)
+    name = models.CharField(max_length=50, default="My Portfolio")
+    user = models.ForeignKey(User, db_index=True,
+                             on_delete=models.SET(get_parked_user))
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class PortfolioSelection(models.Model):
+    id = models.CharField(db_index=True, max_length=12, primary_key=True)
+    portfolio = models.ForeignKey(Portfolio, db_index=True,
+                             on_delete=models.DO_NOTHING, db_column='portfolio_id')
+    companies = models.ForeignKey(Companies, models.DO_NOTHING, db_column='stock_symbol')
