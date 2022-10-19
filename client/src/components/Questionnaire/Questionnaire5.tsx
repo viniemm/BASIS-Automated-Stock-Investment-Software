@@ -3,6 +3,7 @@ import { Dropdown } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
 import { QuestionnaireState, QuestionnaireProps } from "../../types/QuestionnaireTypes";
 import { Dashboard } from '../../pages';
+import { sendQuestionnaire } from '../../services/QuestionnaireService';
 
 const options = [
   { key: 'oil', text: 'Oil and Gas', value: 'oil' },
@@ -42,9 +43,10 @@ class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireSt
         this.state.answers.industries = [] as string[];
       }
 
-      submitClick() {
+      async submitClick() {
         // Make request
-
+        await sendQuestionnaire(this.state.answers)
+        //send user to new page
       }
 
     render() {

@@ -17,6 +17,7 @@
     "@types/node": "^16.11.59",
     "@types/react": "^18.0.20",
     "@types/react-dom": "^18.0.6",
+<<<<<<< HEAD
     "axios": "^0.27.2",
     "bootstrap": "^5.1.3",
     "cross-env": "^7.0.3",
@@ -25,6 +26,9 @@
     "http-server": "^14.1.1",
     "moment": "^2.29.4",
     "randomcolor": "^0.6.2",
+=======
+    "axios": "^1.1.3",
+>>>>>>> faa0bcc (Added some things)
     "react": "^18.2.0",
     "react-compound-slider": "^3.4.0",
     "react-dom": "^18.2.0",
