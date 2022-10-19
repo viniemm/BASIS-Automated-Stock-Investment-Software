@@ -12,6 +12,7 @@ interface LoginProps {
     login: (username: string, password: string) => void;
     isAuthenticated: boolean
 }
+
 export class Login extends Component<LoginProps, LoginState> {
     state = {
         username: '',
@@ -24,7 +25,7 @@ export class Login extends Component<LoginProps, LoginState> {
     };
 
     onChange = (e: any) => {
-        const field:"username"|"password" = e.target.name as "username"|"password";
+        const field: "username" | "password" = e.target.name as "username" | "password";
         // eslint-disable-next-line react/no-direct-mutation-state
         this.state[field] = e.target.value;
     }
@@ -76,7 +77,7 @@ export class Login extends Component<LoginProps, LoginState> {
     }
 }
 
-const mapStateToProps = (state:any) => ({
+const mapStateToProps = (state: any) => ({
     isAuthenticated: state.auth.isAuthenticated,
 });
 

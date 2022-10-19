@@ -3,9 +3,11 @@ from rest_framework.response import Response
 from knox.models import AuthToken
 from .serializers import UserSerializer, RegisterSerializer, LoginSerializer
 
-# Register API
-# input: body => username, email, password
-# output: bosy => user {id, username, email, password}, token
+# can test this in Postman
+
+# Register API (POST)
+# input: ContentType (Key) = application/json (Value); body (application/json) => username, email, password
+# output: body => user {id, username, email, password}, token
 
 
 class RegisterAPI(generics.GenericAPIView):
@@ -24,8 +26,8 @@ class RegisterAPI(generics.GenericAPIView):
             "token": token
         })
 
-# Login API
-# input:  body => username, password
+# Login API (POST)
+# input:  header => ContentType (Key) = application/json (Value); body (application/json) => username, password
 # output: body => user {id, username, email, password}, token
 
 
@@ -45,8 +47,8 @@ class LoginAPI(generics.GenericAPIView):
             "token": token
         })
 
-# Get User API
-# input: header => Authorization = Token <token>
+# User API (GET)
+# input: header => Authorization (Key) = Token <token> (Value)
 # output: body => id, username, email
 
 

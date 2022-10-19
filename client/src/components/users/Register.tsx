@@ -1,11 +1,25 @@
 import React, { Component } from 'react';
-import { Link, redirect } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { register } from '../../actions/auth';
 import { createMessage } from '../../actions/messages';
 
-export class Register extends Component {
+
+interface RegisterProps {
+    register: Function,
+    isAuthenticated: boolean
+}
+
+interface RegisterState {
+    username: string,
+    email: string,
+    password: string,
+    password2: string
+}
+
+
+export class Register extends Component<RegisterProps, RegisterState> {
     state = {
         username: '',
         email: '',
@@ -18,7 +32,7 @@ export class Register extends Component {
         isAuthenticated: PropTypes.bool
     };
 
-    onSubmit = (e) => {
+    onSubmit = (e: any) => {
         e.preventDefault();
         const { username, email, password, password2 } = this.state;
         if (password !== password2) {
@@ -33,11 +47,16 @@ export class Register extends Component {
         }
     };
 
-    onChange = (e) => this.setState({ [e.target.name]: e.target.value });
-
+    // typescript conversion of: this.setState({ [e.target.name]: e.target.value })
+    onChange = (e: any) => {
+        const field: "username" | "password" = e.target.name as "username" | "password";
+        // eslint-disable-next-line react/no-direct-mutation-state
+        this.state[field] = e.target.value;
+    };
+    navigate = useNavigate();
     render() {
         if (this.props.isAuthenticated) { // login user, redirect user to main page
-            return <redirect to="/" />
+            this.navigate("/")
         }
         const { username, email, password, password2 } = this.state;
         return (
@@ -100,7 +119,7 @@ export class Register extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: any) => ({
     isAuthenticated: state.auth.isAuthenticated,
 });
 
