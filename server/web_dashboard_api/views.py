@@ -53,3 +53,12 @@ class IndicatorsReportFilters(ReportFilterAPIView):
     def get_endpoint_filters(self) -> EndpointFilters:
         return IndicatorsReportEndpointFilters()
 
+class QuestionnaireResponse(APIView):
+    def post(self, request, format=None):
+        try:
+            filters_dict = JsonPreprocessor.request_to_json_dict(request)
+            return Response()
+        except Exception as e:
+            traceback.print_exc()
+            return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
+
