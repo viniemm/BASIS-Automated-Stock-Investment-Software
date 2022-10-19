@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { returnErrors } from './messages';
+const returnErrors = {} as any;
 
 import {
     USER_LOADED,
@@ -13,7 +13,7 @@ import {
 } from './types';
 
 // CHECK TOKEN AND LOAD USER
-export const loadUser = () => (dispatch, getState) => {
+export const loadUser = () => (dispatch: (arg0: { type: string; payload?: any; }) => void, getState: any) => {
     // User Loading
     dispatch({ type: USER_LOADING });
 
@@ -33,7 +33,7 @@ export const loadUser = () => (dispatch, getState) => {
 }
 
 // LOGIN USER
-export const login = (username, password) => dispatch => {
+export const login = (username: string, password: string) => (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
     // Headers
     const config = {
         headers: {
@@ -59,7 +59,12 @@ export const login = (username, password) => dispatch => {
 }
 
 // REGISTER USER
-export const register = ({ username, password, email }) => dispatch => {
+interface UserRegistration {
+    username: string,
+    password: string,
+    email: string
+}
+export const register = (userInfo: UserRegistration) => (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
 
 
 
@@ -71,7 +76,7 @@ export const register = ({ username, password, email }) => dispatch => {
     }
 
     // Request Body
-    const body = JSON.stringify({ username, email, password });
+    const body = JSON.stringify(userInfo);
 
     axios.post('/api/auth/register', body, config)
         .then(result => {
@@ -90,7 +95,7 @@ export const register = ({ username, password, email }) => dispatch => {
 
 
 // CHECK TOKEN AND LOGOUT USER
-export const logout = () => (dispatch, getState) => {
+export const logout = () => (dispatch: (arg0: { type: string; }) => void, getState: any) => {
 
     axios.post('/api/auth/logout', null, tokenConfig(getState))
         .then(result => {
@@ -103,15 +108,14 @@ export const logout = () => (dispatch, getState) => {
 }
 
 // Set Up Config with Token - helper
-export const tokenConfig = getState => {
+export const tokenConfig = (getState: () => { (): any; new(): any; auth: { (): any; new(): any; token: any; }; }) => {
     // Get Token from State
     const token = getState().auth.token;
 
     // Headers
+    const headers = { 'Content-Type': 'application/json'} as any;
     const config = {
-        headers: {
-            'Content-Type': 'application/json'
-        }
+        headers
     }
 
     if (token) {
