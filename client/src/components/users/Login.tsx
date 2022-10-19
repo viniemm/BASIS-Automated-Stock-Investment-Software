@@ -1,30 +1,37 @@
 import React, { Component } from 'react';
-import { Link, redirect } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { login } from '../../actions/auth';
 
-export class Login extends Component {
+interface LoginState {
+    username: string,
+    password: string
+}
+
+interface LoginProps {
+    login: (username: string, password: string) => void;
+    isAuthenticated: boolean
+}
+export class Login extends Component<LoginProps, LoginState> {
     state = {
         username: '',
         password: ''
     };
 
-    static propTypes = {
-        login: PropTypes.func.isRequired,
-        isAuthenticated: PropTypes.bool,
-    };
-
-    onSubmit = (e) => {
+    onSubmit = (e: any) => {
         e.preventDefault();
         this.props.login(this.state.username, this.state.password);
     };
 
-    onChange = (e) => this.setState({ [e.target.name]: e.target.value });
-
+    onChange = (e: any) => {
+        const field:"username"|"password" = e.target.name as "username"|"password";
+        // eslint-disable-next-line react/no-direct-mutation-state
+        this.state[field] = e.target.value;
+    }
+    navigate = useNavigate();
     render() {
         if (this.props.isAuthenticated) {
-            return <redirect to="/" />;
+            this.navigate("/")
         }
         const { username, password } = this.state;
         return (
@@ -60,7 +67,7 @@ export class Login extends Component {
                             </button>
                         </div>
                         <p>
-                            Don't have an account? <Link to="/register">Register</Link>
+                            Don&apos;t have an account? <Link to="/register">Register</Link>
                         </p>
                     </form>
                 </div>
@@ -69,7 +76,7 @@ export class Login extends Component {
     }
 }
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state:any) => ({
     isAuthenticated: state.auth.isAuthenticated,
 });
 

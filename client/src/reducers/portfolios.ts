@@ -1,11 +1,12 @@
 import { GET_PORTFOLIO, DELETE_PORTFOLIO, ADD_PORTFOLIO } from '../actions/types.js';
+import { State } from '../types/Redux.js';
 
-const initialState = {
+const initialState:State = {
     portfolios: [] // array of portfolios
 }
 
 // INCLUDE ANYTHING IN THE STATE
-export default function (state = initialState, action) {
+export default function (state = initialState, action: any) {
     switch (action.type) {
         case GET_PORTFOLIO:
             return {
@@ -15,12 +16,12 @@ export default function (state = initialState, action) {
         case DELETE_PORTFOLIO:
             return {
                 ...state,
-                ideas: state.portfolios.filter(portfolio => portfolio.id !== action.payload) // get ids that don't match the portfolio to be deleted
+                ideas: state.portfolios && state.portfolios.filter(portfolio => portfolio.id !== action.payload) // get ids that don't match the portfolio to be deleted
             }
         case ADD_PORTFOLIO:
             return {
                 ...state,
-                portfolios: [...state.portfolios, action.payload] // append new portfolio to state
+                portfolios: [...state.portfolios || [], action.payload] // append new portfolio to state
             }
         default:
             return state;
