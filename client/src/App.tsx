@@ -6,6 +6,12 @@ import {
   BrowserRouter as Router,
   Link
 } from "react-router-dom";
+<<<<<<< HEAD
+=======
+import Login from './components/users/Login';
+import Register from './components/users/Register';
+import BasisHeader from './components/layout/BasisHeader';
+>>>>>>> 97eaf07 (initial navbar build)
 
 // This site has 3 pages, all of which are rendered
 // dynamically in the browser (not server rendered).
@@ -14,6 +20,7 @@ export default function App() {
   return (
     <Router>
       <div>
+<<<<<<< HEAD
         <ul>
           <li>
             <Link to="/">Home</Link>
@@ -29,6 +36,9 @@ export default function App() {
           </li>
         </ul>
 
+=======
+        <BasisHeader />
+>>>>>>> 97eaf07 (initial navbar build)
         <hr />
 
         {/*
@@ -39,10 +49,19 @@ export default function App() {
           of them to render at a time
         */}
         <Routes>
+<<<<<<< HEAD
           <Route path="/" element={<Home/>}/>
           <Route path="/about" element={<About/>}/>
           <Route path="/dashboard" element={<Dashboard/>}/>
           <Route path="/filtering" element={<Filtering/>}/>
+=======
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/filtering" element={<Filtering />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+>>>>>>> 97eaf07 (initial navbar build)
         </Routes>
       </div>
     </Router>
