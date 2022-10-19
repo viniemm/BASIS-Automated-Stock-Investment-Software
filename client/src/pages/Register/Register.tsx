@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { register } from '../../actions/auth';
-import { createMessage } from '../../actions/messages';
+import { createMessage, passwordNotMatch } from '../../actions/messages';
 
 interface RegisterState {
     username: string,
@@ -37,7 +37,7 @@ export class Register extends Component<RegisterProps, RegisterState> {
         e.preventDefault();
         const { username, email, password, password2 } = this.state;
         if (password !== password2) {
-            this.props.createMessage({ passwordNotMatch: 'Passwords do not match' });
+            this.props.createMessage(passwordNotMatch);
         } else {
             const newUser = {
                 username,

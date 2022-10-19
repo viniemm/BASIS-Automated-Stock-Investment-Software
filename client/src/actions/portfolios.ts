@@ -7,6 +7,9 @@ import { createMessage, returnErrors } from './messages';
 import { GET_PORTFOLIO, DELETE_PORTFOLIO, ADD_PORTFOLIO, GET_ERRORS } from './types';
 import { tokenConfig } from './auth';
 
+export const deletePortfolioMsg: string = "deletePortfolio"
+export const addPortfolioMsg: string = "addPortfolio"
+
 // GET PORTFOLIO
 export const getPortfolios = () => (dispatch: (arg0: { type: string; payload: any; }) => void, getState: any) => {
     axios
@@ -24,7 +27,7 @@ export const deletePortfolio = (id: any) => (dispatch: (arg0: { type: string; pa
     axios
         .delete(`/api/ideas/${id}/`, tokenConfig(getState))
         .then(response => {
-            dispatch(createMessage({ deletePortfolio: 'Portfolio Deleted' }));
+            dispatch(createMessage(deletePortfolioMsg));
             dispatch({
                 type: DELETE_PORTFOLIO,
                 payload: id
@@ -37,7 +40,7 @@ export const addPortfolio = (portfolio: any) => (dispatch: (arg0: { type: string
     axios
         .post('/api/portfolio/', portfolio, tokenConfig(getState))
         .then(response => {
-            dispatch(createMessage({ addPortfolio: 'Portfolio Added' }));
+            dispatch(createMessage(addPortfolioMsg));
             dispatch({
                 type: ADD_PORTFOLIO,
                 payload: response.data
