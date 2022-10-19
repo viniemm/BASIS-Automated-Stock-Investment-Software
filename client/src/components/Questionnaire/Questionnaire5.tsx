@@ -39,7 +39,7 @@ class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireSt
       constructor(props:QuestionnaireProps) {
         super(props)
         this.state.answers = props.answers
-        this.state.answers.termPeriod = [];
+        this.state.answers.industries = [] as string[];
       }
 
       submitClick() {
