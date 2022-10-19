@@ -1,33 +1,43 @@
 import React, { Component, Fragment } from 'react';
-import { withAlert } from 'react-alert';
+import { Alert } from '@mui/material';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import errors from '../../reducers/errors';
+
+interface AlertProps {
+    error: AlertState,
+    message: object
+}
+
+interface AlertState {
+    errors: Error,
+    messages: object
+}
 
 // handle UI alerts, single Alerts component
-export class Alerts extends Component {
+export class Alerts extends Component<AlertProps, AlertState> {
     static propTypes = {
         error: PropTypes.object.isRequired,
         message: PropTypes.object.isRequired
     }
 
-    componentDidUpdate(prevProps) {
-        const { error, alert, message } = this.props;
-        // error handling
+    componentDidUpdate(prevProps: AlertProps) {
+        const { error, message } = this.props;
+        // error handling: find a way to pull errors dynamically
+        // by pulling error message from HTTP response
+        // instead of hardcode
         if (error !== prevProps.error) {
-            if (error.msg.name) alert.error(`Name: ${error.msg.name.join()}`);
-            if (error.msg.ticker) alert.error(`Ticker: ${error.msg.ticker.join()}`);
-            if (error.msg.priority) alert.error(`Priority: ${error.msg.priority.join()}`);
-            if (error.msg.load) alert.error(`Load: ${error.msg.load.join()}`);
-            if (error.msg.description) alert.error(`Description: ${error.msg.description.join()}`);
-            if (error.msg.non_field_errors) alert.error(error.msg.non_field_errors.join());
-            if (error.msg.username) alert.error(error.msg.username.join());
+            // error in fields  
+            if (error.msg.name) <Alert>Name: ${error.msg.join()}</Alert>
+            if (error.message.non_field_errors) alert.error(error.msg.non_field_errors.join());         // error in non-field errors
+            if (error.message.username) alert.error(error.msg.username.join());                         // error in username
             else alert.error("unknown error occured");
         }
 
         // message handling
         if (message !== prevProps.message) {
-            if (message.deleteIdea) alert.success(message.deleteIdea);
-            if (message.addIdea) alert.success(message.addIdea);
+            if (message.deletePortfolio) alert.success(message.deletePortfolio);
+            if (message.addPortfolio) alert.success(message.addPortfolio);
             if (message.passwordNotMatch) alert.error(message.passwordNotMatch);
         }
     }
@@ -37,7 +47,7 @@ export class Alerts extends Component {
     }
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state: any) => ({
     error: state.errors,
     message: state.messages
 });

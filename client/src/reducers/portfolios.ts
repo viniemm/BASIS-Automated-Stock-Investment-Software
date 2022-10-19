@@ -1,5 +1,5 @@
-import { GET_PORTFOLIO, DELETE_PORTFOLIO, ADD_PORTFOLIO } from '../actions/types.js';
-import { State } from '../types/Redux.js';
+import { GET_PORTFOLIO, DELETE_PORTFOLIO, ADD_PORTFOLIO } from '../actions/types';
+import { State } from '../types/Redux';
 
 const initialState:State = {
     portfolios: [] // array of portfolios

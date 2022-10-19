@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { register } from '../../actions/auth';
 import { createMessage } from '../../actions/messages';
-
-
-interface RegisterProps {
-    register: Function,
-    isAuthenticated: boolean
-}
 
 interface RegisterState {
     username: string,
@@ -18,6 +12,17 @@ interface RegisterState {
     password2: string
 }
 
+interface NewUser {
+    username: string,
+    password: string,
+    email: string
+}
+
+interface RegisterProps {
+    register: (newUser: NewUser) => void,
+    isAuthenticated: boolean,
+    createMessage: (msg: any) => void
+}
 
 export class Register extends Component<RegisterProps, RegisterState> {
     state = {
@@ -27,10 +32,6 @@ export class Register extends Component<RegisterProps, RegisterState> {
         password2: ''
     };
 
-    static propTypes = {
-        register: PropTypes.func.isRequired,
-        isAuthenticated: PropTypes.bool
-    };
 
     onSubmit = (e: any) => {
         e.preventDefault();

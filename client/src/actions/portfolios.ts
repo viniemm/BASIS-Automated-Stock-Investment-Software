@@ -3,9 +3,7 @@
 // handles Redux state to reduce data from database to useful state for client
 
 import axios from 'axios';
-// import { createMessage, returnErrors } from './messages';
-const createMessage = {} as any;
-const returnErrors = {} as any;
+import { createMessage, returnErrors } from './messages';
 import { GET_PORTFOLIO, DELETE_PORTFOLIO, ADD_PORTFOLIO, GET_ERRORS } from './types';
 import { tokenConfig } from './auth';
 

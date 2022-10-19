@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login } from '../../actions/auth';
 
@@ -29,10 +29,9 @@ export class Login extends Component<LoginProps, LoginState> {
         // eslint-disable-next-line react/no-direct-mutation-state
         this.state[field] = e.target.value;
     }
-    navigate = useNavigate();
     render() {
         if (this.props.isAuthenticated) {
-            this.navigate("/")
+            return <Navigate to={{ pathname: "/login" }} />;
         }
         const { username, password } = this.state;
         return (
