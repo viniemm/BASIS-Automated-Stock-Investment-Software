@@ -3,12 +3,9 @@
 // handles Redux state to reduce data from database to useful state for client
 
 import axios from 'axios';
-import { createMessage, returnErrors } from './messages';
+import { createMessage, returnErrors, deletePortfolioMsg, addPortfolioMsg } from './messages';
 import { GET_PORTFOLIO, DELETE_PORTFOLIO, ADD_PORTFOLIO, GET_ERRORS } from './types';
 import { tokenConfig } from './auth';
-
-export const deletePortfolioMsg: string = "deletePortfolio"
-export const addPortfolioMsg: string = "addPortfolio"
 
 // GET PORTFOLIO
 export const getPortfolios = () => (dispatch: (arg0: { type: string; payload: any; }) => void, getState: any) => {
