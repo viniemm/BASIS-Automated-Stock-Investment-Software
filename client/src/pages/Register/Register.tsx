@@ -6,7 +6,7 @@ import { Link, Navigate } from 'react-router-dom';
 >>>>>>>> 46459a4 (Finishing up store work for login and register):client/src/pages/Register/Register.tsx
 import { connect } from 'react-redux';
 import { register } from '../../actions/auth';
-import { createMessage } from '../../actions/messages';
+import { createMessage, passwordNotMatch } from '../../actions/messages';
 
 <<<<<<<< HEAD:client/src/components/users/Register.tsx
 
@@ -52,7 +52,7 @@ export class Register extends Component<RegisterProps, RegisterState> {
         e.preventDefault();
         const { username, email, password, password2 } = this.state;
         if (password !== password2) {
-            this.props.createMessage({ passwordNotMatch: 'Passwords do not match' });
+            this.props.createMessage(passwordNotMatch);
         } else {
             const newUser = {
                 username,
