@@ -159,3 +159,7 @@ CORS_ORIGIN_WHITELIST = [
      'http://django:8000',
      'http://django'
 ]
+
+SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True

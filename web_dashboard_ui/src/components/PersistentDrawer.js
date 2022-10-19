@@ -18,6 +18,9 @@ import ReportDropdown from "./ReportDropdown";
 import Loading from "./Loading";
 import DateFilter from "./filters/DateFilter";
 import ChartType from "./ChartType";
+import Button from '@mui/material/Button';
+import TextField from '@mui/material/TextField';
+
 
 const drawerWidth = 400;
 
@@ -85,6 +88,7 @@ export default function PersistentDrawerLeft(props) {
   } = props;
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [name, setName] = React.useState("");
 
   const parseFilterStateToMap = () => {
     // TODO: this function makes a bunch of assumptions about formatting
@@ -151,6 +155,10 @@ export default function PersistentDrawerLeft(props) {
     console.log(complexFilter);
     filtersChanged({ complex_filter: complexFilter });
   }
+
+  const nameChanged = (event) => {
+    setName(event.target.value);
+  };
 
   const buildXAxisProperty = () => {
     if (reportState.properties_visible.x_axis_property) {
@@ -286,6 +294,21 @@ export default function PersistentDrawerLeft(props) {
           chartType={chartType}
           chartTypeChanged={chartTypeChanged}
         />
+        <Divider />
+        <TextField
+          id="filter-name"
+          label="Name"
+          value={name}
+          onChange={nameChanged}
+        />        
+        <Button
+          variant="contained"
+          onClick={(event) => {
+            console.log(name);
+          }}
+        >
+          Save Filter
+        </Button>
       </Drawer>
       <Main open={open}>
         <DrawerHeader />

@@ -64,7 +64,7 @@ class App extends Component {
         details: {},
         data_keys: [],
         data_points: []
-      }
+      },
     };
     // Binding state to dropdown changed function
     this.filtersChanged=this.filtersChanged.bind(this);
@@ -234,6 +234,13 @@ class App extends Component {
     }, () => {
 
     });
+  };
+
+  saveFilter(name){
+    let selectedFitler = {filtersNProperties : this.state.filterFields, chartType: this.state.chartType};
+    
+
+
   };
 
   render() {
