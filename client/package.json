@@ -36,7 +36,11 @@
     "recharts": "^2.1.10",
 =======
     "redux": "^4.2.0",
+<<<<<<< HEAD
 >>>>>>> bb6e240 (initial auth build)
+=======
+    "redux-devtools-extension": "^2.13.9",
+>>>>>>> 46459a4 (Finishing up store work for login and register)
     "typescript": "^4.8.3",
     "web-vitals": "^2.1.4"
   },
