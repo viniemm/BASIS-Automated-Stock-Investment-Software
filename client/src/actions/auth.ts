@@ -12,6 +12,30 @@ import {
     REGISTER_FAIL
 } from './types';
 
+interface auth {
+    user: user,
+    token: string
+}
+
+interface user {
+    id: number,
+    username: string,
+    email: string
+}
+
+// CHECK TOKEN AND LOGOUT USER
+export const logout = () => (dispatch: (arg0: { type: string }) => void, getState: any) => {
+
+    axios.post('/api/auth/logout', null, tokenConfig(getState))
+        .then(result => {
+            dispatch({
+                type: LOGOUT_SUCCESS
+            });
+        }).catch(error => {
+            dispatch(returnErrors(error.response.data, error.response.status));
+        })
+}
+
 // CHECK TOKEN AND LOAD USER
 export const loadUser = () => (dispatch: (arg0: { type: string; payload?: any; }) => void, getState: any) => {
     // User Loading
@@ -58,15 +82,7 @@ export const login = (username: string, password: string) => (dispatch: (arg0: {
         })
 }
 
-// REGISTER USER
-interface UserRegistration {
-    username: string,
-    password: string,
-    email: string
-}
-export const register = (userInfo: UserRegistration) => (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
-
-
+export const register = (userInfo: { username: string, email: string, password: string }) => (dispatch: (arg0: { type: string; payload?: any; }) => void) => {
 
     // Headers
     const config = {
@@ -92,28 +108,14 @@ export const register = (userInfo: UserRegistration) => (dispatch: (arg0: { type
         })
 }
 
-
-
-// CHECK TOKEN AND LOGOUT USER
-export const logout = () => (dispatch: (arg0: { type: string; }) => void, getState: any) => {
-
-    axios.post('/api/auth/logout', null, tokenConfig(getState))
-        .then(result => {
-            dispatch({
-                type: LOGOUT_SUCCESS
-            });
-        }).catch(error => {
-            dispatch(returnErrors(error.response.data, error.response.status));
-        })
-}
-
 // Set Up Config with Token - helper
-export const tokenConfig = (getState: () => { (): any; new(): any; auth: { (): any; new(): any; token: any; }; }) => {
+export const tokenConfig = (getState: () => { auth: auth }) => {
     // Get Token from State
     const token = getState().auth.token;
 
     // Headers
-    const headers = { 'Content-Type': 'application/json'} as any;
+    const headers = { 'Content-Type': 'application/json' } as any;
+
     const config = {
         headers
     }

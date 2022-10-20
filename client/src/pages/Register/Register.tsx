@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+<<<<<<< HEAD
 <<<<<<<< HEAD:client/src/components/users/Register.tsx
 import { Link, useNavigate } from 'react-router-dom';
 ========
 import { Link, Navigate } from 'react-router-dom';
 >>>>>>>> 46459a4 (Finishing up store work for login and register):client/src/pages/Register/Register.tsx
+=======
+import { Link, Navigate } from 'react-router-dom';
+
+>>>>>>> 5972dbd (still debugging null state)
 import { connect } from 'react-redux';
 import { register } from '../../actions/auth';
 import { createMessage, passwordNotMatch } from '../../actions/messages';
@@ -48,8 +53,8 @@ export class Register extends Component<RegisterProps, RegisterState> {
     };
 
 
-    onSubmit = (e: any) => {
-        e.preventDefault();
+    onSubmit = (event: any) => {
+        event.preventDefault();
         const { username, email, password, password2 } = this.state;
         if (password !== password2) {
             this.props.createMessage(passwordNotMatch);
@@ -65,14 +70,15 @@ export class Register extends Component<RegisterProps, RegisterState> {
 
 <<<<<<<< HEAD:client/src/components/users/Register.tsx
     // typescript conversion of: this.setState({ [e.target.name]: e.target.value })
-    onChange = (e: any) => {
-        const field: "username" | "password" = e.target.name as "username" | "password";
+    onChange = (event: any) => {
+        const field: "username" | "password" = event.target.name as "username" | "password";
         // eslint-disable-next-line react/no-direct-mutation-state
-        this.state[field] = e.target.value;
+        this.state[field] = event.target.value;
     };
-    navigate = useNavigate();
+
     render() {
         if (this.props.isAuthenticated) { // login user, redirect user to main page
+<<<<<<< HEAD
             this.navigate("/")
 ========
     onChange = (e: any) => {
@@ -85,9 +91,12 @@ export class Register extends Component<RegisterProps, RegisterState> {
         if (this.props.isAuthenticated) { // login user, redirect user to main page
             return <Navigate to={{ pathname: "/login" }} />;
 >>>>>>>> 46459a4 (Finishing up store work for login and register):client/src/pages/Register/Register.tsx
+=======
+            return <Navigate to={{ pathname: "/" }} />;
+>>>>>>> 5972dbd (still debugging null state)
         }
         const { username, email, password, password2 } = this.state;
-        return (
+        return (    // needs to be converted to MUI component!
             <div className="col-md-6 m-auto">
                 <div className="card card-body mt-5">
                     <h2 className="text-center">Register</h2>

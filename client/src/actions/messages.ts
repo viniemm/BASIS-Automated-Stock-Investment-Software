@@ -18,7 +18,7 @@ export const returnErrors = (msg: string, status: any) => {
 
 // messages list
 // success messages
-export const deletePortfolioMsg: string = "Deleted Portfolio"
-export const addPortfolioMsg: string = "Added Portfolio"
+export const deletePortfolioMsg = "Deleted Portfolio"
+export const addPortfolioMsg = "Added Portfolio"
 // error messages
-export const passwordNotMatch: string = "Passwords do not match"
+export const passwordNotMatch = "Passwords do not match"

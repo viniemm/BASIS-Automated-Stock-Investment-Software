@@ -19,7 +19,11 @@ import Register from './pages/Register/Register';
 import { Provider } from 'react-redux';
 import store from './store';
 import { loadUser } from './actions/auth';
+<<<<<<< HEAD
 >>>>>>> 46459a4 (Finishing up store work for login and register)
+=======
+import MainNavBar from './components/layout/MainNavBar';
+>>>>>>> 5972dbd (still debugging null state)
 
 // This site has 3 pages, all of which are rendered
 // dynamically in the browser (not server rendered).
@@ -77,12 +81,15 @@ export default function App() {
   );
 =======
 export default class App extends Component {
+
   componentDidMount() {
     store.dispatch(loadUser());
   }
+
   render() {
     return (
       <Provider store={store}>
+<<<<<<< HEAD
       <Router>
         <div>
           <div id="nav">
@@ -125,4 +132,20 @@ export default class App extends Component {
   }
   
 >>>>>>> 46459a4 (Finishing up store work for login and register)
+=======
+        <Router>
+          <MainNavBar />
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/filtering" element={<Filtering />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+          </Routes>
+        </Router>
+      </Provider>
+    );
+  }
+>>>>>>> 5972dbd (still debugging null state)
 }
