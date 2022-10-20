@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login } from '../../actions/auth';
+import { UserSessionProps } from '../../components/layout/MainNavBar';
 
 interface LoginState {
     username: string,
@@ -9,7 +10,7 @@ interface LoginState {
 }
 
 interface LoginProps {
-    login: (username: string, password: string) => void;
+    login: (username: string, password: string) => void,
     isAuthenticated: boolean
 }
 
@@ -19,22 +20,24 @@ export class Login extends Component<LoginProps, LoginState> {
         password: ''
     };
 
-    onSubmit = (e: any) => {
-        e.preventDefault();
+    onSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
         this.props.login(this.state.username, this.state.password);
-    };
-
-    onChange = (e: any) => {
-        const field: "username" | "password" = e.target.name as "username" | "password";
-        // eslint-disable-next-line react/no-direct-mutation-state
-        this.state[field] = e.target.value;
     }
+
+    // typescript conversion of: this.setState({ [e.target.name]: e.target.value })
+    onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const field: "username" | "password" = event.target.name as "username" | "password";
+        // eslint-disable-next-line react/no-direct-mutation-state
+        this.state[field] = event.target.value;
+    }
+
     render() {
         if (this.props.isAuthenticated) {
-            return <Navigate to={{ pathname: "/login" }} />;
+            return <Navigate to={{ pathname: "/" }} />;
         }
         const { username, password } = this.state;
-        return (
+        return (    // needs to be converted to MUI
             <div className="col-md-6 m-auto">
                 <div className="card card-body mt-5">
                     <h2 className="text-center">Login</h2>
@@ -76,7 +79,7 @@ export class Login extends Component<LoginProps, LoginState> {
     }
 }
 
-const mapStateToProps = (state: any) => ({
+const mapStateToProps = (state: UserSessionProps) => ({
     isAuthenticated: state.auth.isAuthenticated,
 });
 
