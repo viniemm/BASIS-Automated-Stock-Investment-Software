@@ -1,6 +1,6 @@
 import './Filtering.css';
 import React, { Component } from "react";
-import {BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer, Label} from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer, Label } from 'recharts';
 import axios from "axios";
 import randomColor from "randomcolor";
 import '@progress/kendo-theme-default/dist/all.css';
@@ -10,6 +10,7 @@ import {
   indicatorsEndpointAvailable
 } from '../../components/Filter/endpoint_constants/IndicatorsEndpointConstants';
 import TransitionAlert from '../../components/Filter/TransitionAlert';
+import { FilteringState } from '../../types/StateModels';
 
 
 const getRandomColorList = (colorCount: number) => {
@@ -23,7 +24,7 @@ const getRandomColorList = (colorCount: number) => {
     "#3f51b5", "#009688", "#ffeb3b",
   ];
   if (colorCount >= generated_colors.length) {
-    generated_colors = generated_colors.concat(randomColor({seed: 34564, luminosity: 'dark', count: colorCount - generated_colors.length + 1}));
+    generated_colors = generated_colors.concat(randomColor({ seed: 34564, luminosity: 'dark', count: colorCount - generated_colors.length + 1 }));
   }
   return generated_colors;
 }
@@ -38,18 +39,6 @@ const reportsAvailable = {
 const defaultFilterFields = new Map([
   ["indicators", indicatorsDefaultState]
 ])
-
-interface FilteringState {
-  processingRequest: boolean,
-  chartType: string,
-  errorOpen: boolean,
-  error: any,
-  reportState: any,
-  filtersAvailable: any,
-  filterFields:any,
-  data: any,
-  open?: any
-}
 
 class Filtering extends Component<any, FilteringState> {
   updateTimer: any;
@@ -81,10 +70,10 @@ class Filtering extends Component<any, FilteringState> {
       }
     };
     // Binding state to dropdown changed function
-    this.filtersChanged=this.filtersChanged.bind(this);
-    this.reportChanged=this.reportChanged.bind(this);
-    this.chartTypeChanged=this.chartTypeChanged.bind(this);
-    this.setErrorOpen=this.setErrorOpen.bind(this);
+    this.filtersChanged = this.filtersChanged.bind(this);
+    this.reportChanged = this.reportChanged.bind(this);
+    this.chartTypeChanged = this.chartTypeChanged.bind(this);
+    this.setErrorOpen = this.setErrorOpen.bind(this);
   }
 
   componentDidMount() {
@@ -119,8 +108,8 @@ class Filtering extends Component<any, FilteringState> {
     this.updateTimer = null;
     this.cancelTokenSource = axios.CancelToken.source();
     axios.post(this.state.reportState.endpoint, JSON.stringify(this.state.filterFields), {
-        cancelToken: this.cancelTokenSource.token
-      })
+      cancelToken: this.cancelTokenSource.token
+    })
       .then((res) => {
         if (res.status !== 200) {
           this.handleBadReturn(res.statusText);
@@ -158,7 +147,7 @@ class Filtering extends Component<any, FilteringState> {
   };
 
   scheduleRefreshGraphData = () => {
-    if(this.updateTimer == null) {
+    if (this.updateTimer == null) {
       this.cancelTokenSource.cancel();
       this.updateTimer = setTimeout(this.refreshGraphData, 500);
     }
@@ -241,7 +230,7 @@ class Filtering extends Component<any, FilteringState> {
     });
   }
 
-  chartTypeChanged(event:any) {
+  chartTypeChanged(event: any) {
     this.setState({
       chartType: event.target.value
     });
@@ -261,7 +250,7 @@ class Filtering extends Component<any, FilteringState> {
           filtersChanged={this.filtersChanged}
           filterState={this.state.filterFields}
         >
-          {this.state.error && <TransitionAlert text={this.state.error} open={this.state.open} setOpen={this.setErrorOpen}/>}
+          {this.state.error && <TransitionAlert text={this.state.error} open={this.state.open} setOpen={this.setErrorOpen} />}
           <ResponsiveContainer width="95%" aspect={2.2}>
             <BarChart data={this.state.data.data_points}>
               <CartesianGrid />
@@ -269,10 +258,10 @@ class Filtering extends Component<any, FilteringState> {
                 <Label value={this.state.data.x_axis.label} dy={40} />
               </XAxis>
               <YAxis>
-                <Label value={this.state.data.y_axis.label} dx={-10} angle={-90}/>
+                <Label value={this.state.data.y_axis.label} dx={-10} angle={-90} />
               </YAxis>
               <Tooltip />
-              <Legend  dy={170}/>
+              <Legend dy={170} />
               {this.renderChart(this.state.chartType)}
             </BarChart>
           </ResponsiveContainer>

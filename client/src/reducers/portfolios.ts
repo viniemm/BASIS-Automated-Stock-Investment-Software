@@ -1,5 +1,5 @@
 import { GET_PORTFOLIO, DELETE_PORTFOLIO, ADD_PORTFOLIO } from '../actions/types';
-import { RawState } from '../types/Redux';
+import { RawState } from '../types/StateModels';
 
 const initialPortfolios:
     {

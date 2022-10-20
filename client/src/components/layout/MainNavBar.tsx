@@ -7,9 +7,10 @@ import {
     Button,
 } from "@mui/material";
 
+//     logout: () => void
+
 export interface UserSessionProps {
     auth: { isAuthenticated: boolean, user: any },
-    logout: () => void
 }
 
 interface UserSessionState {
@@ -162,41 +163,38 @@ const defaultBar = (
             BASIS
         </Typography>
         <Button
-            id="home"
-            aria-haspopup="false"
-            href="">
+            id='home'
+            href='/'>
             Home
         </Button>
         <Button
-            id="about"
-            aria-haspopup="false"
-            href='about'>
+            id='about'
+            href='/about'>
             About
         </Button>
         <Button
-            id="login"
-            aria-haspopup="false"
-        >
-            Login
+            id="dashboard"
+            href='/dashboard'>
+            Dashboard
         </Button>
         <Button
-            id="register"
-            aria-haspopup="false"
-            onClick={toRegister}>
-            Register
+            id="filtering"
+            href='/filtering'>
+            Filtering
         </Button>
     </div>
 )
 
 export class MainNavBar extends Component<UserSessionProps, UserSessionState> {
-    // componentDidMount() { store.dispatch(loadUser()); doesn't fit here
-    // isAuthenticated ? authBar : guestBar
     render() {
-        const { isAuthenticated, user } = this.props.auth
         return (
             defaultBar
         )
     }
 }
 
-export default connect(mapStateToProps, { logout })(MainNavBar);
+export default connect(mapStateToProps)(MainNavBar);
+// export default connect(mapStateToProps, { logout })(MainNavBar);
+    // componentDidMount() { store.dispatch(loadUser()); doesn't fit here
+    // isAuthenticated ? authBar : guestBar
+    // const { isAuthenticated, user } = this.props.auth
