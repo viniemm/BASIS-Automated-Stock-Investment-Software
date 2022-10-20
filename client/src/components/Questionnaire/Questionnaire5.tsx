@@ -4,6 +4,11 @@ import 'semantic-ui-css/semantic.min.css';
 import { QuestionnaireState, QuestionnaireProps, QuestionnaireOutput } from "../../types/QuestionnaireTypes";
 import { Dashboard, Questionnaire } from '../../pages';
 import { sendQuestionnaire } from '../../services/QuestionnaireService';
+import {
+  BrowserRouter as Router,
+  Link
+} from "react-router-dom";
+import { Route, Routes } from "react-router";
 
 const options = [
   { key: 'oil', text: 'Oil and Gas', value: 'oil' },
@@ -53,7 +58,7 @@ class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireSt
 
       submitClick = async ()=> {
         // Make request
-        await sendQuestionnaire(this.state.answers)
+            // await sendQuestionnaire(this.state.answers)
         //send user to new page
       }
 
@@ -64,7 +69,9 @@ class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireSt
                     <h4>5. Which industry of stocks are you interested in investing in?</h4>
                 </label>
                 {this.DropdownMultipleSelection()}
-                <input type="submit" onClick={this.submitClick} value="Submit" />
+                <a href="/dashboard">
+                  <input type="submit" onClick={this.submitClick} value="Submit" />
+                </a>
 
             </div>
         )
