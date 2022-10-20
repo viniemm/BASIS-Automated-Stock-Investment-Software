@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Slider, Rail, Handles, Tracks } from "react-compound-slider";
 import SliderHandle from "./Slider.Handle";
 import SliderTrack from "./Slider.Track";
+import PropTypes from 'prop-types';
 
 export class ControlledSlider extends React.Component {
   // Both values need to be arrays
@@ -92,6 +93,18 @@ export class ControlledSlider extends React.Component {
       </Container>
     );
   }
+}
+
+ControlledSlider.propTypes = {
+  defaultValue: PropTypes.string,
+  onUpdate: PropTypes.bool,
+  onSlideStart: PropTypes.bool,
+  min: PropTypes.number,
+  max: PropTypes.number,
+  step: PropTypes.number,
+  onBlur: PropTypes.bool,
+  onFocus: PropTypes.bool,
+  onChange: PropTypes.bool
 }
 
 const Container = styled.div`

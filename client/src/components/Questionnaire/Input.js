@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import PropTypes from 'prop-types';
 
 class Input extends React.Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class Input extends React.Component {
     this.input.focus();
   }
 
+  
   render() {
     const {
       autoFocus,
@@ -66,6 +68,28 @@ class Input extends React.Component {
     );
   }
 }
+
+Input.propTypes = {
+  autoFocus : PropTypes.bool,
+  className: PropTypes.string,
+  disabled: PropTypes.bool,
+  id: PropTypes.string,
+  name: PropTypes.string,
+  onBlur: PropTypes.bool,
+  onFocus: PropTypes.bool,
+  onChange: PropTypes.bool,
+  onKeyDown: PropTypes.bool,
+  placeholder: PropTypes.string,
+  type: PropTypes.string,
+  value: PropTypes.string,
+  label: PropTypes.string,
+  mask: PropTypes.string,
+  variant: PropTypes.string,
+  autoComplete: PropTypes.bool,
+  options: PropTypes.string,
+  helpText: PropTypes.string
+}
+
 
 export const InputWrapper = styled.div`
   display: block;
