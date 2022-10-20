@@ -43,7 +43,7 @@ class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireSt
         this.state.answers.industries = [] as string[];
       }
 
-      async submitClick() {
+      submitClick = async ()=> {
         // Make request
         await sendQuestionnaire(this.state.answers)
         //send user to new page
