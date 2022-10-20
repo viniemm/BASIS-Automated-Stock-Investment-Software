@@ -201,7 +201,6 @@ export default class App extends Component {
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/filtering" element={<Filtering />} />
             </Routes>
-            <Home />
           </div>
         </Router>
       </Provider>
