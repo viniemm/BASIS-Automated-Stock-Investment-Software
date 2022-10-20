@@ -23,10 +23,14 @@ import { loadUser } from './actions/auth';
 >>>>>>> 46459a4 (Finishing up store work for login and register)
 =======
 import MainNavBar from './components/layout/MainNavBar';
+<<<<<<< HEAD
 >>>>>>> 5972dbd (still debugging null state)
 
 // This site has 3 pages, all of which are rendered
 // dynamically in the browser (not server rendered).
+=======
+import Alerts from './components/layout/Alerts';
+>>>>>>> 6331330 (modified some reducersd)
 
 <<<<<<< HEAD
 export default function App() {
@@ -135,14 +139,18 @@ export default class App extends Component {
 =======
         <Router>
           <MainNavBar />
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/filtering" element={<Filtering />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </Routes>
+          <Alerts />
+          <div className='container'>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/filtering" element={<Filtering />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+            </Routes>
+            <Home />
+          </div>
         </Router>
       </Provider>
     );

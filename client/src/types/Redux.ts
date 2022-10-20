@@ -1,13 +1,12 @@
 import { Portfolio } from "./Portfolio"
-import { UserInformation } from "./User"
+import { Auth, User } from "./User"
 
 export type UsernameAction = {
     type: string,
-    payload: string
+    payload: any
 }
 
 export type State = {
-    user?: UserInformation,
-    portfolios?: Portfolio[]
+    auth: Auth
 }
 
