@@ -53,3 +53,6 @@ class IndicatorsReportFilters(ReportFilterAPIView):
     def get_endpoint_filters(self) -> EndpointFilters:
         return IndicatorsReportEndpointFilters()
 
+class FilterDetails(ReportFilterAPIView):
+    def get_endpoint_filter_details(self) -> EndpointFilters:
+        return FilterDetailsEndpoint()

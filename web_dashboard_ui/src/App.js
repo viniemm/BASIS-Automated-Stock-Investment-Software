@@ -237,8 +237,17 @@ class App extends Component {
   };
 
   saveFilter(name){
-    let selectedFitler = {filtersNProperties : this.state.filterFields, chartType: this.state.chartType};
-    
+    let selectedFilter = {filtersNProperties : this.state.filterFields, chartType: this.state.chartType};
+    axios.post('api/indicators/savedFilter', selectedFilter)
+    .then((res) => {
+      if (res.status !== 200) {
+        this.handleBadReturn(res.statusText);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+      this.handleBadReturn(err.message + ": " + err.response.data);
+    });
 
 
   };
