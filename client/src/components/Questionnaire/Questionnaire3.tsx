@@ -39,13 +39,22 @@ class Questionnaire3 extends React.Component<QuestionnaireProps, QuestionnaireSt
   state:QuestionnaireState = {
     answers: {},
   };
+
+  UpdateTerm = (newTerm:string) => {
+    return this.setState({
+      answers: {
+        termPeriod:newTerm
+      }
+    })
+  }
+
   DropdownSelection = () => (
     <Dropdown
       placeholder='Select Term'
       fluid
       selection
       options={termPeriods}
-      onChange={(e,data) => {this.state.answers.termPeriod=data.value as string}}
+      onChange={(e,data) => {this.UpdateTerm(data.value as string)}}
     />
   )
   constructor(props:QuestionnaireProps) {

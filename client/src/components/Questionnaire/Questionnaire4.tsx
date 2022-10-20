@@ -26,13 +26,22 @@ class Questionnaire4 extends React.Component<QuestionnaireProps, QuestionnaireSt
   state:QuestionnaireState = {
     answers: {},
   };
+
+  UpdateInvestPrev = (invested:string) => {
+    return this.setState({
+      answers: {
+        investPrev:(invested==="Yes")
+      }
+    })
+  }
+
   DropdownSelection = () => (
     <Dropdown
       placeholder='Select Answer'
       fluid
       selection
       options={answerOptions}
-      onChange={(e,data) => {this.state.answers.investPrev=data.value === "Yes"}}
+      onChange={(e,data) => {this.UpdateInvestPrev(data.value as string)}}
     />
   )
   constructor(props:QuestionnaireProps) {
