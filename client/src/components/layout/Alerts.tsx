@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { withAlert } from 'react-alert';
 import { connect } from 'react-redux';
+<<<<<<< HEAD
 import PropTypes from 'prop-types';
 <<<<<<< HEAD
 
@@ -13,6 +14,9 @@ export class Alerts extends Component {
 =======
 import errors from '../../reducers/errors';
 import { deletePortfolio } from '../../actions/portfolios';
+=======
+import error from '../../reducers/error';
+>>>>>>> f7b58c7 (state models grouped together)
 import { addPortfolioMsg, deletePortfolioMsg, passwordNotMatch } from '../../actions/message';
 
 interface AlertProps {

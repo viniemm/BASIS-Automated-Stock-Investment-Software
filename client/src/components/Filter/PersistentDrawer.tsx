@@ -18,7 +18,7 @@ import ReportDropdown from "./ReportDropdown";
 import Loading from "./Loading";
 import DateFilter from "./filters/DateFilter";
 import ChartType from "./ChartType";
-import { Filter } from '../../types/Redux';
+import { Filter } from '../../types/StateModels';
 
 const drawerWidth = 400;
 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { State } from '../types/Redux';
+import { State } from '../types/StateModels';
 import { returnError } from './message'
 
 import {

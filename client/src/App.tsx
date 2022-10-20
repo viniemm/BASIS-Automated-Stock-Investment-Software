@@ -92,7 +92,7 @@ export default function App() {
 export default class App extends Component {
   // lifecycle method
   // fires off whenever App loads
-  componentDidMount() { store.dispatch(loadUser()) };
+  componentDidMount() { store.dispatch(loadUser()) }
 
   render() {
     return (
