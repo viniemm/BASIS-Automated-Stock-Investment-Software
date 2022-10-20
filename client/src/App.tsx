@@ -12,12 +12,12 @@ import store from './store';
 import { loadUser } from './actions/auth';
 import MainNavBar from './components/layout/MainNavBar';
 import Alerts from './components/layout/Alerts';
+import ProtectedRoute from './components/common/ProtectedRoute';
 
 export default class App extends Component {
-
-  componentDidMount() {
-    store.dispatch(loadUser());
-  }
+  // lifecycle method
+  // fires off whenever App loads
+  componentDidMount() { store.dispatch(loadUser()) };
 
   render() {
     return (
@@ -31,8 +31,6 @@ export default class App extends Component {
               <Route path="/about" element={<About />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/filtering" element={<Filtering />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
             </Routes>
             <Home />
           </div>

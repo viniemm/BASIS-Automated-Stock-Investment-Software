@@ -1,11 +1,11 @@
 import { combineReducers } from 'redux';
 import portfolios from './portfolios';
-import errors from './errors';
-import messages from './messages';
+import error from './error';
+import message from './message';
 import auth from './auth';
 
 export default combineReducers({
     auth,
-    errors,
-    messages,
+    error,
+    message,
 });

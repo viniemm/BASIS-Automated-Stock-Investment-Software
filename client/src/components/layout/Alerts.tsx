@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import errors from '../../reducers/errors';
 import { deletePortfolio } from '../../actions/portfolios';
-import { addPortfolioMsg, deletePortfolioMsg, passwordNotMatch } from '../../actions/messages';
+import { addPortfolioMsg, deletePortfolioMsg, passwordNotMatch } from '../../actions/message';
 
 interface AlertProps {
     error: any,

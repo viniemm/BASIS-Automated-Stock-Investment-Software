@@ -5,16 +5,16 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import {Checkbox, Chip} from "@mui/material";
+import { Checkbox, Chip } from "@mui/material";
 import ListItemText from "@mui/material/ListItemText";
-import {MenuProps} from "../MenuProps";
-import {getStoredOptions} from "./CommonFilterLogic";
-import { CategoryFilterProps } from '../../../types/Filtering/CategoryFilter';
-import { Filter } from '../../../types/Filtering/Types';
+import { MenuProps } from "../MenuProps";
+import { getStoredOptions } from "./CommonFilterLogic";
+import { CategoryFilterProps } from '../../../types/Redux';
+import { Filter } from '../../../types/Redux';
 
 
-export default function CategoryFilter(props:CategoryFilterProps) {
-  const {filterAvailable, storedFilter, filterChanged} = props;
+export default function CategoryFilter(props: CategoryFilterProps) {
+  const { filterAvailable, storedFilter, filterChanged } = props;
   const [optionsSelected, setOptionsSelected] = React.useState(() => {
     return getStoredOptions(storedFilter);
   });
@@ -53,7 +53,7 @@ export default function CategoryFilter(props:CategoryFilterProps) {
     values.forEach((optionLabel: any) => {
       selectedFields = selectedFields.concat(findAllOptions(optionLabel))
     })
-    const filters:Filter[] = []
+    const filters: Filter[] = []
     const complexFilter = {
       logic: 'or',
       filters
@@ -69,18 +69,18 @@ export default function CategoryFilter(props:CategoryFilterProps) {
   };
 
   React.useEffect(() => {
-      const storedOptions = getStoredOptions(storedFilter);
-      const allOptions:any = []
-      storedOptions.forEach((field_value) => {
-        allOptions.push(...findAllLabels(field_value))
-      })
-      setOptionsSelected(allOptions);
-    },
+    const storedOptions = getStoredOptions(storedFilter);
+    const allOptions: any = []
+    storedOptions.forEach((field_value) => {
+      allOptions.push(...findAllLabels(field_value))
+    })
+    setOptionsSelected(allOptions);
+  },
     [storedFilter]
   );
 
   return (
-    <Box sx={{ minWidth: 120, display: "flex", m: 3, flexDirection: "column", gap: 3}}>
+    <Box sx={{ minWidth: 120, display: "flex", m: 3, flexDirection: "column", gap: 3 }}>
       <FormControl fullWidth>
         <InputLabel id="demo-simple-select-label">{filterAvailable.label}</InputLabel>
         <Select

@@ -3,7 +3,7 @@ import { Link, Navigate } from 'react-router-dom';
 
 import { connect } from 'react-redux';
 import { register } from '../../actions/auth';
-import { createMessage, passwordNotMatch } from '../../actions/messages';
+import { createMessage, passwordNotMatch } from '../../actions/message';
 
 interface RegisterState {
     username: string,

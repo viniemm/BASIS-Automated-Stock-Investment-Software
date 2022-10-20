@@ -71,31 +71,31 @@ const authBar = (
         <Button
             id="home"
             aria-haspopup="false"
-            onClick={toHome}>
+            href='/'>
             Home
         </Button>
         <Button
             id="about"
             aria-haspopup="false"
-            onClick={toAbout}>
+            href='/about'>
             About
         </Button>
         <Button
             id="dashboard"
             aria-haspopup="false"
-            onClick={toDashboard}>
+            href='/dashboard'>
             Dashboard
         </Button>
         <Button
             id="filtering"
             aria-haspopup="false"
-            onClick={toFiltering}>
+            href='/filtering'>
             Filtering
         </Button>
         <Button
             id="logout"
             aria-haspopup="false"
-            onClick={endSession}>
+            href='logout'>
             Logout
         </Button>
         <hr />
@@ -122,20 +122,61 @@ const guestBar = (
         </Typography>
         <Button
             id="home"
+            href='/'>
+            Home
+        </Button>
+        <Button
+            id="about"
+            href='/about'>
+            About
+        </Button>
+        <Button
+            id="dashboard"
+            href='/dashboard'>
+            Dashboard
+        </Button>
+        <Button
+            id="filtering"
+            href='/filtering'>
+            Filtering
+        </Button>
+    </div>
+);
+
+const defaultBar = (
+    <div>
+        <Typography
+            variant="h6"
+            noWrap
+            component="a"
+            href="/"
+            sx={{
+                mr: 2,
+                display: { xs: 'none', md: 'flex' },
+                fontFamily: 'monospace',
+                fontWeight: 700,
+                letterSpacing: '.3rem',
+                color: 'inherit',
+                textDecoration: 'none',
+            }}>
+            BASIS
+        </Typography>
+        <Button
+            id="home"
             aria-haspopup="false"
-            onClick={toHome}>
+            href="">
             Home
         </Button>
         <Button
             id="about"
             aria-haspopup="false"
-            onClick={toAbout}>
+            href='about'>
             About
         </Button>
         <Button
             id="login"
             aria-haspopup="false"
-            onClick={toLogin}>
+        >
             Login
         </Button>
         <Button
@@ -145,13 +186,15 @@ const guestBar = (
             Register
         </Button>
     </div>
-);
+)
 
 export class MainNavBar extends Component<UserSessionProps, UserSessionState> {
+    // componentDidMount() { store.dispatch(loadUser()); doesn't fit here
+    // isAuthenticated ? authBar : guestBar
     render() {
         const { isAuthenticated, user } = this.props.auth
         return (
-            isAuthenticated ? authBar : guestBar
+            defaultBar
         )
     }
 }

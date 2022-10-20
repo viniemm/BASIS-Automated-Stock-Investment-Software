@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { State } from '../types/Redux';
-import { Auth } from '../types/User';
-import { returnErrors } from './messages'
+import { returnError } from './message'
 
 import {
     USER_LOADED,
@@ -24,7 +23,7 @@ export const logout = () => (dispatch: (arg0: { type: string }) => void, getStat
                 type: LOGOUT_SUCCESS
             });
         }).catch(error => {
-            dispatch(returnErrors(error.response.data, error.response.status));
+            dispatch(returnError(error.response.data, error.response.status));
         })
 }
 
@@ -44,7 +43,7 @@ export const loadUser = () => (dispatch: (arg0: { type: string; payload?: any; }
             });
         }).catch(error => {
             if (isAuthenticated !== null) {
-                dispatch(returnErrors(error.response.data, error.response.status));
+                dispatch(returnError(error.response.data, error.response.status));
                 dispatch({
                     type: AUTH_ERROR
                 });
@@ -77,7 +76,7 @@ export const login = (username: string, password: string) => (dispatch: (arg0: {
                 payload: result.data
             });
         }).catch(error => {
-            dispatch(returnErrors(error.response.data, error.response.status));
+            dispatch(returnError(error.response.data, error.response.status));
             dispatch({
                 type: LOGIN_FAIL
             });
@@ -103,7 +102,7 @@ export const register = (userInfo: { username: string, email: string, password: 
                 payload: result.data
             });
         }).catch(error => {
-            dispatch(returnErrors(error.response.data, error.response.status));
+            dispatch(returnError(error.response.data, error.response.status));
             dispatch({
                 type: REGISTER_FAIL
             });
