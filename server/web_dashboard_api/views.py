@@ -66,6 +66,7 @@ class QuestionnaireResponse(APIView):
     def post(self, request, format=None):
         try:
             filters_dict = JsonPreprocessor.request_to_json_dict(request)
+            print(filters_dict)
             list_of_industries = ["Consumer Electronics"]
             list_of_filters = []
             for industry in list_of_industries:
