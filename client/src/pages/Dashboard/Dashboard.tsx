@@ -3,8 +3,8 @@ import React from 'react';
 type DashboardState = {
     user: string
 }
-class Dashboard extends React.Component<{}, DashboardState> {
-  constructor(props:any) {
+class Dashboard extends React.Component<unknown, DashboardState> {
+  constructor(props:unknown) {
     super(props);
     this.state = {user: "red"};
   }
