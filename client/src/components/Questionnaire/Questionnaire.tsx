@@ -1,11 +1,11 @@
 import React from "react";
 import ControlledSlider from "./Slider/Slider";
-import Input from "./Input";
+import Input from "./Input.js";
 import "./styles.css";
 import {
-    BrowserRouter as Router,
-    Link
-  } from "react-router-dom";
+  BrowserRouter as Router,
+  Link
+} from "react-router-dom";
 import { Route, Routes } from "react-router";
 import Questionnaire2 from "./Questionnaire2";
 
@@ -23,13 +23,13 @@ class Questionnaire extends React.Component {
     step: step
   };
 
-  onInputChange = (value:string) => {
+  onInputChange = (value: string) => {
     if (value) {
       const sum = parseInt(value, 10);
       this.setState({
         sum: sum,
       })
-  
+
       // Update slider with new value only if it’s within the sliders domain
       if (sum >= min && sum <= max) {
         this.setState({ sliderSum: sum });
@@ -60,18 +60,18 @@ class Questionnaire extends React.Component {
       <div className="App">
         <label htmlFor="sliderinput"
         >
-            <h4>1. How much money are you willing to invest (In $)?</h4>
+          <h4>1. How much money are you willing to invest (In $)?</h4>
         </label>
-        
-        <Input 
-          type = "text"
+
+        <Input
+          type="text"
           name={"sliderinput"}
           id={"sliderinput"}
-          value= {this.state.sum}
-          placeholder = "$10000"
+          value={this.state.sum}
+          placeholder="$10000"
           onChange={(e: { target: { value: string; }; }) => this.onInputChange(e.target.value)}
           onFocus={() => this.setState({ step: 1 })} // When the input is focused, set step value to 1
-        /> 
+        />
         <ControlledSlider
           min={min}
           max={max}
@@ -80,13 +80,13 @@ class Questionnaire extends React.Component {
           onUpdate={(value: any) => this.onSliderChange(value)}
           onSlideStart={(value: any) => this.onSlideStart(value)}
         />
-          <li>
-            <Link to="/questionnaire2">Next Question</Link>
-          </li>
+        <li>
+          <Link to="/questionnaire2">Next Question</Link>
+        </li>
 
-          <Routes>
-          <Route path="/questionnaire2" element={<Questionnaire2 answers={{moneyInvested:this.state.sliderSum}}/>}/>
-          </Routes>
+        <Routes>
+          <Route path="/questionnaire2" element={<Questionnaire2 answers={{ moneyInvested: this.state.sliderSum }} />} />
+        </Routes>
       </div>
     );
   }

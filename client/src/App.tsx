@@ -43,7 +43,6 @@ export default class App extends Component {
               <Route path="/questionnaire4" element={<Questionnaire4 answers={{}} />} />
               <Route path="/questionnaire5" element={<Questionnaire5 answers={{}} />} />
             </Routes>
-            <Home />
           </div>
         </Router>
       </Provider>

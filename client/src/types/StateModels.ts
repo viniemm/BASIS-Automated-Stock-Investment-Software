@@ -28,7 +28,6 @@ export type UsernameAction = {
     payload: any
 }
 
-
 // Portfolio
 export interface Portfolio {
     id: string,
@@ -42,7 +41,6 @@ export interface Stock {
 }
 
 // Filter
-
 export interface FilterAvailable {
     label: ReactNode;
     field: string;
@@ -66,7 +64,6 @@ export interface FilteringState {
     data: any,
     open?: any
 }
-
 
 export interface FilterAvailableOption {
     label: string,
@@ -102,7 +99,7 @@ export type State = {
 }
 
 // Raw abstraction of app state
-export type RawState = {
+export type RawStateStore = {
     auth: {
         token?: string,
         isAuthenticated?: boolean,

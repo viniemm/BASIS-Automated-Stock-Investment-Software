@@ -1,5 +1,5 @@
 import { GET_PORTFOLIO, DELETE_PORTFOLIO, ADD_PORTFOLIO } from '../actions/types';
-import { RawState } from '../types/StateModels';
+import { RawStateStore } from '../types/StateModels';
 
 const initialPortfolios:
     {
@@ -12,7 +12,7 @@ const initialPortfolios:
         }[]
     }[] = [];
 
-const initialState: RawState = {
+const initialState: RawStateStore = {
     auth: {
         token: undefined,
         isAuthenticated: undefined,

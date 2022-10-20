@@ -1,3 +1,4 @@
+// Questionnaire Models
 export interface QuestionnaireState {
     answers: QuestionnaireOutput,
     // Slider Info
@@ -18,4 +19,3 @@ export interface QuestionnaireOutput {
     investPrev?: boolean,
     industries?: string[]
 }
-

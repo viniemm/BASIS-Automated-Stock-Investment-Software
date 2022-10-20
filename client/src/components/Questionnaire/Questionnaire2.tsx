@@ -3,9 +3,9 @@ import ControlledSlider from "./Slider/Slider";
 import Input from "./Input";
 import "./styles.css";
 import {
-    BrowserRouter as Router,
-    Link
-  } from "react-router-dom";
+  BrowserRouter as Router,
+  Link
+} from "react-router-dom";
 import { Route, Routes } from "react-router";
 import Questionnaire3 from "./Questionnaire3";
 import { QuestionnaireState, QuestionnaireProps } from "../../types/QuestionnaireTypes";
@@ -17,27 +17,27 @@ const step = 1;
 const value = 1;
 
 class Questionnaire2 extends React.Component<QuestionnaireProps, QuestionnaireState> {
-  state:QuestionnaireState = {
+  state: QuestionnaireState = {
     answers: {},
-      // Set state values to reflect consts/props
+    // Set state values to reflect consts/props
     sum: value,
     sliderSum: value,
     step: step
   };
-  constructor(props:QuestionnaireProps) {
+  constructor(props: QuestionnaireProps) {
     super(props)
     this.state.answers = props.answers
     this.state.answers.riskThreshold = 1;
   }
-  
 
-  onInputChange = (value:string) => {
+
+  onInputChange = (value: string) => {
     if (value) {
       const sum = parseInt(value, 10);
       this.setState({
         sum: sum,
       })
-  
+
       // Update slider with new value only if it’s within the sliders domain
       if (sum >= min && sum <= max) {
         this.setState({ sliderSum: sum });
@@ -60,7 +60,7 @@ class Questionnaire2 extends React.Component<QuestionnaireProps, QuestionnaireSt
       sum,
       sliderSum: sum,
       answers: {
-        riskThreshold:sum
+        riskThreshold: sum
       }
     });
   };
@@ -70,18 +70,18 @@ class Questionnaire2 extends React.Component<QuestionnaireProps, QuestionnaireSt
       <div className="App">
         <label htmlFor="sliderinput"
         >
-            <h4>2. What is your risk threshold?</h4>
+          <h4>2. What is your risk threshold?</h4>
         </label>
-        
-        <Input 
-          type = "text"
+
+        <Input
+          type="text"
           name={"sliderinput"}
           id={"sliderinput"}
-          value= {this.state.sum}
-          placeholder = "5"
+          value={this.state.sum}
+          placeholder="5"
           onChange={(e: { target: { value: string; }; }) => this.onInputChange(e.target.value)}
           onFocus={() => this.setState({ step: 1 })} // When the input is focused, set step value to 1
-        /> 
+        />
         <ControlledSlider
           min={min}
           max={max}
@@ -91,13 +91,13 @@ class Questionnaire2 extends React.Component<QuestionnaireProps, QuestionnaireSt
           onSlideStart={(value: any) => this.onSlideStart(value)}
         />
 
-          <li>
-            <Link to="/questionnaire3">Next Question</Link>
-          </li>
+        <li>
+          <Link to="/questionnaire3">Next Question</Link>
+        </li>
 
-          <Routes>
-          <Route path="/questionnaire3" element={<Questionnaire3 answers={this.state.answers}/>}/>
-          </Routes>
+        <Routes>
+          <Route path="/questionnaire3" element={<Questionnaire3 answers={this.state.answers} />} />
+        </Routes>
       </div>
     );
   }

@@ -16,7 +16,7 @@ class Input extends React.Component {
     this.input.focus();
   }
 
-  
+
   render() {
     const {
       autoFocus,
@@ -43,7 +43,7 @@ class Input extends React.Component {
     return (
       <InputWrapper className={className} variant={variant}>
         <StyledInput
-            content = "$"
+          content="$"
           autoFocus={autoFocus}
           value={value}
           disabled={disabled}
@@ -70,7 +70,7 @@ class Input extends React.Component {
 }
 
 Input.propTypes = {
-  autoFocus : PropTypes.bool,
+  autoFocus: PropTypes.bool,
   className: PropTypes.string,
   disabled: PropTypes.bool,
   id: PropTypes.string,
