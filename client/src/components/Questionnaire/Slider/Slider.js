@@ -98,7 +98,7 @@ export class ControlledSlider extends React.Component {
 ControlledSlider.propTypes = {
   defaultValue: PropTypes.string,
   onUpdate: PropTypes.bool,
-  onSlideStart: PropTypes.bool,
+  onSlideStart: PropTypes.boolean,
   min: PropTypes.number,
   max: PropTypes.number,
   step: PropTypes.number,

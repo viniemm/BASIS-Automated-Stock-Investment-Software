@@ -18,9 +18,9 @@ import store from './store';
 import { loadUser } from './actions/auth';
 
 export default class App extends Component {
-  componentDidMount() {
-    store.dispatch(loadUser());
-  }
+  // componentDidMount() {
+  //   store.dispatch(loadUser());
+  // }
   render() {
     return (
       <Provider store={store}>
