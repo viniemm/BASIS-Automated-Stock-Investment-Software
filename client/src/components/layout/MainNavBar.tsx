@@ -182,6 +182,11 @@ const defaultBar = (
             href='/filtering'>
             Filtering
         </Button>
+        <Button
+            id="questionnaire"
+            href='/questionnaire'>
+            Questionnaire
+        </Button>
     </div>
 )
 

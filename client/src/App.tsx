@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
 import { Route, Routes } from "react-router";
+import Questionnaire from "./components/Questionnaire/Questionnaire";
+import Questionnaire2 from "./components/Questionnaire/Questionnaire2";
+import Questionnaire3 from "./components/Questionnaire/Questionnaire3";
+import Questionnaire4 from "./components/Questionnaire/Questionnaire4";
+import Questionnaire5 from "./components/Questionnaire/Questionnaire5";
+
 import { Dashboard, Home, About, Filtering } from "./pages";
 import {
   BrowserRouter as Router,
@@ -31,6 +37,11 @@ export default class App extends Component {
               <Route path="/about" element={<About />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/filtering" element={<Filtering />} />
+              <Route path="/questionnaire" element={<Questionnaire />} />
+              <Route path="/questionnaire2" element={<Questionnaire2 answers={{}} />} />
+              <Route path="/questionnaire3" element={<Questionnaire3 answers={{}} />} />
+              <Route path="/questionnaire4" element={<Questionnaire4 answers={{}} />} />
+              <Route path="/questionnaire5" element={<Questionnaire5 answers={{}} />} />
             </Routes>
             <Home />
           </div>
