@@ -11,7 +11,7 @@ import { Link, Navigate } from 'react-router-dom';
 >>>>>>> 5972dbd (still debugging null state)
 import { connect } from 'react-redux';
 import { register } from '../../actions/auth';
-import { createMessage, passwordNotMatch } from '../../actions/messages';
+import { createMessage, passwordNotMatch } from '../../actions/message';
 
 <<<<<<<< HEAD:client/src/components/users/Register.tsx
 

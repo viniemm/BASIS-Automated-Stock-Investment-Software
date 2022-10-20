@@ -18,7 +18,7 @@ import ReportDropdown from "./ReportDropdown";
 import Loading from "./Loading";
 import DateFilter from "./filters/DateFilter";
 import ChartType from "./ChartType";
-import { Filter } from '../../types/Filtering/Types';
+import { Filter } from '../../types/Redux';
 
 const drawerWidth = 400;
 
@@ -74,7 +74,7 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 // Specifies default filters
 let filterMap = new Map();
 
-export default function PersistentDrawerLeft(props:any) {
+export default function PersistentDrawerLeft(props: any) {
   const {
     loading,
     chartType,
@@ -117,8 +117,8 @@ export default function PersistentDrawerLeft(props:any) {
 
   // Flush filterMap every time the report is changed
   React.useEffect(() => {
-      filterMap = new Map();
-    },
+    filterMap = new Map();
+  },
     [reportState]
   );
 
@@ -146,7 +146,7 @@ export default function PersistentDrawerLeft(props:any) {
     console.log(filterId)
     console.log(filter)
     filterMap.set(filterId, filter);
-    const filters:Subfilters[] = []
+    const filters: Subfilters[] = []
     const complexFilter = {
       "logic": "and",
       filters
@@ -204,7 +204,7 @@ export default function PersistentDrawerLeft(props:any) {
         return <CategoryFilter
           filterAvailable={filter}
           storedFilter={(filterMap.has(filter.field)) && filterMap.get(filter.field)}
-          filterChanged={(buildFilter: unknown) => {filterChanged(filter.field, buildFilter)}}
+          filterChanged={(buildFilter: unknown) => { filterChanged(filter.field, buildFilter) }}
         ></CategoryFilter>
       }
       if (filter.field_type === "text") {
@@ -212,7 +212,7 @@ export default function PersistentDrawerLeft(props:any) {
         return <TextFilter
           filterAvailable={filter}
           storedFilter={(filterMap.has(filter.field)) && filterMap.get(filter.field)}
-          filterChanged={(buildFilter: unknown) => {filterChanged(filter.field, buildFilter)}}
+          filterChanged={(buildFilter: unknown) => { filterChanged(filter.field, buildFilter) }}
         ></TextFilter>
       }
       if (filter.field_type === "date") {
@@ -220,7 +220,7 @@ export default function PersistentDrawerLeft(props:any) {
         return <DateFilter
           filterAvailable={filter}
           storedFilter={(filterMap.has(filter.field)) && filterMap.get(filter.field)}
-          filterChanged={(buildFilter: any) => {filterChanged(filter.field, buildFilter)}}
+          filterChanged={(buildFilter: any) => { filterChanged(filter.field, buildFilter) }}
         ></DateFilter>
       }
       return null
@@ -245,7 +245,7 @@ export default function PersistentDrawerLeft(props:any) {
           <Typography variant="h6" noWrap component="div">
             {reportState.label}
           </Typography>
-          {loading && <Loading/>}
+          {loading && <Loading />}
         </Toolbar>
       </AppBar>
       <Drawer
@@ -262,7 +262,7 @@ export default function PersistentDrawerLeft(props:any) {
         open={open}
       >
         <DrawerHeader>
-          <Typography variant="h6" noWrap component="div" sx={{overflow: "visible"}}>
+          <Typography variant="h6" noWrap component="div" sx={{ overflow: "visible" }}>
             Filters Toolbar
           </Typography>
           <IconButton onClick={handleDrawerClose}>
@@ -270,7 +270,7 @@ export default function PersistentDrawerLeft(props:any) {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <Typography variant="h6" noWrap component="div" sx={{marginTop: 2, overflow: "visible"}}>
+        <Typography variant="h6" noWrap component="div" sx={{ marginTop: 2, overflow: "visible" }}>
           Select Report
         </Typography>
         <ReportDropdown
@@ -279,19 +279,19 @@ export default function PersistentDrawerLeft(props:any) {
           reportState={reportState}
         />
         <Divider />
-        <Typography variant="h6" noWrap component="div" sx={{marginTop: 2, overflow: "visible"}}>
+        <Typography variant="h6" noWrap component="div" sx={{ marginTop: 2, overflow: "visible" }}>
           Filters
         </Typography>
         {(filtersAvailable.filters.length > 0) && buildFilter()}
         <Divider />
-        <Typography variant="h6" noWrap component="div" sx={{marginTop: 2, overflow: "visible"}}>
+        <Typography variant="h6" noWrap component="div" sx={{ marginTop: 2, overflow: "visible" }}>
           Chart Properties
         </Typography>
         {(filtersAvailable.breakdown.length > 0) && buildBreakdownProperty()}
         {(filtersAvailable.x_axis.length > 0) && buildXAxisProperty()}
         {(filtersAvailable.y_axis.length > 0) && buildYAxisProperty()}
-        <Divider/>
-        <Typography variant="h6" noWrap component="div" sx={{marginTop: 2, overflow: "visible"}}>
+        <Divider />
+        <Typography variant="h6" noWrap component="div" sx={{ marginTop: 2, overflow: "visible" }}>
           Chart Type Selector
         </Typography>
         <ChartType

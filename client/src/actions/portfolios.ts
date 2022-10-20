@@ -3,7 +3,7 @@
 // handles Redux state to reduce data from database to useful state for client
 
 import axios from 'axios';
-import { createMessage, returnErrors, deletePortfolioMsg, addPortfolioMsg } from './messages';
+import { createMessage, returnError, deletePortfolioMsg, addPortfolioMsg } from './message';
 import { GET_PORTFOLIO, DELETE_PORTFOLIO, ADD_PORTFOLIO, GET_ERRORS } from './types';
 import { tokenConfig } from './auth';
 
@@ -16,7 +16,7 @@ export const getPortfolios = () => (dispatch: (arg0: { type: string; payload: an
                 type: GET_PORTFOLIO,
                 payload: response.data
             });
-        }).catch(error => dispatch(returnErrors(error.response.data, error.response.status)));
+        }).catch(error => dispatch(returnError(error.response.data, error.response.status)));
 };
 
 // DELETE PORTFOLIO
@@ -42,5 +42,5 @@ export const addPortfolio = (portfolio: any) => (dispatch: (arg0: { type: string
                 type: ADD_PORTFOLIO,
                 payload: response.data
             });
-        }).catch(error => dispatch(returnErrors(error.response.data, error.response.status)));
+        }).catch(error => dispatch(returnError(error.response.data, error.response.status)));
 };

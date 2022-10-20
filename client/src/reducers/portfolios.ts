@@ -1,8 +1,29 @@
 import { GET_PORTFOLIO, DELETE_PORTFOLIO, ADD_PORTFOLIO } from '../actions/types';
-import { State } from '../types/Redux';
+import { RawState } from '../types/Redux';
 
-const initialState: State = {
-    portfolios: [] // array of portfolios
+const initialPortfolios:
+    {
+        id: string,
+        name: string,
+        stocks?: {
+            name: string,
+            ticker: string,
+            weight: number
+        }[]
+    }[] = [];
+
+const initialState: RawState = {
+    auth: {
+        token: undefined,
+        isAuthenticated: undefined,
+        isLoading: false,
+        user: {
+            id: 0,
+            username: '',
+            email: ''
+        }
+    },
+    portfolios: initialPortfolios // array of portfolios
 }
 
 // INCLUDE ANYTHING IN THE STATE

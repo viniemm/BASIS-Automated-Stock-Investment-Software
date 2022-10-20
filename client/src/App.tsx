@@ -24,7 +24,12 @@ import { loadUser } from './actions/auth';
 =======
 import MainNavBar from './components/layout/MainNavBar';
 <<<<<<< HEAD
+<<<<<<< HEAD
 >>>>>>> 5972dbd (still debugging null state)
+=======
+import Alerts from './components/layout/Alerts';
+import ProtectedRoute from './components/common/ProtectedRoute';
+>>>>>>> 8447030 (lot of shit)
 
 // This site has 3 pages, all of which are rendered
 // dynamically in the browser (not server rendered).
@@ -85,10 +90,9 @@ export default function App() {
   );
 =======
 export default class App extends Component {
-
-  componentDidMount() {
-    store.dispatch(loadUser());
-  }
+  // lifecycle method
+  // fires off whenever App loads
+  componentDidMount() { store.dispatch(loadUser()) };
 
   render() {
     return (
@@ -146,8 +150,6 @@ export default class App extends Component {
               <Route path="/about" element={<About />} />
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/filtering" element={<Filtering />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
             </Routes>
             <Home />
           </div>
