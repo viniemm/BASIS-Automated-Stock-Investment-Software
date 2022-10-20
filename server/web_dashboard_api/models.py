@@ -101,7 +101,7 @@ class Indicators(models.Model):
 
 
 class StocksData(models.Model):
-    index = models.BigIntegerField(blank=True, null=True)
+    id = models.BigIntegerField(blank=True, primary_key=True)
     date = models.TextField(blank=True, null=True)
     symbol = models.ForeignKey(
         Companies, models.DO_NOTHING, db_column='symbol', blank=True, null=True)
