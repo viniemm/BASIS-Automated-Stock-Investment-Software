@@ -1,4 +1,6 @@
 import axios from 'axios';
+import { State } from '../types/Redux';
+import { Auth } from '../types/User';
 import { returnErrors } from './messages'
 
 import {
@@ -9,19 +11,9 @@ import {
     LOGIN_FAIL,
     LOGOUT_SUCCESS,
     REGISTER_SUCCESS,
-    REGISTER_FAIL
+    REGISTER_FAIL,
+    GUEST
 } from './types';
-
-interface auth {
-    user: user,
-    token: string
-}
-
-interface user {
-    id: number,
-    username: string,
-    email: string
-}
 
 // CHECK TOKEN AND LOGOUT USER
 export const logout = () => (dispatch: (arg0: { type: string }) => void, getState: any) => {
@@ -37,21 +29,31 @@ export const logout = () => (dispatch: (arg0: { type: string }) => void, getStat
 }
 
 // CHECK TOKEN AND LOAD USER
-export const loadUser = () => (dispatch: (arg0: { type: string; payload?: any; }) => void, getState: any) => {
+export const loadUser = () => (dispatch: (arg0: { type: string; payload?: any; }) => void, getState: () => State) => {
     // User Loading
     dispatch({ type: USER_LOADING });
 
-    axios.get('/api/auth/user', tokenConfig(getState))
+    const config = tokenConfig(getState)
+    const isAuthenticated = getState().auth.isAuthenticated
+
+    axios.get('/api/auth/user', config)
         .then(result => {
             dispatch({
                 type: USER_LOADED,
                 payload: result.data
             });
         }).catch(error => {
-            dispatch(returnErrors(error.response.data, error.response.status));
-            dispatch({
-                type: AUTH_ERROR
-            });
+            if (isAuthenticated !== null) {
+                dispatch(returnErrors(error.response.data, error.response.status));
+                dispatch({
+                    type: AUTH_ERROR
+                });
+            }
+            else {
+                dispatch({
+                    type: GUEST
+                });
+            }
         })
 
 }
@@ -109,20 +111,17 @@ export const register = (userInfo: { username: string, email: string, password: 
 }
 
 // Set Up Config with Token - helper
-export const tokenConfig = (getState: () => { auth: auth }) => {
+// Tarun's getState def: (getState: () => { (): any; new(): any; auth: { (): any; new(): any; token: any; }; })
+// mine: (getState: () => { auth: auth })
+export const tokenConfig = (getState: () => State) => {
     // Get Token from State
     const token = getState().auth.token;
 
     // Headers
-    const headers = { 'Content-Type': 'application/json' } as any;
-
     const config = {
-        headers
-    }
-
-    if (token) {
-        config.headers['Authorization'] = `Token ${token}`;
-    }
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${token}`
+    } as any;
 
     return config;
 }
