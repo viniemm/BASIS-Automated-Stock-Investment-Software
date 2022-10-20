@@ -1,6 +1,6 @@
 import './Filtering.css';
 import React, { Component } from "react";
-import {BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer, Label} from 'recharts';
+import {BarChart, LineChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer, Label} from 'recharts';
 import axios from "axios";
 import randomColor from "randomcolor";
 import '@progress/kendo-theme-default/dist/all.css';
