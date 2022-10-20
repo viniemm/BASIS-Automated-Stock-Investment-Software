@@ -1,8 +1,8 @@
 import React from 'react'
 import { Dropdown } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
-import { QuestionnaireState, QuestionnaireProps } from "../../types/QuestionnaireTypes";
-import { Dashboard } from '../../pages';
+import { QuestionnaireState, QuestionnaireProps, QuestionnaireOutput } from "../../types/QuestionnaireTypes";
+import { Dashboard, Questionnaire } from '../../pages';
 import { sendQuestionnaire } from '../../services/QuestionnaireService';
 
 const options = [
@@ -23,10 +23,23 @@ const options = [
 ]
 
 class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireState> {
+  constructor(props:QuestionnaireProps) {
+    super(props);
+    this.state.answers = props.answers;
+  }
     state:QuestionnaireState = {
         answers: {},
         questionnaireDone: false 
       };
+
+      UpdateIndustries = (newIndustries:string[]) => {
+        return this.setState({
+          answers: {
+            industries:newIndustries
+          }
+        })
+      }
+
       DropdownMultipleSelection = () => (
         <Dropdown
           placeholder='Skills'
@@ -34,14 +47,9 @@ class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireSt
           multiple
           selection
           options={options}
-          onChange={(e,data) => {this.state.answers.industries=data.value as string[]}}
+          onChange={(e,data) => {this.UpdateIndustries(data.value as string[])}}
         />
       )
-      constructor(props:QuestionnaireProps) {
-        super(props)
-        this.state.answers = props.answers
-        this.state.answers.industries = [] as string[];
-      }
 
       submitClick = async ()=> {
         // Make request

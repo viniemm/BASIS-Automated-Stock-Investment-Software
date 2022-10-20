@@ -55,11 +55,13 @@ class Questionnaire2 extends React.Component<QuestionnaireProps, QuestionnaireSt
 
   onSliderChange = (value: string) => {
     const sum = parseInt(value, 10);
-    this.state.answers.riskThreshold = sum;
     // When the slider is changed, set both input and slider values to reflect new value
     this.setState({
       sum,
-      sliderSum: sum
+      sliderSum: sum,
+      answers: {
+        riskThreshold:sum
+      }
     });
   };
 
