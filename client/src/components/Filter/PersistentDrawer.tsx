@@ -48,6 +48,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<Ex
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<ExtraProps>(({ theme, open }) => ({
+  top: '60px',
   transition: theme.transitions.create(['margin', 'width'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
@@ -229,7 +230,8 @@ export default function PersistentDrawerLeft(props: any) {
   }
 
   return (
-    <Box sx={{ display: 'flex' }}>
+
+    <Box sx={{ display: 'flex'}}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>
