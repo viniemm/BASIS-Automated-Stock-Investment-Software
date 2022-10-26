@@ -128,8 +128,8 @@ def get_parked_user():
 class Portfolio(models.Model):
     id = models.CharField(db_index=True, max_length=12, primary_key=True)
     name = models.CharField(max_length=50, default="My Portfolio")
-    user = models.ForeignKey(User, db_index=True,
-                             on_delete=models.SET(get_parked_user))  # the data model that the user will connect to
+    user = models.ForeignKey(User, db_index=True, related_name="portfolios", on_delete=models.SET(
+        get_parked_user), null=True)  # the data model that the user will connect to, null is set to true for debugging
     created_at = models.DateTimeField(auto_now_add=True)
 
 

@@ -22,35 +22,6 @@ const mapStateToProps = (state: UserSessionProps) => ({
     auth: state.auth
 });
 
-const toHome = (event: React.MouseEvent<HTMLElement>) => {
-    return <Navigate to={{ pathname: "/" }} />;
-};
-
-const toAbout = (event: React.MouseEvent<HTMLElement>) => {
-    return <Navigate to={{ pathname: "/about" }} />;
-};
-
-const toDashboard = (event: React.MouseEvent<HTMLElement>) => {
-    return <Navigate to={{ pathname: "/dashboard" }} />;
-};
-
-const toFiltering = (event: React.MouseEvent<HTMLElement>) => {
-    return <Navigate to={{ pathname: "/filtering" }} />;
-};
-
-const endSession = (event: React.MouseEvent<HTMLElement>) => {
-    logout();
-    return <Navigate to={{ pathname: "/" }} />;
-};
-
-const toLogin = (event: React.MouseEvent<HTMLElement>) => {
-    return <Navigate to={{ pathname: "/login" }} />;
-};
-
-const toRegister = (event: React.MouseEvent<HTMLElement>) => {
-    return <Navigate to={{ pathname: "/register" }} />;
-};
-
 const authBar = (
     <div>
         <Typography
@@ -186,6 +157,16 @@ const defaultBar = (
             id="questionnaire"
             href='/questionnaire'>
             Questionnaire
+        </Button>
+        <Button
+            id="login"
+            href='/login'>
+            Login
+        </Button>
+        <Button
+            id="register"
+            href='/register'>
+            Register
         </Button>
     </div>
 )

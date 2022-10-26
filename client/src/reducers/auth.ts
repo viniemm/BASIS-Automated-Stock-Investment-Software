@@ -6,8 +6,7 @@ import {
     LOGIN_FAIL,
     LOGOUT_SUCCESS,
     REGISTER_SUCCESS,
-    REGISTER_FAIL,
-    GUEST
+    REGISTER_FAIL
 } from '../actions/types';
 
 const initialState = {
@@ -52,15 +51,6 @@ export default function (state = initialState, action: any) {
                 isAuthenticated: false,
                 isLoading: false
             };
-        case GUEST:
-            localStorage.setItem('token', '');
-            return {
-                ...state,
-                token: null,
-                user: null,
-                isAuthenticated: null,
-                isLoading: false
-            }
         default:
             return state
     }

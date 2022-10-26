@@ -10,8 +10,7 @@ import {
     LOGIN_FAIL,
     LOGOUT_SUCCESS,
     REGISTER_SUCCESS,
-    REGISTER_FAIL,
-    GUEST
+    REGISTER_FAIL
 } from './types';
 
 // CHECK TOKEN AND LOGOUT USER
@@ -42,17 +41,10 @@ export const loadUser = () => (dispatch: (arg0: { type: string; payload?: any; }
                 payload: result.data
             });
         }).catch(error => {
-            if (isAuthenticated !== null) {
-                dispatch(returnError(error.response.data, error.response.status));
-                dispatch({
-                    type: AUTH_ERROR
-                });
-            }
-            else {
-                dispatch({
-                    type: GUEST
-                });
-            }
+            dispatch(returnError(error.response.data, error.response.status));
+            dispatch({
+                type: AUTH_ERROR
+            });
         })
 
 }

@@ -5,11 +5,13 @@ import { connect } from 'react-redux';
 import { register } from '../../actions/auth';
 import { createMessage, passwordNotMatch } from '../../actions/message';
 
+import { Box, Button, TextField } from '@mui/material';
+
 interface RegisterState {
     username: string,
     email: string,
     password: string,
-    password2: string
+    password2: string,
 }
 
 interface NewUser {
@@ -24,18 +26,18 @@ interface RegisterProps {
     createMessage: (msg: any) => void
 }
 
+// component level state (redux is not involved here)
 export class Register extends Component<RegisterProps, RegisterState> {
     state = {
         username: '',
         email: '',
         password: '',
-        password2: ''
+        password2: '',
     };
-
 
     onSubmit = (event: any) => {
         event.preventDefault();
-        const { username, email, password, password2 } = this.state;
+        const { username, email, password, password2 } = this.state; // destructuring used, pull from state
         if (password !== password2) {
             this.props.createMessage(passwordNotMatch);
         } else {
@@ -48,74 +50,82 @@ export class Register extends Component<RegisterProps, RegisterState> {
         }
     };
 
-    // typescript conversion of: this.setState({ [e.target.name]: e.target.value })
-    onChange = (event: any) => {
-        const field: "username" | "password" = event.target.name as "username" | "password";
-        // eslint-disable-next-line react/no-direct-mutation-state
-        this.state[field] = event.target.value;
+    onChangeUsername = (event: any) => {
+        this.setState({ username: event.target.value });
+    };
+
+    onChangeEmail = (event: any) => {
+        this.setState({ email: event.target.value });
+    };
+
+    onChangePassword = (event: any) => {
+        this.setState({ password: event.target.value });
+    };
+
+    onChangePassword2 = (event: any) => {
+        this.setState({ password2: event.target.value });
     };
 
     render() {
-        if (this.props.isAuthenticated) { // login user, redirect user to main page
-            return <Navigate to={{ pathname: "/" }} />;
+        if (this.props.isAuthenticated) { // login user, redirect user to dashboard
+            return <Navigate to={{ pathname: "/dashboard" }} />;
         }
         const { username, email, password, password2 } = this.state;
-        return (    // needs to be converted to MUI component!
-            <div className="col-md-6 m-auto">
-                <div className="card card-body mt-5">
-                    <h2 className="text-center">Register</h2>
-                    <form onSubmit={this.onSubmit}>
-                        <div className="form-group">
-                            <label>Username</label>
-                            <input
-                                type="text"
-                                className="form-control"
-                                name="username"
-                                onChange={this.onChange}
-                                value={username}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label>Email</label>
-                            <input
-                                type="email"
-                                className="form-control"
-                                name="email"
-                                onChange={this.onChange}
-                                value={email}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label>Password</label>
-                            <input
-                                type="password"
-                                className="form-control"
-                                name="password"
-                                onChange={this.onChange}
-                                value={password}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <label>Confirm Password</label>
-                            <input
-                                type="password"
-                                className="form-control"
-                                name="password2"
-                                onChange={this.onChange}
-                                value={password2}
-                            />
-                        </div>
-                        <div className="form-group">
-                            <button type="submit" className="btn btn-primary">
-                                Register
-                            </button>
-                        </div>
-                        <p>
-                            Already have an account? <Link to="/login">Login</Link>
-                        </p>
-                    </form>
+        return (    // Link is used from react-router-dom
+            <Box
+                component="form"
+                sx={{
+                    '& .MuiTextField-root': { m: 1, width: '40ch' },
+                }}
+                noValidate
+                autoComplete="off"
+            >
+                <div>
+                    <TextField
+                        required
+                        id='username'
+                        label="username"
+                        onChange={this.onChangeUsername}
+                        value={username} />
                 </div>
-            </div>
+                <div>
+                    <TextField
+                        required
+                        id='email'
+                        label="email"
+                        onChange={this.onChangeEmail}
+                        value={email} />
+                </div>
+                <div>
+                    <TextField
+                        required
+                        id='password'
+                        label="password"
+                        type="password"
+                        onChange={this.onChangePassword}
+                        value={password} />
+                </div>
+                <div>
+                    <TextField
+                        required
+                        id='password2'
+                        label="confirm password"
+                        type="password"
+                        onChange={this.onChangePassword2}
+                        value={password2} />
+                </div>
+                <div>
+                    <Button
+                        id="register"
+                        href='/dashboard'
+                        onSubmit={this.onSubmit}>
+                        Register
+                    </Button>
+                </div>
+                <p>
+                    Already have an account? <Link to="/login">Login</Link>
+                </p>
+            </Box>
         );
     }
 }

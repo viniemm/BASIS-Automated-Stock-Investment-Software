@@ -4,7 +4,7 @@
 
 import axios from 'axios';
 import { createMessage, returnError, deletePortfolioMsg, addPortfolioMsg } from './message';
-import { GET_PORTFOLIO, DELETE_PORTFOLIO, ADD_PORTFOLIO, GET_ERRORS } from './types';
+import { GET_PORTFOLIO, DELETE_PORTFOLIO, ADD_PORTFOLIO } from './types';
 import { tokenConfig } from './auth';
 
 // GET PORTFOLIO
