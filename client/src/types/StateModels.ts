@@ -88,17 +88,16 @@ export interface CategoryFilterProps {
     filterChanged: FilterChanged
 }
 
-// Final State models
 
 // TODO: fully flesh out this type once ready
-// Nested abstraction of state, where each component and subcomponent is fully defined
+// Nested abstraction of store, where each component and subcomponent is fully defined
 // This is the official representation of the state of the STORE
 export type State = {
     auth: Auth,
     portfolios: Portfolio[]
 }
 
-// Raw abstraction of app state
+// Raw abstraction of app store for states
 export type RawStateStore = {
     auth: {
         token?: string,
