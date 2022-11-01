@@ -7,7 +7,7 @@ import '@progress/kendo-theme-default/dist/all.css';
 import PersistentDrawerLeft from '../../components/Filter/PersistentDrawer';
 import {
   indicatorsDefaultState,
-  indicatorsEndpointAvailable
+  indicatorsEndpointAvailable, portfolioHistoricalDefaultState, portfolioHistoricalEndpointAvailable
 } from '../../components/Filter/endpoint_constants/IndicatorsEndpointConstants';
 import TransitionAlert from '../../components/Filter/TransitionAlert';
 import { FilteringState } from '../../types/StateModels';
@@ -32,13 +32,15 @@ const getRandomColorList = (colorCount: number) => {
 const reportsAvailable = {
   label: "Select Report",
   options: [
-    indicatorsEndpointAvailable
+    indicatorsEndpointAvailable,
+    portfolioHistoricalEndpointAvailable
   ]
 }
 
 const defaultFilterFields = new Map([
-  ["indicators", indicatorsDefaultState]
-])
+  ["indicators", indicatorsDefaultState],
+  ["portfolio_historical", portfolioHistoricalDefaultState]
+]);
 
 class Filtering extends Component<any, FilteringState> {
   updateTimer: any;
