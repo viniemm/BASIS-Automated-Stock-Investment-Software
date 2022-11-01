@@ -45,7 +45,7 @@ class FloatGranularityProcessor(BaseGranularityProcessor):
             return []
 
     def get_granularity_bucket(self, value, granularity):
-        return round(value / granularity) * granularity
+        return round(value, granularity)
     
 
 class DateGranularityProcessor(BaseGranularityProcessor):

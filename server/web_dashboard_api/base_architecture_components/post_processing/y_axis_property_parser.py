@@ -3,7 +3,7 @@ from web_dashboard_api.base_architecture_components.post_processing.base_endpoin
 from web_dashboard_api.base_architecture_components.post_processing.base_granularity_parser import \
     BaseGranularityParser, IntegerGranularityParser
 from web_dashboard_api.base_architecture_components.post_processing.base_granularity_processor import \
-    IntegerGranularityProcessor
+    IntegerGranularityProcessor, FloatGranularityProcessor
 from web_dashboard_api.base_architecture_components.post_processing.y_axis_processor import BaseYAxisProcessor, \
     CountYAxisProcessor, AverageYAxisProcessor, ProportionYAxisProcessor
 from web_dashboard_api.base_architecture_components.post_processing.y_axis_property_validator import \
@@ -20,7 +20,7 @@ class BaseYAxisEndpointPropertyParser(BaseGranularityParser):
         if operation == "count":
             return CountYAxisProcessor(attribute, granularity, IntegerGranularityProcessor())
         if operation == "average":
-            return AverageYAxisProcessor(attribute, granularity, IntegerGranularityProcessor())
+            return AverageYAxisProcessor(attribute, granularity, FloatGranularityProcessor())
         if operation == "proportion":
             return ProportionYAxisProcessor(attribute, granularity, IntegerGranularityProcessor())
 

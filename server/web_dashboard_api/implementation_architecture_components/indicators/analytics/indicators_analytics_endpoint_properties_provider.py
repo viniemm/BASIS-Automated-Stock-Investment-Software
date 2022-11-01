@@ -61,5 +61,10 @@ class IndicatorsAnalyticsEndpointPropertiesProvider(BaseEndpointPropertiesProvid
             BaseYAxisEndpointPropertyValidator,
             IntegerYAxisEndpointPropertyParser
         ))
+        y_axis_property_providers.append(YAxisPropertyProcessorProvider(
+            YAxisEndpointPropertyAvailable("revenue_bil", "Average gross profit", [Granularity.digit], ["average"]),
+            BaseYAxisEndpointPropertyValidator,
+            IntegerYAxisEndpointPropertyParser
+        ))
 
         super().__init__(breakdown_property_providers, x_axis_property_providers, y_axis_property_providers)
