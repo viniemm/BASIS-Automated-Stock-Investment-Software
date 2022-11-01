@@ -10,11 +10,12 @@ from web_dashboard_api.base_architecture_components.post_processing.breakdown_pr
 from web_dashboard_api.base_architecture_components.post_processing.breakdown_property_validator import \
     CategoryBreakdownEndpointPropertyValidator, NumberBreakdownEndpointPropertyValidator
 from web_dashboard_api.base_architecture_components.post_processing.x_axis_property_parser import \
-    IntegerXAxisEndpointPropertyParser, FinishesAtDateXAxisEndpointPropertyParser, FloatXAxisEndpointPropertyParser
+    IntegerXAxisEndpointPropertyParser, FinishesAtDateXAxisEndpointPropertyParser, FloatXAxisEndpointPropertyParser, \
+    CategoryXAxisEndpointPropertyParser
 from web_dashboard_api.base_architecture_components.post_processing.x_axis_property_provider import \
     XAxisPropertyProcessorProvider
 from web_dashboard_api.base_architecture_components.post_processing.x_axis_property_validator import \
-    NumberXAxisEndpointPropertyValidator, DateXAxisEndpointPropertyValidator
+    NumberXAxisEndpointPropertyValidator, DateXAxisEndpointPropertyValidator, CategoryXAxisEndpointPropertyValidator
 from web_dashboard_api.base_architecture_components.post_processing.y_axis_property_parser import \
     IntegerYAxisEndpointPropertyParser
 from web_dashboard_api.base_architecture_components.post_processing.y_axis_property_provider import \
@@ -23,51 +24,26 @@ from web_dashboard_api.base_architecture_components.post_processing.y_axis_prope
     BaseYAxisEndpointPropertyValidator
 
 
-class IndicatorsAnalyticsEndpointPropertiesProvider(BaseEndpointPropertiesProvider):
+class PortfolioHistoricalEndpointPropertiesProvider(BaseEndpointPropertiesProvider):
     def __init__(self):
         # IMPORTANT: Attributes have to conform to filter_derived models field names
         breakdown_property_providers = []
         breakdown_property_providers.append(BreakdownPropertyProcessorProvider(
-            BreakdownEndpointPropertyAvailable("year", "Year", [Granularity.category]),
+            BreakdownEndpointPropertyAvailable("name", "Portfolio Name", [Granularity.category]),
             CategoryBreakdownEndpointPropertyValidator,
             CategoryBreakdownEndpointPropertyParser
-        ))
-        breakdown_property_providers.append(BreakdownPropertyProcessorProvider(
-            BreakdownEndpointPropertyAvailable("symbol", "Symbol", [Granularity.category]),
-            CategoryBreakdownEndpointPropertyValidator,
-            CategoryBreakdownEndpointPropertyParser
-        ))
-        breakdown_property_providers.append(BreakdownPropertyProcessorProvider(
-            BreakdownEndpointPropertyAvailable("revenue_bil", "Revenue Billions", [Granularity.digit]),
-            NumberBreakdownEndpointPropertyValidator,
-            IntegerBreakdownEndpointPropertyParser
         ))
 
         x_axis_property_providers = []
         x_axis_property_providers.append(XAxisPropertyProcessorProvider(
-            XAxisEndpointPropertyAvailable("year", "Year", [Granularity.digit]),
-            NumberXAxisEndpointPropertyValidator,
-            IntegerXAxisEndpointPropertyParser
-        ))
-        x_axis_property_providers.append(XAxisPropertyProcessorProvider(
-            XAxisEndpointPropertyAvailable("revenue_bil", "Revenue Billions", [Granularity.digit]),
-            NumberXAxisEndpointPropertyValidator,
-            FloatXAxisEndpointPropertyParser
+            XAxisEndpointPropertyAvailable("name", "Portfolio Name", [Granularity.category]),
+            CategoryXAxisEndpointPropertyValidator,
+            CategoryXAxisEndpointPropertyParser
         ))
 
         y_axis_property_providers = []
         y_axis_property_providers.append(YAxisPropertyProcessorProvider(
             YAxisEndpointPropertyAvailable("count", "Count", [Granularity.digit], ["count"]),
-            BaseYAxisEndpointPropertyValidator,
-            IntegerYAxisEndpointPropertyParser
-        ))
-        y_axis_property_providers.append(YAxisPropertyProcessorProvider(
-            YAxisEndpointPropertyAvailable("revenue_bil", "Total gross profit", [Granularity.digit], ["total"]),
-            BaseYAxisEndpointPropertyValidator,
-            IntegerYAxisEndpointPropertyParser
-        ))
-        y_axis_property_providers.append(YAxisPropertyProcessorProvider(
-            YAxisEndpointPropertyAvailable("revenue_bil", "Average gross profit", [Granularity.digit], ["average"]),
             BaseYAxisEndpointPropertyValidator,
             IntegerYAxisEndpointPropertyParser
         ))

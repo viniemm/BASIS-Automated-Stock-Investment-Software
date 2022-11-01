@@ -11,14 +11,16 @@ from web_dashboard_api.implementation_architecture_components.indicators.analyti
 from .base_architecture_components.filter_query.query_filter_models import QueryComplexFilter, QueryFilter
 from .base_architecture_components.filter_query.query_operator_models import EqualsQueryOperator
 from .base_architecture_components.post_processing.base_endpoint_processing import BaseEndpointProcessing
-from .implementation_architecture_components.endpoint_filters import IndicatorsReportEndpointFilters, EndpointFilters
-
+from .implementation_architecture_components.endpoint_filters import IndicatorsReportEndpointFilters, EndpointFilters, \
+    PortfolioHistoricalReportEndpointFilters
 
 # Create your views here.
 from .implementation_architecture_components.indicators.analytics.indicators_analytics_parser import \
     IndicatorsAnalyticsDerivedModelParser
 from .implementation_architecture_components.indicators.indicators_parser import IndicatorsDerivedModelParser
 from .implementation_architecture_components.indicators.indicators_provider import IndicatorsDerivedModelProvider
+from .implementation_architecture_components.portfolio_historical.historical.portfolio_historical_endpoint_processing import \
+    PortfolioHistoricalEndpointProcessing
 from .models import StocksData
 
 
@@ -61,6 +63,17 @@ class IndicatorsReport(ReportAPIView):
 class IndicatorsReportFilters(ReportFilterAPIView):
     def get_endpoint_filters(self) -> EndpointFilters:
         return IndicatorsReportEndpointFilters()
+
+
+class PortfolioHistoricalReport(ReportAPIView):
+    def get_endpoint_processing_class(self, filters_dict) -> PortfolioHistoricalEndpointProcessing:
+        return PortfolioHistoricalEndpointProcessing(filters_dict)
+
+
+class PortfolioHistoricalReportFilters(ReportFilterAPIView):
+    def get_endpoint_filters(self) -> EndpointFilters:
+        return PortfolioHistoricalReportEndpointFilters()
+
 
 class QuestionnaireResponse(APIView):
     def post(self, request, format=None):

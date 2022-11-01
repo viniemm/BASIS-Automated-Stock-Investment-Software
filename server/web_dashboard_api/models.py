@@ -130,6 +130,7 @@ class Portfolio(models.Model):
     name = models.CharField(max_length=50, default="My Portfolio")
     user = models.ForeignKey(User, db_index=True,
                              on_delete=models.SET(get_parked_user))  # the data model that the user will connect to
+    value = models.FloatField(blank=False, null=False, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
@@ -137,5 +138,6 @@ class PortfolioSelection(models.Model):
     id = models.CharField(db_index=True, max_length=12, primary_key=True)
     portfolio = models.ForeignKey(Portfolio, db_index=True,
                                   on_delete=models.DO_NOTHING, db_column='portfolio_id')
-    companies = models.ForeignKey(
+    symbol = models.ForeignKey(
         Companies, models.DO_NOTHING, db_column='stock_symbol')
+    allocation = models.FloatField(blank=False, null=False, default=0)

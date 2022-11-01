@@ -3,6 +3,10 @@ from web_dashboard_api.implementation_architecture_components.indicators.analyti
     IndicatorsAnalyticsEndpointPropertiesProvider
 from web_dashboard_api.implementation_architecture_components.indicators.analytics.indicators_analytics_filter_wrapper_collection import \
     IndicatorsAnalyticsFilterWrapperCollection
+from web_dashboard_api.implementation_architecture_components.portfolio_historical.historical.portfolio_historical_endpoint_properties_provider import \
+    PortfolioHistoricalEndpointPropertiesProvider
+from web_dashboard_api.implementation_architecture_components.portfolio_historical.historical.portfolio_historical_filter_wrapper_collection import \
+    PortfolioHistoricalFilterWrapperCollection
 
 
 class EndpointFilters(JsonSerialize):
@@ -30,5 +34,15 @@ class IndicatorsReportEndpointFilters(EndpointFilters):
         y_axis = endpoint_properties_provider.get_y_axis_available_list()
         breakdown = endpoint_properties_provider.get_breakdown_available_list()
         filters = IndicatorsAnalyticsFilterWrapperCollection().get_filter_available_list()
+        super().__init__(x_axis=x_axis, y_axis=y_axis, breakdown=breakdown, filters=filters)
+
+
+class PortfolioHistoricalReportEndpointFilters(EndpointFilters):
+    def __init__(self):
+        endpoint_properties_provider = PortfolioHistoricalEndpointPropertiesProvider()
+        x_axis = endpoint_properties_provider.get_x_axis_available_list()
+        y_axis = endpoint_properties_provider.get_y_axis_available_list()
+        breakdown = endpoint_properties_provider.get_breakdown_available_list()
+        filters = PortfolioHistoricalFilterWrapperCollection().get_filter_available_list()
         super().__init__(x_axis=x_axis, y_axis=y_axis, breakdown=breakdown, filters=filters)
 
