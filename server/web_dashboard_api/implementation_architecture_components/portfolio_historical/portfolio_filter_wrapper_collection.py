@@ -1,10 +1,11 @@
 from web_dashboard_api.base_architecture_components.filter.base_filter_collection import BaseFilterWrapperCollection
 from web_dashboard_api.base_architecture_components.filter.base_filter_wrapper import QueryFilterWrapper
 from web_dashboard_api.base_architecture_components.filter.filter_available_implementation import \
-    CategoryFilterAvailable
-from web_dashboard_api.base_architecture_components.filter_query.query_filter_parser import QueryFilterParser
+    CategoryFilterAvailable, DateFilterAvailable
+from web_dashboard_api.base_architecture_components.filter_query.query_filter_parser import QueryFilterParser, \
+    DateQueryFilterParser
 from web_dashboard_api.base_architecture_components.filter_query.query_filter_validator import \
-    CategoryQueryFilterValidator
+    CategoryQueryFilterValidator, DateQueryFilterValidator
 from web_dashboard_api.base_architecture_components.properties import FieldValueLabel
 from web_dashboard_api.implementation_architecture_components.portfolio_historical.portfolio_parser import \
     PortfolioDerivedModelParser
@@ -15,7 +16,7 @@ class PortfolioFilterWrapperCollection(BaseFilterWrapperCollection):
 
     def __init__(self, filter_wrappers, **kwargs):
         # IMPORTANT: Fields have to conform to django models field names (not including foreign table prefixes)
-        # Years Filter
+        # Portfolio Filter
         if "portfolio_names" in kwargs:
             portfolio_names = kwargs["portfolio_names"]
         else:
@@ -26,6 +27,28 @@ class PortfolioFilterWrapperCollection(BaseFilterWrapperCollection):
                                              options=portfolio_names, foreign_table="portfolio"),
                 CategoryQueryFilterValidator,
                 QueryFilterParser
+            )
+        )
+        # Symbol Filter
+        if "symbols" in kwargs:
+            symbols = kwargs["symbols"]
+        else:
+            symbols = self.get_on_distinct_attribute('symbol', 'symbol', PortfolioDerivedModelParser)
+        filter_wrappers.append(
+            QueryFilterWrapper(
+                CategoryFilterAvailable(field="symbol", label="Symbol", required=False,
+                                             options=symbols),
+                CategoryQueryFilterValidator,
+                QueryFilterParser
+            )
+        )
+        # Date Filter
+        filter_wrappers.append(
+            QueryFilterWrapper(
+                DateFilterAvailable(field="date", label="Date", required=False,
+                                             options=symbols),
+                DateQueryFilterValidator,
+                DateQueryFilterParser
             )
         )
         super().__init__(filter_wrappers)
