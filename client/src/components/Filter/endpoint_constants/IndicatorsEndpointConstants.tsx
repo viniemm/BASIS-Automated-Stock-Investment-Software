@@ -50,7 +50,7 @@ export const portfolioHistoricalEndpointAvailable = {
 
 export const portfolioHistoricalDefaultState = {
   x_axis: {
-    "attribute": "portfolio_name",
+    "attribute": "symbol",
     "granularity": "category"
   },
   y_axis: {

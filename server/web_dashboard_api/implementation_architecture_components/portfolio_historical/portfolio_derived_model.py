@@ -1,4 +1,5 @@
 from web_dashboard_api.base_architecture_components.derived_model.base_derived_model import BaseDerivedModel
+from datetime import datetime
 
 
 class PortfolioDerivedModel(BaseDerivedModel):
@@ -17,3 +18,7 @@ class PortfolioDerivedModel(BaseDerivedModel):
         for key, value in kwargs.items():
             setattr(self, key, value)
         # Get filter_derived properties
+        if self.allocation is not None and self.close is not None:
+            self.closing_proportional = self.allocation * self.close
+        if self.date:
+            self.date = datetime.strptime(self.date, '%Y-%m-%d')

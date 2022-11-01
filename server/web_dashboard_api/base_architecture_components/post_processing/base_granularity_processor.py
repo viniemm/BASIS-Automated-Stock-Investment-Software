@@ -45,7 +45,7 @@ class FloatGranularityProcessor(BaseGranularityProcessor):
             return []
 
     def get_granularity_bucket(self, value, granularity):
-        return round(value, granularity)
+        return round(value, int(granularity))
     
 
 class DateGranularityProcessor(BaseGranularityProcessor):
@@ -61,6 +61,8 @@ class DateGranularityProcessor(BaseGranularityProcessor):
                 value = value.replace(second=0, minute=0, hour=hours)
             case 'day':
                 value = value.replace(second=0, minute=0, hour=0)
+            case 'date':
+                value = value.replace(second=0, minute=0, hour=0)
         return value
 
     def date_to_str(self, value, granularity):
@@ -74,6 +76,8 @@ class DateGranularityProcessor(BaseGranularityProcessor):
                 json_dump = value.strftime("%#m/%#d %#I %p")
             case 'day':
                 json_dump = value.strftime("%#m/%#d")
+            case 'date':
+                json_dump = value.strftime("%#m/%#d/%#Y")
         return json_dump.replace("\"", "")
 
     def get_all_buckets(self, values, granularity):
@@ -94,6 +98,8 @@ class DateGranularityProcessor(BaseGranularityProcessor):
                 case Granularity.three_hour:
                     delta = timedelta(hours=3)
                 case Granularity.day:
+                    delta = timedelta(days=1)
+                case Granularity.date:
                     delta = timedelta(days=1)
             curr_date += delta
         return result

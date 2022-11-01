@@ -11,7 +11,7 @@ from web_dashboard_api.base_architecture_components.post_processing.breakdown_pr
     CategoryBreakdownEndpointPropertyValidator, NumberBreakdownEndpointPropertyValidator
 from web_dashboard_api.base_architecture_components.post_processing.x_axis_property_parser import \
     IntegerXAxisEndpointPropertyParser, FinishesAtDateXAxisEndpointPropertyParser, FloatXAxisEndpointPropertyParser, \
-    CategoryXAxisEndpointPropertyParser
+    CategoryXAxisEndpointPropertyParser, DateXAxisEndpointPropertyParser
 from web_dashboard_api.base_architecture_components.post_processing.x_axis_property_provider import \
     XAxisPropertyProcessorProvider
 from web_dashboard_api.base_architecture_components.post_processing.x_axis_property_validator import \
@@ -33,10 +33,20 @@ class PortfolioHistoricalEndpointPropertiesProvider(BaseEndpointPropertiesProvid
             CategoryBreakdownEndpointPropertyValidator,
             CategoryBreakdownEndpointPropertyParser
         ))
+        breakdown_property_providers.append(BreakdownPropertyProcessorProvider(
+            BreakdownEndpointPropertyAvailable("symbol", "Symbol", [Granularity.category]),
+            CategoryBreakdownEndpointPropertyValidator,
+            CategoryBreakdownEndpointPropertyParser
+        ))
 
         x_axis_property_providers = []
         x_axis_property_providers.append(XAxisPropertyProcessorProvider(
-            XAxisEndpointPropertyAvailable("portfolio_name", "Portfolio Name", [Granularity.category]),
+            XAxisEndpointPropertyAvailable("date", "Date", [Granularity.date]),
+            DateXAxisEndpointPropertyValidator,
+            DateXAxisEndpointPropertyParser
+        ))
+        x_axis_property_providers.append(XAxisPropertyProcessorProvider(
+            XAxisEndpointPropertyAvailable("symbol", "Per Symbol", [Granularity.category]),
             CategoryXAxisEndpointPropertyValidator,
             CategoryXAxisEndpointPropertyParser
         ))
@@ -44,6 +54,11 @@ class PortfolioHistoricalEndpointPropertiesProvider(BaseEndpointPropertiesProvid
         y_axis_property_providers = []
         y_axis_property_providers.append(YAxisPropertyProcessorProvider(
             YAxisEndpointPropertyAvailable("count", "Count", [Granularity.digit], ["count"]),
+            BaseYAxisEndpointPropertyValidator,
+            IntegerYAxisEndpointPropertyParser
+        ))
+        y_axis_property_providers.append(YAxisPropertyProcessorProvider(
+            YAxisEndpointPropertyAvailable("closing_proportional", "Total closing proportional", [Granularity.digit], ["total"]),
             BaseYAxisEndpointPropertyValidator,
             IntegerYAxisEndpointPropertyParser
         ))
