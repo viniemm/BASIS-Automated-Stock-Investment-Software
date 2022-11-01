@@ -9,11 +9,11 @@ class PortfolioDerivedModel(BaseDerivedModel):
         self.allocation = None
         self.industry = None
         self.initial_value = None
-        for key, value in kwargs.items():
-            setattr(self, key, value)
-        # Get filter_derived properties
         self.date = None
         self.close = None
         self.volume = None
         self.closing_proportional = None
         self.industry_type = None
+        for key, value in kwargs.items():
+            setattr(self, key, value)
+        # Get filter_derived properties

@@ -19,10 +19,10 @@ class PortfolioFilterWrapperCollection(BaseFilterWrapperCollection):
         if "portfolio_names" in kwargs:
             portfolio_names = kwargs["portfolio_names"]
         else:
-            portfolio_names = self.get_on_distinct_attribute('portfolio__name', 'name', PortfolioDerivedModelParser)
+            portfolio_names = self.get_on_distinct_attribute('portfolio__name', 'portfolio_name', PortfolioDerivedModelParser)
         filter_wrappers.append(
             QueryFilterWrapper(
-                CategoryFilterAvailable(field="name", label="Portfolio Name", required=False,
+                CategoryFilterAvailable(field="portfolio_name", label="Portfolio Name", required=False,
                                              options=portfolio_names, foreign_table="portfolio"),
                 CategoryQueryFilterValidator,
                 QueryFilterParser

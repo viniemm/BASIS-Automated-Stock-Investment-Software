@@ -50,7 +50,7 @@ export const portfolioHistoricalEndpointAvailable = {
 
 export const portfolioHistoricalDefaultState = {
   x_axis: {
-    "attribute": "name",
+    "attribute": "portfolio_name",
     "granularity": "category"
   },
   y_axis: {
@@ -59,7 +59,7 @@ export const portfolioHistoricalDefaultState = {
     "granularity": "1"
   },
   breakdown: {
-    "attribute": "name",
+    "attribute": "portfolio_name",
     "granularity": "category"
   },
   complex_filter: {

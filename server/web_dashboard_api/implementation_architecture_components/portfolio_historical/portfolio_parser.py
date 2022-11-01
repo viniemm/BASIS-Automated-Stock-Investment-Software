@@ -43,7 +43,7 @@ class PortfolioDerivedModelParser(BaseDerivedModelParser):
     def get_derived_model_field_list(self) -> [str]:
         values_list = []
         values_list.append("symbol")
-        values_list.append("name")
+        values_list.append("portfolio_name")
         values_list.append("allocation")
         values_list.append("initial_value")
         values_list.append("industry")

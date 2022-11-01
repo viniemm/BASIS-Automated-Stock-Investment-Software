@@ -29,14 +29,14 @@ class PortfolioHistoricalEndpointPropertiesProvider(BaseEndpointPropertiesProvid
         # IMPORTANT: Attributes have to conform to filter_derived models field names
         breakdown_property_providers = []
         breakdown_property_providers.append(BreakdownPropertyProcessorProvider(
-            BreakdownEndpointPropertyAvailable("name", "Portfolio Name", [Granularity.category]),
+            BreakdownEndpointPropertyAvailable("portfolio_name", "Portfolio Name", [Granularity.category]),
             CategoryBreakdownEndpointPropertyValidator,
             CategoryBreakdownEndpointPropertyParser
         ))
 
         x_axis_property_providers = []
         x_axis_property_providers.append(XAxisPropertyProcessorProvider(
-            XAxisEndpointPropertyAvailable("name", "Portfolio Name", [Granularity.category]),
+            XAxisEndpointPropertyAvailable("portfolio_name", "Portfolio Name", [Granularity.category]),
             CategoryXAxisEndpointPropertyValidator,
             CategoryXAxisEndpointPropertyParser
         ))
