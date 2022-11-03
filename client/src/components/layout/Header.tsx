@@ -171,7 +171,7 @@ const defaultBar = (
     </div>
 )
 
-export class MainNavBar extends Component<UserSessionProps, UserSessionState> {
+export class Header extends Component<UserSessionProps, UserSessionState> {
     render() {
         return (
             defaultBar
@@ -179,7 +179,7 @@ export class MainNavBar extends Component<UserSessionProps, UserSessionState> {
     }
 }
 
-export default connect(mapStateToProps)(MainNavBar);
+export default connect(mapStateToProps)(Header);
 // export default connect(mapStateToProps, { logout })(MainNavBar);
     // componentDidMount() { store.dispatch(loadUser()); doesn't fit here
     // isAuthenticated ? authBar : guestBar
