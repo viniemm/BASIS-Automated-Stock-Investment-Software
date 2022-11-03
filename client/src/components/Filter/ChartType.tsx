@@ -24,6 +24,8 @@ export default function ChartType(props:any) {
         >
           <MenuItem value={"stacked_bar"}>Stacked Bar Chart</MenuItem>
           <MenuItem value={"side_by_side_bar"}>Side by Side Bar Chart</MenuItem>
+          <MenuItem value={"line_chart"}>Line Chart</MenuItem>
+
         </Select>
       </FormControl>
     </Box>

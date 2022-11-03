@@ -1,10 +1,15 @@
 import './Filtering.css';
+<<<<<<< HEAD
 import React, { Component } from "react";
 <<<<<<< HEAD
 import {BarChart, LineChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer, Label} from 'recharts';
 =======
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer, Label } from 'recharts';
 >>>>>>> f7b58c7 (state models grouped together)
+=======
+import React, { Component, useState } from "react";
+import {BarChart, LineChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer, Label, Line} from 'recharts';
+>>>>>>> 71db07d (added line graph)
 import axios from "axios";
 import randomColor from "randomcolor";
 import '@progress/kendo-theme-default/dist/all.css';
@@ -15,6 +20,7 @@ import {
 } from '../../components/Filter/endpoint_constants/IndicatorsEndpointConstants';
 import TransitionAlert from '../../components/Filter/TransitionAlert';
 import { FilteringState } from '../../types/StateModels';
+
 
 
 const getRandomColorList = (colorCount: number) => {
@@ -187,12 +193,28 @@ class Filtering extends Component<any, FilteringState> {
     return bars;
   }
 
+  renderLineCharts = () => {
+    let colorCount = 0;
+    const chart = this.state.data.data_keys.map((value: any) => (
+      <Line 
+        type = "monotone"
+        key = {value}
+        dataKey={value}
+        stroke = {getRandomColorList(this.state.data.data_keys.length)[colorCount++]}
+      />
+    ));
+    return chart;
+  }
+
   renderChart(chartType: string) {
     if (chartType === "stacked_bar") {
       return this.renderStackedBars();
     }
     if (chartType === "side_by_side_bar") {
-      return this.renderSideBySideBars();
+      return this.renderSideBySideBars()
+    }
+    if (chartType === "line_chart"){
+      return this.renderLineCharts();
     }
   }
 
@@ -248,7 +270,8 @@ class Filtering extends Component<any, FilteringState> {
     });
   }
 
-  render() {
+
+  render() { 
     return (
       <div className="App">
         <PersistentDrawerLeft
@@ -263,6 +286,7 @@ class Filtering extends Component<any, FilteringState> {
           filterState={this.state.filterFields}
         >
           {this.state.error && <TransitionAlert text={this.state.error} open={this.state.open} setOpen={this.setErrorOpen} />}
+
           <ResponsiveContainer width="95%" aspect={2.2}>
             <BarChart data={this.state.data.data_points}>
               <CartesianGrid />
@@ -276,11 +300,22 @@ class Filtering extends Component<any, FilteringState> {
               <Legend dy={170} />
               {this.renderChart(this.state.chartType)}
             </BarChart>
-          </ResponsiveContainer>
+            </ResponsiveContainer>
+            <ResponsiveContainer width="95%" aspect={3}>
+            <LineChart data={this.state.data.data_points}>
+              <CartesianGrid/>
+              <XAxis dataKey={this.state.data.y_axis.attribute}>
+              </XAxis>
+              <YAxis />
+              <Tooltip />
+              <Legend/>
+              {this.renderChart(this.state.chartType)}
+              </LineChart>
+            </ResponsiveContainer>
         </PersistentDrawerLeft>
       </div>
     );
-  }
+  }  
 }
 
 export default Filtering;
