@@ -17,13 +17,8 @@
     "@types/node": "^16.11.59",
     "@types/react": "^18.0.20",
     "@types/react-dom": "^18.0.6",
-<<<<<<< HEAD
-<<<<<<< HEAD
-    "axios": "^0.27.2",
-=======
     "@types/react-redux": "^7.1.24",
     "axios": "^1.1.3",
->>>>>>> e79a57f (Fixed some errors)
     "bootstrap": "^5.1.3",
     "cross-env": "^7.0.3",
     "date-fns": "^2.29.1",
@@ -32,9 +27,6 @@
     "moment": "^2.29.4",
     "prop-types": "^15.8.1",
     "randomcolor": "^0.6.2",
-=======
-    "axios": "^1.1.3",
->>>>>>> faa0bcc (Added some things)
     "react": "^18.2.0",
     "react-compound-slider": "^3.4.0",
     "react-dom": "^18.2.0",
@@ -42,34 +34,16 @@
     "react-router": "^6.4.2",
     "react-router-dom": "^6.4.2",
     "react-scripts": "5.0.1",
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> e79a57f (Fixed some errors)
     "reactstrap": "^9.0.3",
     "recharts": "^2.1.10",
-=======
     "redux": "^4.2.0",
-<<<<<<< HEAD
->>>>>>> bb6e240 (initial auth build)
-=======
     "redux-devtools-extension": "^2.13.9",
-<<<<<<< HEAD
->>>>>>> 46459a4 (Finishing up store work for login and register)
-=======
-=======
-    "semantic-ui-css": "^2.5.0",
-    "semantic-ui-react": "^2.1.3",
->>>>>>> 0c0404a (Added Question 3)
-    "styled-components": "^5.3.6",
->>>>>>> cb3de07 (Added question 1)
-=======
     "semantic-ui-css": "^2.5.0",
     "semantic-ui-react": "^2.1.3",
     "styled-components": "^5.3.6",
->>>>>>> e79a57f (Fixed some errors)
+    "semantic-ui-css": "^2.5.0",
+    "semantic-ui-react": "^2.1.3",
+    "styled-components": "^5.3.6",
     "typescript": "^4.8.3",
     "web-vitals": "^2.1.4"
   },

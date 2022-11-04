@@ -1,15 +1,7 @@
 import './Filtering.css';
-<<<<<<< HEAD
-import React, { Component } from "react";
-<<<<<<< HEAD
-import {BarChart, LineChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer, Label} from 'recharts';
-=======
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer, Label } from 'recharts';
->>>>>>> f7b58c7 (state models grouped together)
-=======
+
 import React, { Component, useState } from "react";
 import {BarChart, LineChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer, Label, Line} from 'recharts';
->>>>>>> 71db07d (added line graph)
 import axios from "axios";
 import randomColor from "randomcolor";
 import '@progress/kendo-theme-default/dist/all.css';
@@ -256,12 +248,8 @@ class Filtering extends Component<any, FilteringState> {
     });
   }
 
-<<<<<<< HEAD
   chartTypeChanged(event: { target: { value: any; }; }) {
 
-=======
-  chartTypeChanged(event: any) {
->>>>>>> f7b58c7 (state models grouped together)
     this.setState({
       chartType: event.target.value
     // eslint-disable-next-line @typescript-eslint/no-empty-function

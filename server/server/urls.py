@@ -22,10 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/indicators', views.IndicatorsReport.as_view()),
     path('api/indicators/filters', views.IndicatorsReportFilters.as_view()),
-<<<<<<< HEAD
     path('', include('web_dashboard_api.urls')),
-    path('', include('users.urls'))
-=======
+    path('', include('users.urls')),
     path('api/questionnaire', views.QuestionnaireResponse.as_view())
->>>>>>> be98440 (Started API for questionnaire)
 ]

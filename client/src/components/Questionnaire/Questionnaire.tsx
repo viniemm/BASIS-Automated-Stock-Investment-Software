@@ -1,11 +1,3 @@
-<<<<<<< HEAD
-import React from 'react';
-// Class or function
-import * as React from 'react';
-export default function Questionnaire() {
-    return <h1>Questions</h1>
-}
-=======
 import React from "react";
 import ControlledSlider from "./Slider/Slider";
 import Input from "./Input.js";
@@ -101,4 +93,3 @@ class Questionnaire extends React.Component {
 }
 
 export default Questionnaire;
->>>>>>> cb3de07 (Added question 1)
