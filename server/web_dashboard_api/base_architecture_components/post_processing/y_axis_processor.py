@@ -33,9 +33,21 @@ class CountYAxisProcessor(BaseYAxisProcessor):
 class AverageYAxisProcessor(BaseYAxisProcessor):
     def get_summary(self, derived_models: [BaseDerivedModel]) -> Number:
         sum = 0
+        count = 0
         for derived_model in derived_models:
-            sum += getattr(derived_model, self.attribute)
-        return sum / len(derived_models)
+            if getattr(derived_model, self.attribute):
+                sum += getattr(derived_model, self.attribute)
+                count += 1
+        return sum / count
+
+
+class TotalYAxisProcessor(BaseYAxisProcessor):
+    def get_summary(self, derived_models: [BaseDerivedModel]) -> Number:
+        sum = 0
+        for derived_model in derived_models:
+            if getattr(derived_model, self.attribute):
+                sum += getattr(derived_model, self.attribute)
+        return sum
 
 
 class ProportionYAxisProcessor(BaseYAxisProcessor):

@@ -22,6 +22,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/indicators', views.IndicatorsReport.as_view()),
     path('api/indicators/filters', views.IndicatorsReportFilters.as_view()),
+    path('api/portfolio_historical', views.PortfolioHistoricalReport.as_view()),
+    path('api/portfolio_historical/filters', views.PortfolioHistoricalReportFilters.as_view()),
     path('api/questionnaire', views.QuestionnaireResponse.as_view()),
     path('', include('web_dashboard_api.urls')),
     path('', include('users.urls'))

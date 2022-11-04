@@ -16,7 +16,7 @@ from web_dashboard_api.implementation_architecture_components.indicators.analyti
 
 
 #TODO: fix this one
-from web_dashboard_api.implementation_architecture_components.indicators.industries import industry_types
+from web_dashboard_api.implementation_architecture_components.industries import industry_types
 
 
 class IndicatorsFilterWrapperCollection(BaseFilterWrapperCollection):

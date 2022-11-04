@@ -37,6 +37,7 @@ class Granularity(str, ExtendedEnum):
     half_hour = "half_hour"
     three_hour = "three_hour"
     day = "day"
+    date = "date"
     digit = "digit"
     float = "float"
     category = "category"

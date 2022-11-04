@@ -4,6 +4,7 @@ from web_dashboard_api.base_architecture_components.filter.base_filter_available
 from web_dashboard_api.base_architecture_components.filter.base_filter_parser import BaseFilterParser
 from web_dashboard_api.base_architecture_components.filter.base_filter_wrapper import BaseFilterWrapper
 from web_dashboard_api.base_architecture_components.filter_query.query_filter_models import QueryComplexFilter, QueryFilter
+from web_dashboard_api.base_architecture_components.properties import FieldValueLabel
 from web_dashboard_api.exceptions.custom_exceptions import ParsingException
 
 
@@ -79,3 +80,19 @@ class BaseFilterWrapperCollection:
 
     def get_complex_filter_parser(self) -> BaseComplexFilterParser:
         return BaseComplexFilterParser(self.get_filter_parser_list())
+
+    def get_on_distinct_attribute(self, table_attr, attribute, parser_class):
+        attributes = []
+        complex_filter = QueryComplexFilter('and', [])
+        indicators_derived_model_parser = parser_class(distinct_on=[table_attr])
+        derived_models = indicators_derived_model_parser.get_derived_model_list_from_filters(complex_filter)
+        for derived_model in derived_models:
+
+            attributes.append((getattr(derived_model, attribute), getattr(derived_model, attribute)))
+        # Make sure no duplicates
+        attributes = list(set(attributes))
+        attributes.sort()
+        attributes_list = []
+        for value, label in attributes:
+            attributes_list.append(FieldValueLabel(value, label))
+        return attributes_list
