@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 
 import { connect } from 'react-redux';
-import { register } from '../../actions/auth';
-import { createMessage, passwordNotMatch } from '../../actions/message';
+import { register } from '../../features/actions/auth';
+import { createMessage, passwordNotMatch } from '../../features/actions/message';
 
 import { Box, Button, TextField } from '@mui/material';
 

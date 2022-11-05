@@ -3,12 +3,12 @@ import React from 'react'
 import { Dropdown } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
 import {
-    BrowserRouter as Router,
-    Link
-  } from "react-router-dom";
+  BrowserRouter as Router,
+  Link
+} from "react-router-dom";
 import { Route, Routes } from "react-router";
-import Questionnaire4 from "./Questionnaire4";
-import { QuestionnaireState, QuestionnaireProps } from "../../types/QuestionnaireTypes";
+import Questionnaire4 from "../questionnaire/Questionnaire4";
+import { QuestionnaireState, QuestionnaireProps } from "../../features/types/QuestionnaireTypes";
 
 const termPeriods = [
   {
@@ -36,14 +36,14 @@ const termPeriods = [
 
 
 class Questionnaire3 extends React.Component<QuestionnaireProps, QuestionnaireState> {
-  state:QuestionnaireState = {
+  state: QuestionnaireState = {
     answers: {},
   };
 
-  UpdateTerm = (newTerm:string) => {
+  UpdateTerm = (newTerm: string) => {
     return this.setState({
       answers: {
-        termPeriod:newTerm
+        termPeriod: newTerm
       }
     })
   }
@@ -54,33 +54,33 @@ class Questionnaire3 extends React.Component<QuestionnaireProps, QuestionnaireSt
       fluid
       selection
       options={termPeriods}
-      onChange={(e,data) => {this.UpdateTerm(data.value as string)}}
+      onChange={(e, data) => { this.UpdateTerm(data.value as string) }}
     />
   )
-  constructor(props:QuestionnaireProps) {
+  constructor(props: QuestionnaireProps) {
     super(props)
     this.state.answers = props.answers
     this.state.answers.termPeriod = '<2 years';
   }
 
-    render() {
-        return (
-            <div className="App">
-                <label htmlFor="sliderinput" >
-                    <h4>3. What is the estimated term period of the portfolio?</h4>
-                </label>
-                {this.DropdownSelection()}
+  render() {
+    return (
+      <div className="App">
+        <label htmlFor="sliderinput" >
+          <h4>3. What is the estimated term period of the portfolio?</h4>
+        </label>
+        {this.DropdownSelection()}
 
-                <li>
-                    <Link to="/questionnaire4">Next Question</Link>
-                </li>
+        <li>
+          <Link to="/questionnaire4">Next Question</Link>
+        </li>
 
-                <Routes>
-                    <Route path="/questionnaire4" element={<Questionnaire4 answers={this.state.answers}/>} />
-                </Routes>
-            </div>
-        )
-    }
+        <Routes>
+          <Route path="/questionnaire4" element={<Questionnaire4 answers={this.state.answers} />} />
+        </Routes>
+      </div>
+    )
+  }
 }
 
 

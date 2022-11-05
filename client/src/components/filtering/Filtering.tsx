@@ -10,7 +10,7 @@ import {
   indicatorsEndpointAvailable
 } from '../../components/Filter/endpoint_constants/IndicatorsEndpointConstants';
 import TransitionAlert from '../../components/Filter/TransitionAlert';
-import { FilteringState } from '../../types/StateModels';
+import { FilteringState } from '../../features/types/StateModels';
 
 
 const getRandomColorList = (colorCount: number) => {

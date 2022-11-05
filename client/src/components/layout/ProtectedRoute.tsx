@@ -1,8 +1,8 @@
 import React, { Component, Reducer } from 'react';
 import { Route, useNavigate, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import auth from '../../reducers/auth';
-import { Auth as Auth } from '../../types/StateModels';
+import auth from '../../features/reducers/auth';
+import { Auth as Auth } from '../../features/types/StateModels';
 
 // MAKE SURE VIEW IS HIDDEN IF NOT LOGGED IN
 interface ProtectedRouteProps {

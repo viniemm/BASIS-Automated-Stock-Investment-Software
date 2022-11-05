@@ -6,8 +6,8 @@ import {
   Link
 } from "react-router-dom";
 import { Route, Routes } from "react-router";
-import Questionnaire5 from "./Questionnaire5";
-import { QuestionnaireState, QuestionnaireProps } from "../../types/QuestionnaireTypes";
+import Questionnaire5 from "../questionnaire/Questionnaire5";
+import { QuestionnaireState, QuestionnaireProps } from "../../features/types/QuestionnaireTypes";
 
 const answerOptions = [
   {
@@ -23,14 +23,14 @@ const answerOptions = [
 ]
 
 class Questionnaire4 extends React.Component<QuestionnaireProps, QuestionnaireState> {
-  state:QuestionnaireState = {
+  state: QuestionnaireState = {
     answers: {},
   };
 
-  UpdateInvestPrev = (invested:string) => {
+  UpdateInvestPrev = (invested: string) => {
     return this.setState({
       answers: {
-        investPrev:(invested==="Yes")
+        investPrev: (invested === "Yes")
       }
     })
   }
@@ -41,33 +41,33 @@ class Questionnaire4 extends React.Component<QuestionnaireProps, QuestionnaireSt
       fluid
       selection
       options={answerOptions}
-      onChange={(e,data) => {this.UpdateInvestPrev(data.value as string)}}
+      onChange={(e, data) => { this.UpdateInvestPrev(data.value as string) }}
     />
   )
-  constructor(props:QuestionnaireProps) {
+  constructor(props: QuestionnaireProps) {
     super(props)
     this.state.answers = props.answers
     this.state.answers.investPrev = false;
   }
 
-    render() {
-        return (
-            <div className="App">
-                <label htmlFor="sliderinput" >
-                    <h4>4. Have you invested in the stock market before?</h4>
-                </label>
-                {this.DropdownSelection()}
+  render() {
+    return (
+      <div className="App">
+        <label htmlFor="sliderinput" >
+          <h4>4. Have you invested in the stock market before?</h4>
+        </label>
+        {this.DropdownSelection()}
 
-                <li>
-                    <Link to="/questionnaire5">Next Question</Link>
-                </li>
+        <li>
+          <Link to="/questionnaire5">Next Question</Link>
+        </li>
 
-                <Routes>
-                    <Route path="/questionnaire5" element={<Questionnaire5 answers={this.state.answers}/>} />
-                </Routes>
-            </div>
-        )
-    }
+        <Routes>
+          <Route path="/questionnaire5" element={<Questionnaire5 answers={this.state.answers} />} />
+        </Routes>
+      </div>
+    )
+  }
 }
 
 

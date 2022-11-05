@@ -1,8 +1,8 @@
 import React from 'react'
 import { Dropdown } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
-import { QuestionnaireState, QuestionnaireProps, QuestionnaireOutput } from "../../types/QuestionnaireTypes";
-import { Dashboard, Questionnaire } from '../../pages';
+import { QuestionnaireState, QuestionnaireProps, QuestionnaireOutput } from "../../features/types/QuestionnaireTypes";
+import { Dashboard, Questionnaire } from '..';
 import { sendQuestionnaire } from '../../services/QuestionnaireService';
 import {
   BrowserRouter as Router,
@@ -28,54 +28,54 @@ const options = [
 ]
 
 class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireState> {
-  constructor(props:QuestionnaireProps) {
+  constructor(props: QuestionnaireProps) {
     super(props);
     this.state.answers = props.answers;
   }
-    state:QuestionnaireState = {
-        answers: {},
-        questionnaireDone: false 
-      };
+  state: QuestionnaireState = {
+    answers: {},
+    questionnaireDone: false
+  };
 
-      UpdateIndustries = (newIndustries:string[]) => {
-        return this.setState({
-          answers: {
-            industries:newIndustries
-          }
-        })
+  UpdateIndustries = (newIndustries: string[]) => {
+    return this.setState({
+      answers: {
+        industries: newIndustries
       }
+    })
+  }
 
-      DropdownMultipleSelection = () => (
-        <Dropdown
-          placeholder='Skills'
-          fluid
-          multiple
-          selection
-          options={options}
-          onChange={(e,data) => {this.UpdateIndustries(data.value as string[])}}
-        />
-      )
+  DropdownMultipleSelection = () => (
+    <Dropdown
+      placeholder='Skills'
+      fluid
+      multiple
+      selection
+      options={options}
+      onChange={(e, data) => { this.UpdateIndustries(data.value as string[]) }}
+    />
+  )
 
-      submitClick = async ()=> {
-        // Make request
-            // await sendQuestionnaire(this.state.answers)
-        //send user to new page
-      }
+  submitClick = async () => {
+    // Make request
+    // await sendQuestionnaire(this.state.answers)
+    //send user to new page
+  }
 
-    render() {
-        return (
-            <div className="App">
-                <label htmlFor="sliderinput" >
-                    <h4>5. Which industry of stocks are you interested in investing in?</h4>
-                </label>
-                {this.DropdownMultipleSelection()}
-                <a href="/dashboard">
-                  <input type="submit" onClick={this.submitClick} value="Submit" />
-                </a>
+  render() {
+    return (
+      <div className="App">
+        <label htmlFor="sliderinput" >
+          <h4>5. Which industry of stocks are you interested in investing in?</h4>
+        </label>
+        {this.DropdownMultipleSelection()}
+        <a href="/dashboard">
+          <input type="submit" onClick={this.submitClick} value="Submit" />
+        </a>
 
-            </div>
-        )
-    }
+      </div>
+    )
+  }
 }
 
 

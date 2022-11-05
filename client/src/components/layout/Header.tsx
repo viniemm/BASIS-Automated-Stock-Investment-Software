@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout } from '../../actions/auth';
+import { logout } from '../../features/actions/auth';
 import {
     Typography,
     Button,

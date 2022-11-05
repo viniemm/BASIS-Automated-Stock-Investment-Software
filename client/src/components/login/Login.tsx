@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { login } from '../../actions/auth';
+import { login } from '../../features/actions/auth';
 import { UserSessionProps } from '../../components/layout/Header';
 import { Box, Button, TextField } from '@mui/material';
 

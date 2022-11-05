@@ -1,14 +1,14 @@
 import React from "react";
-import ControlledSlider from "./Slider/Slider";
-import Input from "./Input";
+import ControlledSlider from "../questionnaire/Slider/Slider";
+import Input from "../questionnaire/Input";
 import "./styles.css";
 import {
   BrowserRouter as Router,
   Link
 } from "react-router-dom";
 import { Route, Routes } from "react-router";
-import Questionnaire3 from "./Questionnaire3";
-import { QuestionnaireState, QuestionnaireProps } from "../../types/QuestionnaireTypes";
+import Questionnaire3 from "../questionnaire/Questionnaire3";
+import { QuestionnaireState, QuestionnaireProps } from "../../features/types/QuestionnaireTypes";
 
 // Constands for these for simplicity, would typically be props
 const max = 10;
