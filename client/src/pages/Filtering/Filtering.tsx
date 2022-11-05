@@ -1,6 +1,6 @@
 import './Filtering.css';
 import React, { Component } from "react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer, Label } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer, Label, Line, LineChart } from 'recharts';
 import axios from "axios";
 import randomColor from "randomcolor";
 import '@progress/kendo-theme-default/dist/all.css';
@@ -184,6 +184,19 @@ class Filtering extends Component<any, FilteringState> {
     ));
     return bars;
   }
+  
+  renderLineCharts = () => {
+    let colorCount = 0;
+    const chart = this.state.data.data_keys.map((value: any) => (
+      <Line 
+        type = "monotone"
+        key = {value}
+        dataKey={value}
+        stroke = {getRandomColorList(this.state.data.data_keys.length)[colorCount++]}
+      />
+    ));
+    return chart;
+  }
 
   renderChart(chartType: string) {
     if (chartType === "stacked_bar") {
@@ -191,6 +204,9 @@ class Filtering extends Component<any, FilteringState> {
     }
     if (chartType === "side_by_side_bar") {
       return this.renderSideBySideBars();
+    }
+    if (chartType === "line_bar"){
+      return this.renderLineCharts();
     }
   }
 
@@ -267,6 +283,17 @@ class Filtering extends Component<any, FilteringState> {
               {this.renderChart(this.state.chartType)}
             </BarChart>
           </ResponsiveContainer>
+          <ResponsiveContainer width="95%" aspect={3}>
+            <LineChart data={this.state.data.data_points}>
+              <CartesianGrid/>
+              <XAxis dataKey={this.state.data.y_axis.attribute}>
+              </XAxis>
+              <YAxis />
+              <Tooltip />
+              <Legend/>
+              {this.renderChart(this.state.chartType)}
+              </LineChart>
+            </ResponsiveContainer>
         </PersistentDrawerLeft>
       </div>
     );
