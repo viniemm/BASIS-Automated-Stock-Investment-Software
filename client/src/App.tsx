@@ -1,51 +1,28 @@
-import React, { Component, Fragment } from 'react';
-import { Route, Routes } from "react-router";
-import Questionnaire from "./components/questionnaire/Questionnaire";
-import Questionnaire2 from "./components/questionnaire/Questionnaire2";
-import Questionnaire3 from "./components/questionnaire/Questionnaire3";
-import Questionnaire4 from "./components/questionnaire/Questionnaire4";
-import Questionnaire5 from "./components/questionnaire/Questionnaire5";
+import { Component } from 'react';
+import { BrowserRouter as Router } from "react-router-dom";  // try working on using hashrouter instead of browser router 
+import Header from './components/pages/layout/Header';
+import Alerts from './components/pages/layout/Alerts';
+import BasisRoutes from './components/pages/layout/BasisRoutes';
+import { useSelector } from 'react-redux';
+import { startOfDecade } from 'date-fns/esm';
+import { RootState } from './app/store';
 
-import { Dashboard, Home, About, Filtering } from "./components";
-import {
-  BrowserRouter as Router,
-  Link
-} from "react-router-dom";  // try working on using hashrouter instead of browser router 
-import Login from './components/login/Login';
-import Register from './components/register/Register';
-import { Provider } from 'react-redux';
-import store from '../src/app/store';
-import { loadUser } from './features/actions/auth';
-import Header from './components/layout/Header';
-import Alerts from './components/layout/Alerts';
-import ProtectedRoute from './components/layout/ProtectedRoute';
-
-export default class App extends Component {
+export default function App() {
   // lifecycle method
   // fires off whenever App loads
   //componentDidMount() { store.dispatch(loadUser()) }
 
-  render() {
-    return (
-      <Router>
-        <Alerts />
-        <Header />
-        <div className='container'>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/filtering" element={<Filtering />} />
-            <Route path="/questionnaire" element={<Questionnaire />} />
-            <Route path="/questionnaire2" element={<Questionnaire2 answers={{}} />} />
-            <Route path="/questionnaire3" element={<Questionnaire3 answers={{}} />} />
-            <Route path="/questionnaire4" element={<Questionnaire4 answers={{}} />} />
-            <Route path="/questionnaire5" element={<Questionnaire5 answers={{}} />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-          </Routes>
-        </div>
-      </Router>
-    );
-  }
+  const authState = useSelector(
+    (state: RootState) => state.auth
+  )
+
+  return (
+    <Router>
+      <Alerts />
+      <Header authState={authState.auth} />
+      <div className='container'>
+        <BasisRoutes authState={authState.auth} />
+      </div>
+    </Router>
+  );
 }

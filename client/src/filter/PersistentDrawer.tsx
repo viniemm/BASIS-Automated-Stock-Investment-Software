@@ -18,7 +18,7 @@ import ReportDropdown from "./ReportDropdown";
 import Loading from "./Loading";
 import DateFilter from "./filters/DateFilter";
 import ChartType from "./ChartType";
-import { Filter } from '../../types/StateModels';
+import { Filter } from '../features/types/StateModels';
 
 const drawerWidth = 400;
 
@@ -231,7 +231,7 @@ export default function PersistentDrawerLeft(props: any) {
 
   return (
 
-    <Box sx={{ display: 'flex'}}>
+    <Box sx={{ display: 'flex' }}>
       <CssBaseline />
       <AppBar position="fixed" open={open}>
         <Toolbar>

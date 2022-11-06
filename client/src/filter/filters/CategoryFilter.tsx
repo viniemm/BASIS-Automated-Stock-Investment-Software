@@ -9,8 +9,8 @@ import { Checkbox, Chip } from "@mui/material";
 import ListItemText from "@mui/material/ListItemText";
 import { MenuProps } from "../MenuProps";
 import { getStoredOptions } from "./CommonFilterLogic";
-import { CategoryFilterProps } from '../../../types/StateModels';
-import { Filter } from '../../../types/StateModels';
+import { CategoryFilterProps } from '../../features/types/StateModels';
+import { Filter } from '../../features/types/StateModels';
 
 
 export default function CategoryFilter(props: CategoryFilterProps) {
