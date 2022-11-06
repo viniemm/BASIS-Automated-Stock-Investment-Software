@@ -6,10 +6,10 @@ import { unload } from '../../../features/authSlice';
 import { Auth } from '../../../features/authSlice';
 
 interface LogoutProps {
-    authState: Auth;
+    auth: Auth;
 }
 
-export default function LogoutButton({ authState }: LogoutProps) {
+export default function LogoutButton({ auth }: LogoutProps) {
     const dispatch = useDispatch();
 
     return (
@@ -17,7 +17,7 @@ export default function LogoutButton({ authState }: LogoutProps) {
             id="logout"
             onClick={() => {
                 // Get Token from State
-                const token: string = String(authState.token);
+                const token = auth.token;
 
                 // Headers
                 const config: AxiosRequestConfig = {
@@ -29,7 +29,7 @@ export default function LogoutButton({ authState }: LogoutProps) {
 
                 axios.post('/api/auth/logout', null, config)
                     .then(result => {
-                        dispatch(unload(authState))
+                        dispatch(unload(auth))
                     })
                     .catch(error => {
                         console.log(error);

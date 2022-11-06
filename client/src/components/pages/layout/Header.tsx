@@ -10,24 +10,13 @@ import { Auth } from '../../../features/authSlice';
 import LogoutButton from '../auth/LogoutButton';
 import { useDispatch } from 'react-redux';
 
-//     logout: () => void
-
-export interface UserSessionProps {
-    auth: { isAuthenticated: boolean, user: any },
-}
-
-interface UserSessionState {
-    isAuthenticated: boolean,
-    user: { username: string }
-}
-
 interface HeaderProps {
-    authState: Auth;
+    auth: Auth;
 }
 
-export default function Header({ authState }: HeaderProps) {
+export default function Header({ auth }: HeaderProps) {
 
-    if (authState.isAuthenticated === null) {
+    if (auth.isAuthenticated === null || auth.isAuthenticated === false) {
         return (
             <div>
                 <Typography
@@ -47,31 +36,15 @@ export default function Header({ authState }: HeaderProps) {
                     BASIS
                 </Typography>
                 <Button
-                    id="home"
-                    aria-haspopup="false"
-                    href='/'>
-                    Home
+                    id="login"
+                    href='/login'>
+                    Login
                 </Button>
                 <Button
-                    id="about"
-                    aria-haspopup="false"
-                    href='/about'>
-                    About
+                    id="register"
+                    href='/register'>
+                    Register
                 </Button>
-                <Button
-                    id="dashboard"
-                    aria-haspopup="false"
-                    href='/dashboard'>
-                    Dashboard
-                </Button>
-                <Button
-                    id="filtering"
-                    aria-haspopup="false"
-                    href='/filtering'>
-                    Filtering
-                </Button>
-                <LogoutButton authState={authState} />
-                <hr />
             </div>
         );
     }
@@ -94,23 +67,31 @@ export default function Header({ authState }: HeaderProps) {
                 BASIS
             </Typography>
             <Button
-                id="login"
-                href='/login'>
-                Login
+                id="home"
+                aria-haspopup="false"
+                href='/'>
+                Home
             </Button>
             <Button
-                id="register"
-                href='/register'>
-                Register
+                id="about"
+                aria-haspopup="false"
+                href='/about'>
+                About
             </Button>
+            <Button
+                id="dashboard"
+                aria-haspopup="false"
+                href='/dashboard'>
+                Dashboard
+            </Button>
+            <Button
+                id="filtering"
+                aria-haspopup="false"
+                href='/filtering'>
+                Filtering
+            </Button>
+            <LogoutButton auth={auth} />
+            <hr />
         </div>
     )
 }
-
-// export default connect(mapStateToProps, { logout })(MainNavBar);
-    // componentDidMount() { store.dispatch(loadUser()); doesn't fit here
-    // isAuthenticated ? authBar : guestBar
-    // const { isAuthenticated, user } = this.props.auth
-
-
-

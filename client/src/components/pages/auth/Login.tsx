@@ -6,15 +6,15 @@ import { useDispatch } from 'react-redux';
 import axios, { AxiosRequestConfig } from 'axios';
 
 interface LoginProps {
-    authState: Auth;
+    auth: Auth;
 }
 
-export default function Login({ authState }: LoginProps) {
+export default function Login({ auth }: LoginProps) {
     const dispatch = useDispatch();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
-    if (authState.isAuthenticated) {
+    if (auth.isAuthenticated) {
         return <Navigate to={{ pathname: "/dashboard" }} />;
     }
     return (

@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Slider, Rail, Handles, Tracks } from "react-compound-slider";
-import SliderHandle from "../Slider.Handle";
-import SliderTrack from "../Slider.Track";
+import SliderHandle from "./Slider.Handle";
+import SliderTrack from "./Slider.Track";
 import PropTypes from 'prop-types';
 
 export class ControlledSlider extends React.Component {

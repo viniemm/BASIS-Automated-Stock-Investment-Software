@@ -24,11 +24,11 @@ interface NewUser {
 }
 
 interface RegisterProps {
-    authState: Auth;
+    auth: Auth;
 }
 
 // component level state (redux is not involved here)
-export default function Register({ authState }: RegisterProps) {
+export default function Register({ auth }: RegisterProps) {
 
     const dispatch = useDispatch();
     const [username, setUsername] = useState("");
@@ -37,7 +37,7 @@ export default function Register({ authState }: RegisterProps) {
     const [password2, setPassword2] = useState("");
 
 
-    if (authState.isAuthenticated) { // login user, redirect user to dashboard
+    if (auth.isAuthenticated) { // login user, redirect user to dashboard
         return <Navigate to={{ pathname: "/dashboard" }} />;
     }
 
@@ -88,7 +88,7 @@ export default function Register({ authState }: RegisterProps) {
                 <Button
                     id="register"
                     href='/dashboard'
-                    onSubmit={(event) => {
+                    onClick={(event) => {
                         event.preventDefault();
                         if (password !== password2) {
                             console.log("passwords don't match");
