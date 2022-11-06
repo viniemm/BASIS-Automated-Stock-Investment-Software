@@ -17,6 +17,8 @@ export default function Login({ auth }: LoginProps) {
     if (auth.isAuthenticated) {
         return <Navigate to={{ pathname: "/dashboard" }} />;
     }
+
+    
     return (
         <Box
             component="form"

@@ -1,35 +1,27 @@
 import React from "react";
-import ControlledSlider from "../questionnaire/Slider/Slider";
-import Input from "../questionnaire/Input";
+import ControlledSlider from "./Slider/Slider";
+import Input from "./Input.js";
 import "./styles.css";
 import {
   BrowserRouter as Router,
   Link
 } from "react-router-dom";
 import { Route, Routes } from "react-router";
-import Questionnaire3 from "../questionnaire/Questionnaire3";
-import { QuestionnaireState, QuestionnaireProps } from "../../features/types/QuestionnaireTypes";
+import Questionnaire2 from "./Questionnaire2";
 
 // Constands for these for simplicity, would typically be props
-const max = 10;
-const min = 1;
-const step = 1;
-const value = 1;
+const max = 10000;
+const min = 1000;
+const step = 100;
+const value = 25000;
 
-class Questionnaire2 extends React.Component<QuestionnaireProps, QuestionnaireState> {
-  state: QuestionnaireState = {
-    answers: {},
+class Questionnaire extends React.Component {
+  state = {
     // Set state values to reflect consts/props
     sum: value,
     sliderSum: value,
     step: step
   };
-  constructor(props: QuestionnaireProps) {
-    super(props)
-    this.state.answers = props.answers
-    this.state.answers.riskThreshold = 1;
-  }
-
 
   onInputChange = (value: string) => {
     if (value) {
@@ -55,13 +47,11 @@ class Questionnaire2 extends React.Component<QuestionnaireProps, QuestionnaireSt
 
   onSliderChange = (value: string) => {
     const sum = parseInt(value, 10);
+
     // When the slider is changed, set both input and slider values to reflect new value
     this.setState({
       sum,
-      sliderSum: sum,
-      answers: {
-        riskThreshold: sum
-      }
+      sliderSum: sum
     });
   };
 
@@ -70,7 +60,7 @@ class Questionnaire2 extends React.Component<QuestionnaireProps, QuestionnaireSt
       <div className="App">
         <label htmlFor="sliderinput"
         >
-          <h4>2. What is your risk threshold?</h4>
+          <h4>1. How much money are you willing to invest (In $)?</h4>
         </label>
 
         <Input
@@ -78,7 +68,7 @@ class Questionnaire2 extends React.Component<QuestionnaireProps, QuestionnaireSt
           name={"sliderinput"}
           id={"sliderinput"}
           value={this.state.sum}
-          placeholder="5"
+          placeholder="$10000"
           onChange={(e: { target: { value: string; }; }) => this.onInputChange(e.target.value)}
           onFocus={() => this.setState({ step: 1 })} // When the input is focused, set step value to 1
         />
@@ -90,17 +80,16 @@ class Questionnaire2 extends React.Component<QuestionnaireProps, QuestionnaireSt
           onUpdate={(value: any) => this.onSliderChange(value)}
           onSlideStart={(value: any) => this.onSlideStart(value)}
         />
-
         <li>
-          <Link to="/questionnaire3">Next Question</Link>
+          <Link to="/questionnaire2">Next Question</Link>
         </li>
 
         <Routes>
-          <Route path="/questionnaire3" element={<Questionnaire3 answers={this.state.answers} />} />
+          <Route path="/questionnaire2" element={<Questionnaire2 answers={{ moneyInvested: this.state.sliderSum }} />} />
         </Routes>
       </div>
     );
   }
 }
 
-export default Questionnaire2;
+export default Questionnaire;

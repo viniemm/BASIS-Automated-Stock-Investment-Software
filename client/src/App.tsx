@@ -1,9 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";  // try working on using hashrouter instead of browser router 
 import Header from './components/pages/layout/Header';
-import Alerts from './components/pages/layout/Alerts';
 import { useSelector } from 'react-redux';
-import { startOfDecade } from 'date-fns/esm';
 import { RootState } from './app/store';
 import PrivRoute from './components/pages/layout/PrivRoute';
 import { Home, About, Dashboard, Filtering, Login, Register } from './components/pages';
