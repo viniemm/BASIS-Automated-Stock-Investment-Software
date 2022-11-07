@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import { Route, Routes } from "react-router";
 import Questionnaire3 from "./Questionnaire3";
-import { QuestionnaireState, QuestionnaireProps } from "../../../features/types/QuestionnaireTypes";
+import { QuestionnaireState, QuestionnaireProps } from "../../features/types/QuestionnaireTypes";
 
 // Constands for these for simplicity, would typically be props
 const max = 10;

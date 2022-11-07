@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 import { Route, Routes } from "react-router";
 import Questionnaire4 from "./Questionnaire4";
-import { QuestionnaireState, QuestionnaireProps } from "../../../features/types/QuestionnaireTypes";
+import { QuestionnaireState, QuestionnaireProps } from "../../features/types/QuestionnaireTypes";
 
 const termPeriods = [
   {

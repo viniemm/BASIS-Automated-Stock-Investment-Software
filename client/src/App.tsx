@@ -1,11 +1,11 @@
 import React, { Component, Fragment } from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";  // try working on using hashrouter instead of browser router 
-import Header from './components/pages/layout/Header';
+import Header from './components/layout/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './app/store';
 import axios, { AxiosRequestConfig } from 'axios';
 import { getUser } from './features/authSlice';
-import ComponentRoutes from './components/pages/layout/ComponentRoutes';
+import ComponentRoutes from './components/layout/ComponentRoutes';
 
 function App() {
   const dispatch = useDispatch();

@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import { Route, Routes } from "react-router";
 import Questionnaire5 from "./Questionnaire5";
-import { QuestionnaireState, QuestionnaireProps } from "../../../features/types/QuestionnaireTypes";
+import { QuestionnaireState, QuestionnaireProps } from "../../features/types/QuestionnaireTypes";
 
 const answerOptions = [
   {
