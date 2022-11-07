@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Link, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout } from '../../../features/actions/auth';
+import { logout } from '../../features/actions/auth';
 import {
     Typography,
     Button,
 } from "@mui/material";
-import { Auth, getUser } from '../../../features/authSlice';
+import { Auth, getUser } from '../../features/authSlice';
 import LogoutButton from '../auth/LogoutButton';
 import { useDispatch } from 'react-redux';
 import axios, { AxiosRequestConfig } from 'axios';

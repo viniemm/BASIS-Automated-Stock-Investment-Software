@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { Box, Button, TextField } from '@mui/material';
-import { Auth, loadUser } from '../../../features/authSlice';
+import { Auth, loadUser } from '../../features/authSlice';
 import { useDispatch } from 'react-redux';
 import axios, { AxiosRequestConfig } from 'axios';
 

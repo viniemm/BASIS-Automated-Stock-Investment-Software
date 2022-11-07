@@ -1,6 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Auth } from "../../../features/authSlice";
+import { Auth } from "../../features/authSlice";
 import About from "../about/About";
 import Login from "../auth/Login";
 import Register from "../auth/Register";

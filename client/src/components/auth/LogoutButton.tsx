@@ -2,8 +2,8 @@ import { Button } from '@mui/material';
 import axios, { AxiosRequestConfig } from 'axios';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { unloadUser } from '../../../features/authSlice';
-import { Auth } from '../../../features/authSlice';
+import { unloadUser } from '../../features/authSlice';
+import { Auth } from '../../features/authSlice';
 
 interface LogoutProps {
     auth: Auth;

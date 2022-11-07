@@ -2,7 +2,8 @@ import React from 'react'
 import { Dropdown } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
 import { QuestionnaireState, QuestionnaireProps, QuestionnaireOutput } from "../../features/types/QuestionnaireTypes";
-import { Dashboard, Questionnaire } from '../pages';
+import Dashboard from '../dashboard/Dashboard';
+import Questionnaire from './Questionnaire';
 import { sendQuestionnaire } from '../../services/QuestionnaireService';
 import {
   BrowserRouter as Router,

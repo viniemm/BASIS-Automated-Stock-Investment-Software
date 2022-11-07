@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { Alert } from '@mui/material';
 import { connect } from 'react-redux';
-import { addPortfolioMsg, deletePortfolioMsg, passwordNotMatch } from '../../../features/actions/message';// '/features/actions/message';
+import { addPortfolioMsg, deletePortfolioMsg, passwordNotMatch } from '../../features/actions/message';// '/features/actions/message';
 
 interface AlertProps {
     error: any,
