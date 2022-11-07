@@ -1,7 +1,7 @@
 import React, { Component, useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { Box, Button, TextField } from '@mui/material';
-import { Auth, load } from '../../../features/authSlice';
+import { Auth, loadUser } from '../../../features/authSlice';
 import { useDispatch } from 'react-redux';
 import axios, { AxiosRequestConfig } from 'axios';
 
@@ -15,10 +15,9 @@ export default function Login({ auth }: LoginProps) {
     const [password, setPassword] = useState("");
 
     if (auth.isAuthenticated) {
-        return <Navigate to={{ pathname: "/dashboard" }} />;
+        <Navigate to={'/dashboard'} />
     }
 
-    
     return (
         <Box
             component="form"
@@ -52,8 +51,7 @@ export default function Login({ auth }: LoginProps) {
             <div>
                 <Button
                     id='login'
-                    href='/dashboard'
-                    onSubmit={() => {
+                    onClick={() => {
                         if (!username || !password) {
                             console.log("empty username or password");
                             return;
@@ -68,11 +66,13 @@ export default function Login({ auth }: LoginProps) {
                         const body = JSON.stringify({ username, password });
                         axios.post('/api/auth/login', body, config)
                             .then(response => {
-                                dispatch(load(response.data))
+                                dispatch(loadUser(response.data));
                             })
                             .catch(error => {
-                                console.log(error);
+                                console.log("couldn't login");
                             })
+                        setUsername('');
+                        setPassword('');
                     }}>
                     Login
                 </Button>

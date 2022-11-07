@@ -1,27 +1,9 @@
-import React, { Component, useState } from 'react';
+import React, { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
-
-import { connect } from 'react-redux';
-import { register } from '../../../features/actions/auth';
-import { createMessage, passwordNotMatch } from '../../../features/actions/message';
-
 import { Box, Button, TextField } from '@mui/material';
-import { Auth, load } from '../../../features/authSlice';
+import { Auth, loadUser } from '../../../features/authSlice';
 import { useDispatch } from 'react-redux';
 import axios, { AxiosRequestConfig } from 'axios';
-
-interface RegisterState {
-    username: string,
-    email: string,
-    password: string,
-    password2: string,
-}
-
-interface NewUser {
-    username: string,
-    password: string,
-    email: string
-}
 
 interface RegisterProps {
     auth: Auth;
@@ -36,9 +18,8 @@ export default function Register({ auth }: RegisterProps) {
     const [password, setPassword] = useState("");
     const [password2, setPassword2] = useState("");
 
-
-    if (auth.isAuthenticated) { // login user, redirect user to dashboard
-        return <Navigate to={{ pathname: "/dashboard" }} />;
+    if (auth.isAuthenticated) {
+        <Navigate to={'/dashboard'} />
     }
 
     return (    // Link is used from react-router-dom
@@ -87,7 +68,6 @@ export default function Register({ auth }: RegisterProps) {
             <div>
                 <Button
                     id="register"
-                    href='/dashboard'
                     onClick={(event) => {
                         event.preventDefault();
                         if (password !== password2) {
@@ -105,12 +85,16 @@ export default function Register({ auth }: RegisterProps) {
 
                             axios.post('/api/auth/register', body, config)
                                 .then(response => {
-                                    dispatch(load(response.data))
+                                    dispatch(loadUser(response.data));
+
                                 })
                                 .catch(error => {
                                     console.log(error)
                                 })
-
+                            setUsername('');
+                            setEmail('');
+                            setPassword('');
+                            setPassword2('');
                         }
 
                     }}>

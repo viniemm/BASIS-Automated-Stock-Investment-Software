@@ -1,6 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-
 export interface User {
     id: number;
     username: string;
@@ -8,20 +7,21 @@ export interface User {
 }
 
 export interface Auth {
-    token: string | null;
-    isAuthenticated: boolean | null;
     user: User | null;
+    token: string | null;
+    isAuthenticated: boolean;
 }
 
 export interface AuthState {
-    auth: Auth
+    auth: Auth;
 }
 
+// isAuthenticated depends on localStorage token field
 const initialState: AuthState = {
     auth: {
+        user: null,
         token: localStorage.getItem('token'),
-        isAuthenticated: null,
-        user: null
+        isAuthenticated: false
     }
 };
 
@@ -29,20 +29,24 @@ export const authSlice = createSlice({
     name: "auth",
     initialState,
     reducers: {
-        unload: (state, action: PayloadAction<Auth>) => {
+        unloadUser: (state, action: PayloadAction<Auth>) => {
             localStorage.removeItem('token');
+            state.auth.user = null;
             state.auth.token = null;
             state.auth.isAuthenticated = false;
-            state.auth.user = null;
         },
-        load: (state, action: PayloadAction<Auth>) => {
+        loadUser: (state, action: PayloadAction<Auth>) => {
             localStorage.setItem('token', String(action.payload.token));
+            state.auth.user = action.payload.user;
             state.auth.token = action.payload.token;
             state.auth.isAuthenticated = true;
-            state.auth.user = action.payload.user;
+        },
+        getUser: (state, action: PayloadAction<User>) => {
+            state.auth.user = action.payload;
+            state.auth.isAuthenticated = true;
         }
     }
 });
 
-export const { load, unload } = authSlice.actions;
+export const { loadUser, unloadUser, getUser } = authSlice.actions;
 export default authSlice.reducer;

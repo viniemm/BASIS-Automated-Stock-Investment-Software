@@ -1,36 +1,41 @@
 import React, { Component, Fragment } from 'react';
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";  // try working on using hashrouter instead of browser router 
 import Header from './components/pages/layout/Header';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './app/store';
-import PrivRoute from './components/pages/layout/PrivRoute';
-import { Home, About, Dashboard, Filtering, Login, Register } from './components/pages';
+import axios, { AxiosRequestConfig } from 'axios';
+import { getUser } from './features/authSlice';
+import ComponentRoutes from './components/pages/layout/ComponentRoutes';
 
 function App() {
-  // lifecycle method
-  // fires off whenever App loads
-  //componentDidMount() { store.dispatch(loadUser()) }
+  const dispatch = useDispatch();
 
   const authState = useSelector(
-    (state: RootState) => state.auth
-  )
+    (state: RootState) => state.auth.auth
+  );
+
+  if (authState.token !== null && !authState.isAuthenticated) {
+    const config: AxiosRequestConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${authState.token}`
+      }
+    };
+
+    axios.get('/api/auth/user', config)
+      .then(response => {
+        dispatch(getUser(response.data));
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
 
   return (
     <Router>
       <Fragment>
-        <Header auth={authState.auth} />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/dashboard" element={<PrivRoute auth={authState.auth} />}>
-            <Route path="/dashboard" element={<Dashboard />} />
-          </Route>
-          <Route path="/filtering" element={<PrivRoute auth={authState.auth} />}>
-            <Route path="/filtering" element={<Filtering />} />
-          </Route>
-          <Route path="/login" element={<Login auth={authState.auth} />} />
-          <Route path="/register" element={<Register auth={authState.auth} />} />
-        </Routes>
+        <Header auth={authState} />
+        <ComponentRoutes auth={authState} />
       </Fragment>
     </Router>
   );

@@ -2,7 +2,7 @@ import { Button } from '@mui/material';
 import axios, { AxiosRequestConfig } from 'axios';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { unload } from '../../../features/authSlice';
+import { unloadUser } from '../../../features/authSlice';
 import { Auth } from '../../../features/authSlice';
 
 interface LogoutProps {
@@ -15,6 +15,7 @@ export default function LogoutButton({ auth }: LogoutProps) {
     return (
         <Button
             id="logout"
+            href='/dashboard'
             onClick={() => {
                 // Get Token from State
                 const token = auth.token;
@@ -29,10 +30,10 @@ export default function LogoutButton({ auth }: LogoutProps) {
 
                 axios.post('/api/auth/logout', null, config)
                     .then(result => {
-                        dispatch(unload(auth))
+                        dispatch(unloadUser(auth));
                     })
                     .catch(error => {
-                        console.log(error);
+                        console.log(error.response.msg);
                     })
             }}>
             Logout

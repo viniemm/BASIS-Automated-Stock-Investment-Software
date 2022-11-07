@@ -6,9 +6,10 @@ import {
     Typography,
     Button,
 } from "@mui/material";
-import { Auth } from '../../../features/authSlice';
+import { Auth, getUser } from '../../../features/authSlice';
 import LogoutButton from '../auth/LogoutButton';
 import { useDispatch } from 'react-redux';
+import axios, { AxiosRequestConfig } from 'axios';
 
 interface HeaderProps {
     auth: Auth;
@@ -16,7 +17,7 @@ interface HeaderProps {
 
 export default function Header({ auth }: HeaderProps) {
 
-    if (auth.isAuthenticated === null || auth.isAuthenticated === false) {
+    if (!auth.isAuthenticated) {
         return (
             <div>
                 <Typography
