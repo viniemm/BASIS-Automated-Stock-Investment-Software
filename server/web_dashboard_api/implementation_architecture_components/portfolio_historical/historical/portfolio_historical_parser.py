@@ -53,5 +53,12 @@ class PortfolioHistoricalDerivedModelParser(PortfolioDerivedModelParser):
                 merged = portfolio.__dict__
                 for attr, val in stocks_model.__dict__.items():
                     merged[attr] = val
-                derived_models.append(PortfolioDerivedModel(**merged))
+                if merged['close'] is not None and merged['allocation'] is not None:
+                    derived_models.append(PortfolioDerivedModel(**merged))
+        # Create proportional allocation
+        symbol_dict = {}
+        for derived_model in derived_models:
+            if derived_model.symbol not in symbol_dict:
+                symbol_dict[derived_model.symbol] = 100 / derived_model.close * derived_model.allocation
+            derived_model.closing_proportional = derived_model.close * symbol_dict[derived_model.symbol]
         return derived_models
