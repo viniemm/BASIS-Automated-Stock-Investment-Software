@@ -4,7 +4,8 @@ from web_dashboard_api.base_architecture_components.post_processing.base_granula
     BaseGranularityParser, CategoryGranularityParser, IntegerGranularityParser, DateGranularityParser, \
     FloatGranularityParser
 from web_dashboard_api.base_architecture_components.post_processing.x_axis_processor import BaseXAxisProcessor, \
-    CategoryXAxisProcessor, IntegerXAxisProcessor, DateXAxisProcessor, FinishesAtDateXAxisProcessor, FloatXAxisProcessor
+    CategoryXAxisProcessor, IntegerXAxisProcessor, DateXAxisProcessor, FinishesAtDateXAxisProcessor, \
+    FloatXAxisProcessor, SkipNullFloatXAxisProcessor
 from web_dashboard_api.base_architecture_components.post_processing.x_axis_property_validator import \
     BaseXAxisEndpointPropertyValidator
 
@@ -66,6 +67,11 @@ class FloatXAxisEndpointPropertyParser(BaseXAxisEndpointPropertyParser):
 
     def get_x_axis_processor(self, attribute: str, granularity) -> BaseXAxisProcessor:
         return FloatXAxisProcessor(attribute, granularity)
+
+
+class SkipNullFloatXAxisEndpointPropertyParser(FloatXAxisEndpointPropertyParser):
+    def get_x_axis_processor(self, attribute: str, granularity) -> BaseXAxisProcessor:
+        return SkipNullFloatXAxisProcessor(attribute, granularity)
 
 
 class DateXAxisEndpointPropertyParser(BaseXAxisEndpointPropertyParser):

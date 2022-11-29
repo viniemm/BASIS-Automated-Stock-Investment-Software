@@ -1,0 +1,14 @@
+from web_dashboard_api.base_architecture_components.post_processing.base_endpoint_processing import \
+    BaseEndpointProcessing
+from web_dashboard_api.implementation_architecture_components.indicators.analytics.indicators_analytics_endpoint_properties_provider import \
+    IndicatorsAnalyticsEndpointPropertiesProvider
+from web_dashboard_api.implementation_architecture_components.indicators.analytics.indicators_analytics_provider import IndicatorsAnalyticsDerivedModelProvider
+from web_dashboard_api.implementation_architecture_components.portfolio_historical.historical.portfolio_historical_endpoint_properties_provider import \
+    PortfolioHistoricalEndpointPropertiesProvider
+from web_dashboard_api.implementation_architecture_components.portfolio_historical.historical.portfolio_historical_provider import \
+    PortfolioHistoricalDerivedModelProvider
+
+
+class PortfolioHistoricalEndpointProcessing(BaseEndpointProcessing):
+    def __init__(self, filters_dict):
+        super().__init__(PortfolioHistoricalEndpointPropertiesProvider(), PortfolioHistoricalDerivedModelProvider(), filters_dict)
