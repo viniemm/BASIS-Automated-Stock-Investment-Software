@@ -55,13 +55,13 @@ class ProportionYAxisProcessor(BaseYAxisProcessor):
         super(ProportionYAxisProcessor, self).__init__(attribute, granularity, granularity_processor)
 
     def get_summary(self, derived_models: [BaseDerivedModel]) -> int:
-        return len(derived_models)
+        return sum([getattr(derived_model, self.attribute) for derived_model in derived_models])
 
     def get_y_axis_return(self, x_axis_buckets: {str: {str: [BaseDerivedModel]}}) -> {str: {str: Number}}:
         bucket_count = defaultdict(int)
         for x_axis_bucket, breakdown_buckets in x_axis_buckets.items():
             for breakdown_key, breakdown_bucket in breakdown_buckets.items():
-                bucket_count[x_axis_bucket] += len(breakdown_bucket)
+                bucket_count[x_axis_bucket] += self.get_summary(breakdown_bucket)
 
         for x_axis_bucket, breakdown_buckets in x_axis_buckets.items():
             for breakdown_key, breakdown_bucket in breakdown_buckets.items():

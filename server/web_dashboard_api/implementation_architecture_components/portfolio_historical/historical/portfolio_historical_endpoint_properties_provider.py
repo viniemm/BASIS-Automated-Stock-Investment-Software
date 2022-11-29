@@ -58,7 +58,7 @@ class PortfolioHistoricalEndpointPropertiesProvider(BaseEndpointPropertiesProvid
             IntegerYAxisEndpointPropertyParser
         ))
         y_axis_property_providers.append(YAxisPropertyProcessorProvider(
-            YAxisEndpointPropertyAvailable("closing_proportional", "Total closing proportional", [Granularity.digit], ["total"]),
+            YAxisEndpointPropertyAvailable("closing_proportional", "Total closing proportional", [Granularity.digit], ["total", "proportion"]),
             BaseYAxisEndpointPropertyValidator,
             IntegerYAxisEndpointPropertyParser
         ))
