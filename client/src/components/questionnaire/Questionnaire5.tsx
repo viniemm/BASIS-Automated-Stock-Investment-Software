@@ -10,7 +10,8 @@ import {
   Link
 } from "react-router-dom";
 import { Route, Routes } from "react-router";
-
+import {useSelector} from "react-redux";
+import {RootState} from "../../app/store";
 const options = [
   { key: 'oil', text: 'Oil and Gas', value: 'oil' },
   { key: 'food', text: 'Food and Beverages', value: 'food' },
@@ -32,6 +33,9 @@ class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireSt
   constructor(props: QuestionnaireProps) {
     super(props);
     this.state.answers = props.answers;
+    this.state.auth = this.props.auth;
+    console.log(this.props.auth?.user);
+    console.log(this.state.auth?.isAuthenticated);
   }
   state: QuestionnaireState = {
     answers: {},
@@ -61,6 +65,11 @@ class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireSt
     // Make request
     // await sendQuestionnaire(this.state.answers)
     //send user to new page
+    console.log("Yo1");
+    console.log(this.state.auth?.user);
+    if (this.state.auth?.isAuthenticated) {
+      console.log("Yo");
+    }
   }
 
   render() {
@@ -70,7 +79,7 @@ class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireSt
           <h4>5. Which industry of stocks are you interested in investing in?</h4>
         </label>
         {this.DropdownMultipleSelection()}
-        <a href="/dashboard">
+        <a>
           <input type="submit" onClick={this.submitClick} value="Submit" />
         </a>
 

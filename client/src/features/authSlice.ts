@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { combineReducers } from 'redux';
 
 export interface User {
     id: number;
@@ -19,7 +20,7 @@ export interface AuthState {
 // isAuthenticated depends on localStorage token field
 const initialState: AuthState = {
     auth: {
-        user: null,
+        user: JSON.parse(localStorage.getItem('user') || '{}') as User,
         token: localStorage.getItem('token'),
         isAuthenticated: false
     }
@@ -37,9 +38,19 @@ export const authSlice = createSlice({
         },
         loadUser: (state, action: PayloadAction<Auth>) => {
             localStorage.setItem('token', String(action.payload.token));
-            state.auth.user = action.payload.user;
-            state.auth.token = action.payload.token;
-            state.auth.isAuthenticated = true;
+            localStorage.setItem('user', JSON.stringify(action.payload.user));
+            localStorage.setItem('isAuthenticated', String(true));
+            // const newState = state;
+            // newState.auth.user = action.payload.user;
+            // newState.auth.token = action.payload.token;
+            // newState.auth.isAuthenticated = true;
+            // console.log(newState);
+            return {...state, auth: {
+                user: action.payload.user,
+                token: action.payload.token,
+                isAuthenticated: true
+            }
+            };
         },
         getUser: (state, action: PayloadAction<User>) => {
             state.auth.user = action.payload;

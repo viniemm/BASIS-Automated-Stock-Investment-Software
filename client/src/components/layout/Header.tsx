@@ -16,7 +16,6 @@ interface HeaderProps {
 }
 
 export default function Header({ auth }: HeaderProps) {
-
     if (!auth.isAuthenticated) {
         return (
             <div>

@@ -1,15 +1,23 @@
 // Questionnaire Models
+
+import {Auth} from "../authSlice";
+import {RootState} from "../../app/store";
+
 export interface QuestionnaireState {
     answers: QuestionnaireOutput,
     // Slider Info
     sum?: number | string,
     sliderSum?: number,
     step?: number,
-    questionnaireDone?: boolean
+    questionnaireDone?: boolean,
+    auth?: Auth,
+    authState?: RootState
 }
 
 export interface QuestionnaireProps {
-    answers: QuestionnaireOutput
+    answers: QuestionnaireOutput,
+    auth?: Auth,
+    authState?: RootState
 }
 
 export interface QuestionnaireOutput {
