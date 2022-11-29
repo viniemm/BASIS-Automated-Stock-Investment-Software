@@ -77,6 +77,7 @@ class PortfolioHistoricalReportFilters(ReportFilterAPIView):
 
 class QuestionnaireResponse(APIView):
     def post(self, request, format=None):
+        # TODO: add auth middleware instead of passing the user
         try:
             filters_dict = JsonPreprocessor.request_to_json_dict(request)
             print(filters_dict)

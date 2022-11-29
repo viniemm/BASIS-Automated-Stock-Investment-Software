@@ -18,6 +18,8 @@ interface LoginProps {
 }
 
 export default function ComponentRoutes({ auth }: LoginProps) {
+  console.log(auth.isAuthenticated);
+  console.log(auth.user);
     return (
         <Routes>
             <Route path="/" element={<Home />} />

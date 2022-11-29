@@ -12,6 +12,8 @@ import {
 import { Route, Routes } from "react-router";
 import {useSelector} from "react-redux";
 import {RootState} from "../../app/store";
+import axios, {AxiosRequestConfig} from "axios";
+import {getUser} from "../../features/authSlice";
 const options = [
   { key: 'oil', text: 'Oil and Gas', value: 'oil' },
   { key: 'food', text: 'Food and Beverages', value: 'food' },
@@ -68,7 +70,23 @@ class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireSt
     console.log("Yo1");
     console.log(this.state.auth?.user);
     if (this.state.auth?.isAuthenticated) {
-      console.log("Yo");
+      const config: AxiosRequestConfig = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${this.state.auth.token}`
+        }
+      };
+      // TODO: this.state.answers doesn't work
+      axios.post('/api/questionnaire', JSON.stringify({
+        user: this.state.auth?.user,
+        answers: this.state.answers
+      }), config)
+        .then(response => {
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 
