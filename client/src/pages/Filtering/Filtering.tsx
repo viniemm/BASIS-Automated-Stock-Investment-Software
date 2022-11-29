@@ -1,6 +1,6 @@
 import './Filtering.css';
 import React, { Component } from "react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer, Label, Line, LineChart } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer, Label, Area, AreaChart, Line, LineChart } from 'recharts';
 import axios from "axios";
 import randomColor from "randomcolor";
 import '@progress/kendo-theme-default/dist/all.css';
@@ -185,10 +185,11 @@ class Filtering extends Component<any, FilteringState> {
     return bars;
   }
   
-  renderLineCharts = () => {
+  renderLineChart = () => {
     let colorCount = 0;
     const chart = this.state.data.data_keys.map((value: any) => (
-      <Line 
+      <Line
+        connectNulls
         type = "monotone"
         key = {value}
         dataKey={value}
@@ -198,15 +199,79 @@ class Filtering extends Component<any, FilteringState> {
     return chart;
   }
 
-  renderChart(chartType: string) {
+  renderAreaChart = () => {
+    let colorCount = 0;
+    const chart = this.state.data.data_keys.map((value: any) => (
+      <Area
+        connectNulls
+        type = "monotone"
+        stackId="a"
+        key = {value}
+        dataKey={value}
+        stroke = {getRandomColorList(this.state.data.data_keys.length)[colorCount]}
+        fill = {getRandomColorList(this.state.data.data_keys.length)[colorCount++]}
+      />
+    ));
+    return chart;
+  }
+
+  renderBarCharts(chartType: string) {
     if (chartType === "stacked_bar") {
       return this.renderStackedBars();
     }
     if (chartType === "side_by_side_bar") {
       return this.renderSideBySideBars();
     }
-    if (chartType === "line_bar"){
-      return this.renderLineCharts();
+  }
+
+  renderLineCharts(chartType: string) {
+    if (chartType === "line_chart"){
+      return this.renderLineChart();
+    }
+  }
+
+  renderChart(chartType: string): any {
+    if (chartType === "stacked_bar" || chartType === "side_by_side_bar") {
+      return (
+        <BarChart data={this.state.data.data_points}>
+          <CartesianGrid />
+          <XAxis dataKey={this.state.data.x_axis.attribute} dy={40} height={120}>
+            <Label value={this.state.data.x_axis.label} dy={40} />
+          </XAxis>
+          <YAxis>
+            <Label value={this.state.data.y_axis.label} dx={-10} angle={-90} />
+          </YAxis>
+          <Tooltip />
+          <Legend dy={170} />
+          {this.renderBarCharts(this.state.chartType)}
+        </BarChart>
+      )
+    }
+    if (chartType === "line_chart"){
+      return <LineChart data={this.state.data.data_points}>
+        <XAxis dataKey={this.state.data.x_axis.attribute} dy={40} height={120}>
+          <Label value={this.state.data.x_axis.label} dy={40} />
+        </XAxis>
+        <YAxis>
+          <Label value={this.state.data.y_axis.label} dx={-10} angle={-90} />
+        </YAxis>
+        <Tooltip />
+        <Legend dy={170} />
+        {this.renderLineCharts(this.state.chartType)}
+      </LineChart>
+    }
+    if (chartType === "area_chart"){
+      return <AreaChart data={this.state.data.data_points}>
+        <XAxis dataKey={this.state.data.x_axis.attribute} dy={40} height={120}>
+          <Label value={this.state.data.x_axis.label} dy={40} />
+        </XAxis>
+        <YAxis>
+          <Label value={this.state.data.y_axis.label} dx={-10} angle={-90} />
+        </YAxis>
+        <Tooltip />
+        <Legend dy={170} />
+        {this.renderAreaChart()}
+      </AreaChart>
     }
   }
 
@@ -270,30 +335,8 @@ class Filtering extends Component<any, FilteringState> {
         >
           {this.state.error && <TransitionAlert text={this.state.error} open={this.state.open} setOpen={this.setErrorOpen} />}
           <ResponsiveContainer width="95%" aspect={2.2}>
-            <BarChart data={this.state.data.data_points}>
-              <CartesianGrid />
-              <XAxis dataKey={this.state.data.x_axis.attribute} dy={40} height={120}>
-                <Label value={this.state.data.x_axis.label} dy={40} />
-              </XAxis>
-              <YAxis>
-                <Label value={this.state.data.y_axis.label} dx={-10} angle={-90} />
-              </YAxis>
-              <Tooltip />
-              <Legend dy={170} />
-              {this.renderChart(this.state.chartType)}
-            </BarChart>
+            {this.renderChart(this.state.chartType)}
           </ResponsiveContainer>
-          <ResponsiveContainer width="95%" aspect={3}>
-            <LineChart data={this.state.data.data_points}>
-              <CartesianGrid/>
-              <XAxis dataKey={this.state.data.y_axis.attribute}>
-              </XAxis>
-              <YAxis />
-              <Tooltip />
-              <Legend/>
-              {this.renderChart(this.state.chartType)}
-              </LineChart>
-            </ResponsiveContainer>
         </PersistentDrawerLeft>
       </div>
     );
