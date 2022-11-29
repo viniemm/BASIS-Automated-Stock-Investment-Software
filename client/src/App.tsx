@@ -1,51 +1,44 @@
-import React, { Component } from 'react';
-import { Route, Routes } from "react-router";
-import Questionnaire from "./components/Questionnaire/Questionnaire";
-import Questionnaire2 from "./components/Questionnaire/Questionnaire2";
-import Questionnaire3 from "./components/Questionnaire/Questionnaire3";
-import Questionnaire4 from "./components/Questionnaire/Questionnaire4";
-import Questionnaire5 from "./components/Questionnaire/Questionnaire5";
+import React, { Component, Fragment } from 'react';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";  // try working on using hashrouter instead of browser router 
+import Header from './components/layout/Header';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from './app/store';
+import axios, { AxiosRequestConfig } from 'axios';
+import { getUser } from './features/authSlice';
+import ComponentRoutes from './components/layout/ComponentRoutes';
 
-import { Dashboard, Home, About, Filtering } from "./pages";
-import {
-  BrowserRouter as Router,
-  Link
-} from "react-router-dom";
-import Login from './pages/Login/Login';
-import Register from './pages/Register/Register';
-import { Provider } from 'react-redux';
-import store from './store';
-import { loadUser } from './actions/auth';
-import MainNavBar from './components/layout/MainNavBar';
-import Alerts from './components/layout/Alerts';
-import ProtectedRoute from './components/common/ProtectedRoute';
+function App() {
+  const dispatch = useDispatch();
 
-export default class App extends Component {
-  // lifecycle method
-  // fires off whenever App loads
-  componentDidMount() { store.dispatch(loadUser()) }
+  const authState = useSelector(
+    (state: RootState) => state.auth.auth
+  );
 
-  render() {
-    return (
-      <Provider store={store}>
-        <Router>
-          <MainNavBar />
-          <Alerts />
-          <div className='container'>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/filtering" element={<Filtering />} />
-              <Route path="/questionnaire" element={<Questionnaire />} />
-              <Route path="/questionnaire2" element={<Questionnaire2 answers={{}} />} />
-              <Route path="/questionnaire3" element={<Questionnaire3 answers={{}} />} />
-              <Route path="/questionnaire4" element={<Questionnaire4 answers={{}} />} />
-              <Route path="/questionnaire5" element={<Questionnaire5 answers={{}} />} />
-            </Routes>
-          </div>
-        </Router>
-      </Provider>
-    );
+  if (authState.token !== null && !authState.isAuthenticated) {
+    const config: AxiosRequestConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${authState.token}`
+      }
+    };
+
+    axios.get('/api/auth/user', config)
+      .then(response => {
+        dispatch(getUser(response.data));
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
+
+  return (
+    <Router>
+      <Fragment>
+        <Header auth={authState} />
+        <ComponentRoutes auth={authState} />
+      </Fragment>
+    </Router>
+  );
 }
+
+export default App

@@ -18,7 +18,7 @@ class PortfolioHistoricalDerivedModelParser(PortfolioDerivedModelParser):
 
     def contains_field(self, base_filter, field):
         if isinstance(base_filter, QueryComplexFilter):
-            if len(base_filter.filters) > 0 and base_filter.filters[0].filed == field:
+            if len(base_filter.filters) > 0 and base_filter.filters[0].field == field:
                 return True
         elif base_filter.field == field:
             return True
