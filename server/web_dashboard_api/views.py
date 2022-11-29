@@ -104,3 +104,21 @@ class QuestionnaireResponse(APIView):
             traceback.print_exc()
             return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
 
+    def populate(self, tots: list, term: int):
+        data = yf.download(tickers=tots,
+                           period=str(term) + "y",
+                           interval="1d",
+                           group_by='column',
+                           auto_adjust=True,
+                           prepost=False,
+                           threads=True,
+                           proxy=None
+                           )
+        return data["Close"]
+
+    def allocate(self, criteria: list, period: int) -> list:
+        df = populate(tots=criteria, term=period)
+        ef = EfficientFrontier(expected_returns.mean_historical_return(df), risk_models.sample_cov(df))
+        cleaned_weights = ef.clean_weights()
+        st = ef.portfolio_performance(verbose=True)
+        return [cleaned_weights, st]
