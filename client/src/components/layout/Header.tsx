@@ -86,6 +86,12 @@ export default function Header({ auth }: HeaderProps) {
                 Dashboard
             </Button>
             <Button
+              id="questionnaire"
+              aria-haspopup="false"
+              href='/questionnaire'>
+              Questionnaire
+            </Button>
+            <Button
                 id="filtering"
                 aria-haspopup="false"
                 href='/filtering'>
