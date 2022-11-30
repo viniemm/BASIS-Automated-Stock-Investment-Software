@@ -9,8 +9,42 @@ import { Checkbox, Chip } from "@mui/material";
 import ListItemText from "@mui/material/ListItemText";
 import { MenuProps } from "../MenuProps";
 import { getStoredOptions } from "./CommonFilterLogic";
-import { CategoryFilterProps } from '../../features/types/StateModels';
-import { Filter } from '../../features/types/StateModels';
+import { ReactNode } from "react"; // for FilterAvailable
+
+export interface Filter {
+  field: string,
+  operator: string,
+  value: string
+}
+
+export interface FilterAvailable {
+  label: ReactNode;
+  field: string;
+  options: FilterAvailableOption[]
+}
+
+export interface FilterAvailableOption {
+  label: string,
+  field_value: string
+}
+
+export interface StoredFilter {
+  filters: StoredFilterSubFilter[]
+}
+
+export interface StoredFilterSubFilter {
+  value: string
+}
+
+export interface FilterChanged {
+  (filterId?: unknown, filter?: unknown): void;
+}
+
+export interface CategoryFilterProps {
+  filterAvailable: FilterAvailable,
+  storedFilter: StoredFilter,
+  filterChanged: FilterChanged
+}
 
 
 export default function CategoryFilter(props: CategoryFilterProps) {

@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Link, Navigate } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout } from '../../features/actions/auth';
 import {
     Typography,
     Button,
@@ -16,7 +15,7 @@ interface HeaderProps {
 }
 
 export default function Header({ auth }: HeaderProps) {
-    if (!auth.isAuthenticated) {
+    if (auth.isAuthenticated) {
         return (
             <div>
                 <Typography
@@ -36,15 +35,37 @@ export default function Header({ auth }: HeaderProps) {
                     BASIS
                 </Typography>
                 <Button
-                    id="login"
-                    href='/login'>
-                    Login
+                    id="home"
+                    aria-haspopup="false"
+                    href='/'>
+                    Home
                 </Button>
                 <Button
-                    id="register"
-                    href='/register'>
-                    Register
+                    id="about"
+                    aria-haspopup="false"
+                    href='/about'>
+                    About
                 </Button>
+                <Button
+                    id="dashboard"
+                    aria-haspopup="false"
+                    href='/dashboard'>
+                    Dashboard
+                </Button>
+                <Button
+                    id="questionnaire"
+                    aria-haspopup="false"
+                    href='/questionnaire'>
+                    Questionnaire
+                </Button>
+                <Button
+                    id="filtering"
+                    aria-haspopup="false"
+                    href='/filtering'>
+                    Filtering
+                </Button>
+                <LogoutButton auth={auth} />
+                <hr />
             </div>
         );
     }
@@ -67,37 +88,15 @@ export default function Header({ auth }: HeaderProps) {
                 BASIS
             </Typography>
             <Button
-                id="home"
-                aria-haspopup="false"
-                href='/'>
-                Home
+                id="login"
+                href='/login'>
+                Login
             </Button>
             <Button
-                id="about"
-                aria-haspopup="false"
-                href='/about'>
-                About
+                id="register"
+                href='/register'>
+                Register
             </Button>
-            <Button
-                id="dashboard"
-                aria-haspopup="false"
-                href='/dashboard'>
-                Dashboard
-            </Button>
-            <Button
-              id="questionnaire"
-              aria-haspopup="false"
-              href='/questionnaire'>
-              Questionnaire
-            </Button>
-            <Button
-                id="filtering"
-                aria-haspopup="false"
-                href='/filtering'>
-                Filtering
-            </Button>
-            <LogoutButton auth={auth} />
-            <hr />
         </div>
     )
 }

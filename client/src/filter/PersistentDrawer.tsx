@@ -18,9 +18,14 @@ import ReportDropdown from "./ReportDropdown";
 import Loading from "./Loading";
 import DateFilter from "./filters/DateFilter";
 import ChartType from "./ChartType";
-import { Filter } from '../features/types/StateModels';
 
 const drawerWidth = 400;
+
+export interface Filter {
+  field: string,
+  operator: string,
+  value: string
+}
 
 type ExtraProps = {
   open: any;

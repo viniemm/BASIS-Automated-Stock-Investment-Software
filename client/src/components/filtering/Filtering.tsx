@@ -10,7 +10,18 @@ import {
   indicatorsEndpointAvailable, portfolioHistoricalDefaultState, portfolioHistoricalEndpointAvailable
 } from '../../filter/endpoint_constants/IndicatorsEndpointConstants';
 import TransitionAlert from '../../filter/TransitionAlert';
-import {FilteringState} from "../../features/types/StateModels";
+
+export interface FilteringState {
+  processingRequest: boolean,
+  chartType: string,
+  errorOpen: boolean,
+  error: any,
+  reportState: any,
+  filtersAvailable: any,
+  filterFields: any,
+  data: any,
+  open?: any
+}
 
 
 const getRandomColorList = (colorCount: number) => {
@@ -190,10 +201,10 @@ class Filtering extends Component<any, FilteringState> {
     const chart = this.state.data.data_keys.map((value: any) => (
       <Line
         connectNulls
-        type = "monotone"
-        key = {value}
+        type="monotone"
+        key={value}
         dataKey={value}
-        stroke = {getRandomColorList(this.state.data.data_keys.length)[colorCount++]}
+        stroke={getRandomColorList(this.state.data.data_keys.length)[colorCount++]}
       />
     ));
     return chart;
@@ -204,12 +215,12 @@ class Filtering extends Component<any, FilteringState> {
     const chart = this.state.data.data_keys.map((value: any) => (
       <Area
         connectNulls
-        type = "monotone"
+        type="monotone"
         stackId="a"
-        key = {value}
+        key={value}
         dataKey={value}
-        stroke = {getRandomColorList(this.state.data.data_keys.length)[colorCount]}
-        fill = {getRandomColorList(this.state.data.data_keys.length)[colorCount++]}
+        stroke={getRandomColorList(this.state.data.data_keys.length)[colorCount]}
+        fill={getRandomColorList(this.state.data.data_keys.length)[colorCount++]}
       />
     ));
     return chart;
@@ -225,7 +236,7 @@ class Filtering extends Component<any, FilteringState> {
   }
 
   renderLineCharts(chartType: string) {
-    if (chartType === "line_chart"){
+    if (chartType === "line_chart") {
       return this.renderLineChart();
     }
   }
@@ -247,7 +258,7 @@ class Filtering extends Component<any, FilteringState> {
         </BarChart>
       )
     }
-    if (chartType === "line_chart"){
+    if (chartType === "line_chart") {
       return <LineChart data={this.state.data.data_points}>
         <XAxis dataKey={this.state.data.x_axis.attribute} dy={40} height={120}>
           <Label value={this.state.data.x_axis.label} dy={40} />
@@ -260,7 +271,7 @@ class Filtering extends Component<any, FilteringState> {
         {this.renderLineCharts(this.state.chartType)}
       </LineChart>
     }
-    if (chartType === "area_chart"){
+    if (chartType === "area_chart") {
       return <AreaChart data={this.state.data.data_points}>
         <XAxis dataKey={this.state.data.x_axis.attribute} dy={40} height={120}>
           <Label value={this.state.data.x_axis.label} dy={40} />
