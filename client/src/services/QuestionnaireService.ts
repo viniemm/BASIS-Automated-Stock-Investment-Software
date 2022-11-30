@@ -1,8 +1,15 @@
 import axios from 'axios';
 import { Console } from 'console';
-import { QuestionnaireOutput } from '../features/types/QuestionnaireTypes';
 
 // POST QUESTIONNAIRE
+
+interface QuestionnaireOutput {
+    moneyInvested?: number,
+    riskThreshold?: number,
+    termPeriod?: string,
+    investPrev?: boolean,
+    industries?: string[]
+}
 
 export const sendQuestionnaire = async (answers: QuestionnaireOutput) => {
     const response = await axios

@@ -15,7 +15,7 @@ export default function LogoutButton({ auth }: LogoutProps) {
     return (
         <Button
             id="logout"
-            href='/dashboard'
+            href='/home'
             onClick={() => {
                 // Get Token from State
                 const token = auth.token;

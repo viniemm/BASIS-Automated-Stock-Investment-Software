@@ -45,15 +45,17 @@ export const authSlice = createSlice({
             // newState.auth.token = action.payload.token;
             // newState.auth.isAuthenticated = true;
             // console.log(newState);
-            return {...state, auth: {
-                user: action.payload.user,
-                token: action.payload.token,
-                isAuthenticated: true
-            }
+            return {
+                ...state, auth: {
+                    user: action.payload.user,
+                    token: action.payload.token,
+                    isAuthenticated: true
+                }
             };
         },
         getUser: (state, action: PayloadAction<User>) => {
             state.auth.user = action.payload;
+            state.auth.token = localStorage.getItem('token')
             state.auth.isAuthenticated = true;
         }
     }
