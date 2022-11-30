@@ -29,9 +29,9 @@ class BaseXAxisProcessor:
                 if x_axis_attribute:
                     x_axis_attributes.append(x_axis_attribute)
         # TODO: decide whether to keep this or not
-        # all_buckets = self.get_all_buckets(x_axis_attributes, self.granularity)
-        # for bucket in all_buckets:
-        #     x_axis_buckets[bucket] = dict()
+        all_buckets = self.get_all_buckets(x_axis_attributes, self.granularity)
+        for bucket in all_buckets:
+            x_axis_buckets[bucket] = dict()
         # Fill buckets
         for breakdown_key, breakdown_bucket in breakdown_buckets.items():
             for derived_model in breakdown_bucket:
@@ -47,7 +47,7 @@ class BaseXAxisProcessor:
                     x_axis_buckets[x_axis_bucket][breakdown_key] = []
                 x_axis_buckets[x_axis_bucket][breakdown_key].append(derived_model)
         # TODO: sort or not
-        return dict(sorted(x_axis_buckets.items()))
+        return x_axis_buckets
 
 
 class CategoryXAxisProcessor(BaseXAxisProcessor):
@@ -64,6 +64,15 @@ class FloatXAxisProcessor(BaseXAxisProcessor):
     def __init__(self, attribute: str, granularity):
         super().__init__(attribute, granularity, FloatGranularityProcessor())
 
+
+class SkipNullFloatXAxisProcessor(FloatXAxisProcessor):
+    def get_x_axis_buckets(self, breakdown_buckets: {str: [BaseDerivedModel]}) -> {str: {str: [BaseDerivedModel]}}:
+        returned_dict = super().get_x_axis_buckets(breakdown_buckets)
+        new_dict = {}
+        for key, items in returned_dict.items():
+            if len(items) > 0:
+                new_dict[key] = items
+        return dict(sorted(new_dict.items()))
 
 class DateXAxisProcessor(BaseXAxisProcessor):
     def __init__(self, attribute: str, granularity):

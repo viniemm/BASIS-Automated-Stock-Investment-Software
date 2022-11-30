@@ -1,59 +1,44 @@
-import React from 'react';
-import { Route, Routes } from "react-router";
-import { Dashboard, Home, About } from "./pages";
-import Questionnaire from "./components/Questionnaire/Questionnaire";
-import Questionnaire2 from "./components/Questionnaire/Questionnaire2";
-import Questionnaire3 from "./components/Questionnaire/Questionnaire3";
-import Questionnaire4 from "./components/Questionnaire/Questionnaire4";
-import Questionnaire5 from "./components/Questionnaire/Questionnaire5";
+import React, { Component, Fragment } from 'react';
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";  // try working on using hashrouter instead of browser router 
+import Header from './components/layout/Header';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from './app/store';
+import axios, { AxiosRequestConfig } from 'axios';
+import { getUser } from './features/authSlice';
+import ComponentRoutes from './components/layout/ComponentRoutes';
 
-import {
-  BrowserRouter as Router,
-  Link
-} from "react-router-dom";
+function App() {
+  const dispatch = useDispatch();
 
-// This site has 3 pages, all of which are rendered
-// dynamically in the browser (not server rendered).
+  const authState = useSelector(
+    (state: RootState) => state.auth.auth
+  );
 
-export default function App() {
+  if (authState.token !== null && !authState.isAuthenticated) {
+    const config: AxiosRequestConfig = {
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Token ${authState.token}`
+      }
+    };
+
+    axios.get('/api/auth/user', config)
+      .then(response => {
+        dispatch(getUser(response.data));
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }
+
   return (
     <Router>
-      <div>
-        <ul>
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/dashboard">Dashboard</Link>
-          </li>
-          <li>
-            <Link to="/questionnaire">Questionnaire</Link>
-          </li>
-        </ul>
-
-        <hr />
-
-        {/*
-          A <Switch> looks through all its children <Route>
-          elements and renders the first one whose path
-          matches the current URL. Use a <Switch> any time
-          you have multiple routes, but you want only one
-          of them to render at a time
-        */}
-        <Routes>
-          <Route path="/" element={<Home/>}/>
-          <Route path="/about" element={<About/>}/>
-          <Route path="/dashboard" element={<Dashboard/>}/>
-          <Route path="/questionnaire" element={<Questionnaire/>}/>
-          <Route path="/questionnaire2" element={<Questionnaire2 answers={{}}/>}/>
-          <Route path="/questionnaire3" element={<Questionnaire3 answers={{}}/>}/>
-          <Route path="/questionnaire4" element={<Questionnaire4 answers={{}}/>}/>
-          <Route path="/questionnaire5" element={<Questionnaire5 answers={{}}/>}/>
-        </Routes>
-      </div>
+      <Fragment>
+        <Header auth={authState} />
+        <ComponentRoutes auth={authState} />
+      </Fragment>
     </Router>
   );
 }
+
+export default App

@@ -39,8 +39,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'rest_framework',
-    'web_dashboard_api.apps.WebDashboardApiConfig',
+    'web_dashboard_api',
+    'knox',
+    'users',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':
+    ('knox.auth.TokenAuthentication',)
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -58,8 +65,7 @@ ROOT_URLCONF = 'server.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -99,7 +105,7 @@ DATABASES = {
         'OPTIONS': {
             'options': '-c search_path=stocks'
         },
-        'NAME': 'stocks', # database name
+        'NAME': 'stocks',  # database name
         'USER': 'csds395',
         'PASSWORD': 'csds3950',
         'HOST': 'ec2-3-209-1-247.compute-1.amazonaws.com',
@@ -154,8 +160,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 CORS_ORIGIN_WHITELIST = [
-     'http://localhost:3000',
-     'http://localhost',
-     'http://django:8000',
-     'http://django'
+    'http://localhost:3000',
+    'http://localhost',
+    'http://django:8000',
+    'http://django'
 ]

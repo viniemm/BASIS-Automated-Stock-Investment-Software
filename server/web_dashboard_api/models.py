@@ -19,8 +19,10 @@ class Companies(models.Model):
     industry = models.CharField(max_length=100)
     current_price = models.DecimalField(max_digits=8, decimal_places=3)
     market_cap = models.BigIntegerField()
-    ebitda = models.DecimalField(max_digits=16, decimal_places=1, blank=True, null=True)
-    revenue_growth = models.DecimalField(max_digits=8, decimal_places=3, blank=True, null=True)
+    ebitda = models.DecimalField(
+        max_digits=16, decimal_places=1, blank=True, null=True)
+    revenue_growth = models.DecimalField(
+        max_digits=8, decimal_places=3, blank=True, null=True)
     city = models.CharField(max_length=100)
     state = models.CharField(max_length=100, blank=True, null=True)
     country = models.CharField(max_length=100)
@@ -36,7 +38,8 @@ class Companies(models.Model):
 class Indicators(models.Model):
     id = models.IntegerField(primary_key=True)
     year = models.IntegerField()
-    symbol = models.ForeignKey(Companies, models.DO_NOTHING, db_column='symbol')
+    symbol = models.ForeignKey(
+        Companies, models.DO_NOTHING, db_column='symbol')
     revenue = models.FloatField(blank=True, null=True)
     revenue_growth = models.FloatField(blank=True, null=True)
     gross_profit = models.FloatField(blank=True, null=True)
@@ -71,12 +74,24 @@ class Indicators(models.Model):
     net_income_growth = models.FloatField(blank=True, null=True)
     weighted_average_shares_growth = models.FloatField(blank=True, null=True)
     free_cash_flow_growth = models.FloatField(blank=True, null=True)
-    field_10y_revenue_growth_per_share = models.FloatField(db_column='_10y_revenue_growth_per_share', blank=True, null=True)  # Field renamed because it started with '_'.
-    field_5y_revenue_growth_per_share = models.FloatField(db_column='_5y_revenue_growth_per_share', blank=True, null=True)  # Field renamed because it started with '_'.
-    field_3y_revenue_growth_per_share = models.FloatField(db_column='_3y_revenue_growth_per_share', blank=True, null=True)  # Field renamed because it started with '_'.
-    field_10y_net_income_growth_per_share = models.FloatField(db_column='_10y_net_income_growth_per_share', blank=True, null=True)  # Field renamed because it started with '_'.
-    field_5y_net_income_growth_per_share = models.FloatField(db_column='_5y_net_income_growth_per_share', blank=True, null=True)  # Field renamed because it started with '_'.
-    field_3y_net_income_growth_per_share = models.FloatField(db_column='_3y_net_income_growth_per_share', blank=True, null=True)  # Field renamed because it started with '_'.
+    # Field renamed because it started with '_'.
+    field_10y_revenue_growth_per_share = models.FloatField(
+        db_column='_10y_revenue_growth_per_share', blank=True, null=True)
+    # Field renamed because it started with '_'.
+    field_5y_revenue_growth_per_share = models.FloatField(
+        db_column='_5y_revenue_growth_per_share', blank=True, null=True)
+    # Field renamed because it started with '_'.
+    field_3y_revenue_growth_per_share = models.FloatField(
+        db_column='_3y_revenue_growth_per_share', blank=True, null=True)
+    # Field renamed because it started with '_'.
+    field_10y_net_income_growth_per_share = models.FloatField(
+        db_column='_10y_net_income_growth_per_share', blank=True, null=True)
+    # Field renamed because it started with '_'.
+    field_5y_net_income_growth_per_share = models.FloatField(
+        db_column='_5y_net_income_growth_per_share', blank=True, null=True)
+    # Field renamed because it started with '_'.
+    field_3y_net_income_growth_per_share = models.FloatField(
+        db_column='_3y_net_income_growth_per_share', blank=True, null=True)
     asset_growth = models.FloatField(blank=True, null=True)
     debt_growth = models.FloatField(blank=True, null=True)
 
@@ -88,7 +103,8 @@ class Indicators(models.Model):
 class StocksData(models.Model):
     id = models.BigIntegerField(blank=True, primary_key=True)
     date = models.TextField(blank=True, null=True)
-    symbol = models.ForeignKey(Companies, models.DO_NOTHING, db_column='symbol', blank=True, null=True)
+    symbol = models.ForeignKey(
+        Companies, models.DO_NOTHING, db_column='symbol', blank=True, null=True)
     close = models.FloatField(blank=True, null=True)
     volume = models.FloatField(blank=True, null=True)
 
@@ -113,12 +129,15 @@ class Portfolio(models.Model):
     id = models.CharField(db_index=True, max_length=12, primary_key=True)
     name = models.CharField(max_length=50, default="My Portfolio")
     user = models.ForeignKey(User, db_index=True,
-                             on_delete=models.SET(get_parked_user))
+                             on_delete=models.SET(get_parked_user))  # the data model that the user will connect to
+    value = models.FloatField(blank=False, null=False, default=0)
     created_at = models.DateTimeField(auto_now_add=True)
 
 
 class PortfolioSelection(models.Model):
     id = models.CharField(db_index=True, max_length=12, primary_key=True)
     portfolio = models.ForeignKey(Portfolio, db_index=True,
-                             on_delete=models.DO_NOTHING, db_column='portfolio_id')
-    companies = models.ForeignKey(Companies, models.DO_NOTHING, db_column='stock_symbol')
+                                  on_delete=models.DO_NOTHING, db_column='portfolio_id')
+    symbol = models.ForeignKey(
+        Companies, models.DO_NOTHING, db_column='stock_symbol')
+    allocation = models.FloatField(blank=False, null=False, default=0)

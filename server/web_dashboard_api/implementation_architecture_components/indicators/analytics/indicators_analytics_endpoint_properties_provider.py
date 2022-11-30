@@ -10,7 +10,8 @@ from web_dashboard_api.base_architecture_components.post_processing.breakdown_pr
 from web_dashboard_api.base_architecture_components.post_processing.breakdown_property_validator import \
     CategoryBreakdownEndpointPropertyValidator, NumberBreakdownEndpointPropertyValidator
 from web_dashboard_api.base_architecture_components.post_processing.x_axis_property_parser import \
-    IntegerXAxisEndpointPropertyParser, FinishesAtDateXAxisEndpointPropertyParser, FloatXAxisEndpointPropertyParser
+    IntegerXAxisEndpointPropertyParser, FinishesAtDateXAxisEndpointPropertyParser, FloatXAxisEndpointPropertyParser, \
+    SkipNullFloatXAxisEndpointPropertyParser
 from web_dashboard_api.base_architecture_components.post_processing.x_axis_property_provider import \
     XAxisPropertyProcessorProvider
 from web_dashboard_api.base_architecture_components.post_processing.x_axis_property_validator import \
@@ -52,12 +53,22 @@ class IndicatorsAnalyticsEndpointPropertiesProvider(BaseEndpointPropertiesProvid
         x_axis_property_providers.append(XAxisPropertyProcessorProvider(
             XAxisEndpointPropertyAvailable("revenue_bil", "Revenue Billions", [Granularity.digit]),
             NumberXAxisEndpointPropertyValidator,
-            FloatXAxisEndpointPropertyParser
+            SkipNullFloatXAxisEndpointPropertyParser
         ))
 
         y_axis_property_providers = []
         y_axis_property_providers.append(YAxisPropertyProcessorProvider(
             YAxisEndpointPropertyAvailable("count", "Count", [Granularity.digit], ["count"]),
+            BaseYAxisEndpointPropertyValidator,
+            IntegerYAxisEndpointPropertyParser
+        ))
+        y_axis_property_providers.append(YAxisPropertyProcessorProvider(
+            YAxisEndpointPropertyAvailable("revenue_bil", "Total gross profit", [Granularity.digit], ["total"]),
+            BaseYAxisEndpointPropertyValidator,
+            IntegerYAxisEndpointPropertyParser
+        ))
+        y_axis_property_providers.append(YAxisPropertyProcessorProvider(
+            YAxisEndpointPropertyAvailable("revenue_bil", "Average gross profit", [Granularity.digit], ["average"]),
             BaseYAxisEndpointPropertyValidator,
             IntegerYAxisEndpointPropertyParser
         ))

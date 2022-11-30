@@ -7,7 +7,7 @@ from web_dashboard_api.base_architecture_components.derived_model.base_derived_m
 from web_dashboard_api.base_architecture_components.filter_query.query_filter_models import QueryComplexFilter
 from web_dashboard_api.implementation_architecture_components.indicators.indicators_derived_model import \
     IndicatorsDerivedModel
-from web_dashboard_api.implementation_architecture_components.indicators.industries import get_industry_type_dict
+from web_dashboard_api.implementation_architecture_components.industries import get_industry_type_dict
 from web_dashboard_api.models import Indicators
 
 
