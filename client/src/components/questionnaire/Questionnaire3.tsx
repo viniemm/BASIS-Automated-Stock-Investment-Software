@@ -64,7 +64,6 @@ class Questionnaire3 extends React.Component<QuestionnaireProps, QuestionnaireSt
   }
 
   render() {
-    
     return (
       <div className="App">
         <label htmlFor="sliderinput" >
