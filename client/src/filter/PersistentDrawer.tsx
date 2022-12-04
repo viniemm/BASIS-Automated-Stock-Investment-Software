@@ -18,18 +18,11 @@ import ReportDropdown from "./ReportDropdown";
 import Loading from "./Loading";
 import DateFilter from "./filters/DateFilter";
 import ChartType from "./ChartType";
+import { Filter, ExtraProps, Subfilters } from './models/Models';
 
 const drawerWidth = 400;
 
-export interface Filter {
-  field: string,
-  operator: string,
-  value: string
-}
 
-type ExtraProps = {
-  open: any;
-}
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<ExtraProps>(
   ({ theme, open }) => ({
@@ -93,11 +86,11 @@ export default function PersistentDrawerLeft(props: any) {
     filtersChanged,
     filterState
   } = props;
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  interface Subfilters {
-    field: any
-  }
+
+
   const parseFilterStateToMap = () => {
     // TODO: this function makes a bunch of assumptions about formatting
     if (filterState != null) {

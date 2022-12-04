@@ -1,7 +1,7 @@
 import './Filtering.css';
 import React, { Component } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer, Label, Area, AreaChart, Line, LineChart } from 'recharts';
-import axios from "axios";
+import axios, { AxiosRequestConfig, CancelTokenSource } from "axios";
 import randomColor from "randomcolor";
 import '@progress/kendo-theme-default/dist/all.css';
 import PersistentDrawerLeft from '../../filter/PersistentDrawer';
@@ -10,18 +10,8 @@ import {
   indicatorsEndpointAvailable, portfolioHistoricalDefaultState, portfolioHistoricalEndpointAvailable
 } from '../../filter/endpoint_constants/IndicatorsEndpointConstants';
 import TransitionAlert from '../../filter/TransitionAlert';
-
-export interface FilteringState {
-  processingRequest: boolean,
-  chartType: string,
-  errorOpen: boolean,
-  error: any,
-  reportState: any,
-  filtersAvailable: any,
-  filterFields: any,
-  data: any,
-  open?: any
-}
+import { FilteringState } from '../../filter/models/Models';
+import { Auth } from '../../features/authSlice';
 
 
 const getRandomColorList = (colorCount: number) => {
@@ -53,14 +43,18 @@ const defaultFilterFields = new Map([
   ["portfolio_historical", portfolioHistoricalDefaultState]
 ]);
 
-class Filtering extends Component<any, FilteringState> {
-  updateTimer: any;
-  cancelTokenSource: any;
 
-  constructor(props: Record<string, unknown> | Readonly<unknown>) {
+class Filtering extends Component<any, FilteringState> {
+  updateTimer: NodeJS.Timeout | null;
+  cancelTokenSource: CancelTokenSource;
+  authentication: Auth;
+
+  constructor(auth: Auth, props: Record<string, unknown> | Readonly<unknown>) {
     super(props);
     this.updateTimer = null;
+    this.authentication = auth;
     this.cancelTokenSource = axios.CancelToken.source();
+
     this.state = {
       processingRequest: false,
       chartType: "stacked_bar",
@@ -81,7 +75,10 @@ class Filtering extends Component<any, FilteringState> {
         data_keys: [],
         data_points: []
       }
+
     };
+
+
     // Binding state to dropdown changed function
     this.filtersChanged = this.filtersChanged.bind(this);
     this.reportChanged = this.reportChanged.bind(this);
@@ -113,6 +110,7 @@ class Filtering extends Component<any, FilteringState> {
     })
   }
 
+  // authenticate upon refresh
   refreshGraphData = () => {
     console.log("Refreshing Graph Data")
     this.setState({
@@ -120,23 +118,31 @@ class Filtering extends Component<any, FilteringState> {
     });
     this.updateTimer = null;
     this.cancelTokenSource = axios.CancelToken.source();
-    axios.post(this.state.reportState.endpoint, JSON.stringify(this.state.filterFields), {
-      cancelToken: this.cancelTokenSource.token
-    })
-      .then((res) => {
-        if (res.status !== 200) {
-          this.handleBadReturn(res.statusText);
-        } else {
-          this.setState({
-            processingRequest: false,
-            data: res.data
-          })
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        this.handleBadReturn(err.message + ": " + err.response.data);
-      });
+    if (this.authentication.token !== null && !this.authentication.isAuthenticated) {
+      const config: AxiosRequestConfig = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${this.authentication.token}`
+        },
+        cancelToken: this.cancelTokenSource.token
+      };
+      const filterFieldsSerialized = JSON.stringify(this.state.filterFields)
+      axios.post(this.state.reportState.endpoint, filterFieldsSerialized, config)
+        .then((res) => {
+          if (res.status !== 200) {
+            this.handleBadReturn(res.statusText);
+          } else {
+            this.setState({
+              processingRequest: false,
+              data: res.data
+            })
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          this.handleBadReturn(err.message + ": " + err.response.data);
+        });
+    }
   };
 
   getAvailableFilters = () => {
