@@ -60,21 +60,22 @@ class Questionnaire3 extends React.Component<QuestionnaireProps, QuestionnaireSt
   constructor(props: QuestionnaireProps) {
     super(props)
     this.state.answers = props.answers
-    this.state.answers.termPeriod = '<2 years';
+    this.state.answers.termPeriod = '';
   }
 
   render() {
+    
     return (
       <div className="App">
         <label htmlFor="sliderinput" >
           <h4>3. What is the estimated term period of the portfolio?</h4>
         </label>
-        {this.DropdownSelection()}
-
-        <li>
-          <Link to="/questionnaire4">Next Question</Link>
-        </li>
-
+        <form action = "/questionnaire4">
+          <input required value={this.state.answers.termPeriod} className="hidden"/>
+          {this.DropdownSelection()}
+          <br />
+          <input type = "submit"></input>
+          </form>
         <Routes>
           <Route path="/questionnaire4" element={<Questionnaire4 answers={this.state.answers} />} />
         </Routes>

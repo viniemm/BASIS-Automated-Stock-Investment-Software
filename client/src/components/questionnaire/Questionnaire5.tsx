@@ -14,6 +14,8 @@ import {useSelector} from "react-redux";
 import {RootState} from "../../app/store";
 import axios, {AxiosRequestConfig} from "axios";
 import {getUser} from "../../features/authSlice";
+import Questionnaire6 from "./Questionnaire6";
+
 const options = [
   { key: 'oil', text: 'Oil and Gas', value: 'oil' },
   { key: 'food', text: 'Food and Beverages', value: 'food' },
@@ -96,11 +98,18 @@ class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireSt
         <label htmlFor="sliderinput" >
           <h4>5. Which industry of stocks are you interested in investing in?</h4>
         </label>
-        {this.DropdownMultipleSelection()}
-        <a>
+        {/**Redirected page after user submitts questionnaire */}
+        <form action = "/questionnaire6"> 
+          <input value={this.state.answers.industries?.length ? 'set' : ''} className="hidden" required/>
+          {this.DropdownMultipleSelection()}          
+          <br />
+          <a>
           <input type="submit" onClick={this.submitClick} value="Submit" />
-        </a>
-
+          </a>
+        </form>
+        <Routes>
+          <Route path="/questionnaire6" element={<Questionnaire6 answers={this.state.answers} />} />
+        </Routes>
       </div>
     )
   }

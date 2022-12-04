@@ -9,6 +9,7 @@ import {
 import { Route, Routes } from "react-router";
 import Questionnaire2 from "./Questionnaire2";
 
+
 // Constands for these for simplicity, would typically be props
 const max = 10000;
 const min = 1000;
@@ -53,7 +54,7 @@ class Questionnaire extends React.Component {
       sum,
       sliderSum: sum
     });
-  };
+  }; 
 
   render() {
     return (
@@ -62,16 +63,23 @@ class Questionnaire extends React.Component {
         >
           <h4>1. How much money are you willing to invest (In $)?</h4>
         </label>
-
-        <Input
-          type="text"
-          name={"sliderinput"}
-          id={"sliderinput"}
-          value={this.state.sum}
-          placeholder="$10000"
-          onChange={(e: { target: { value: string; }; }) => this.onInputChange(e.target.value)}
-          onFocus={() => this.setState({ step: 1 })} // When the input is focused, set step value to 1
-        />
+        <form action = "/questionnaire2">
+          <Input
+            type="text"
+            name={"sliderinput"}
+            id={"sliderinput"}
+            value={this.state.sum}
+            placeholder="$10000"
+            onChange={(e: { target: { value: string; }; }) => this.onInputChange(e.target.value)}
+            onFocus={() => this.setState({ step: 1 })} // When the input is focused, set step value to 1
+            required
+            onKeyPress={(event: { key: string; preventDefault: () => void; }) => {
+              if (!/[0-9]/.test(event.key)) {
+                event.preventDefault();
+              }
+            }}
+          />
+        
         <ControlledSlider
           min={min}
           max={max}
@@ -80,10 +88,9 @@ class Questionnaire extends React.Component {
           onUpdate={(value: any) => this.onSliderChange(value)}
           onSlideStart={(value: any) => this.onSlideStart(value)}
         />
-        <li>
-          <Link to="/questionnaire2">Next Question</Link>
-        </li>
-
+        <br />
+        <input type = "submit"/>
+        </form>
         <Routes>
           <Route path="/questionnaire2" element={<Questionnaire2 answers={{ moneyInvested: this.state.sliderSum }} />} />
         </Routes>

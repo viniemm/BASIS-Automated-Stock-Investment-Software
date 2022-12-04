@@ -12,6 +12,8 @@ import Questionnaire2 from "../questionnaire/Questionnaire2";
 import Questionnaire3 from "../questionnaire/Questionnaire3";
 import Questionnaire4 from "../questionnaire/Questionnaire4";
 import Questionnaire5 from "../questionnaire/Questionnaire5";
+import Questionnaire6 from "../questionnaire/Questionnaire6";
+
 
 interface LoginProps {
     auth: Auth;
@@ -32,7 +34,8 @@ export default function ComponentRoutes({ auth }: LoginProps) {
             <Route path="/questionnaire2" element={<Questionnaire2 answers={{}} />} />
             <Route path="/questionnaire3" element={<Questionnaire3 answers={{}} />} />
             <Route path="/questionnaire4" element={<Questionnaire4 answers={{}} />} />
-            <Route path="/questionnaire5" element={<Questionnaire5  {...{
+            <Route path="/questionnaire5" element={<Questionnaire5 answers={{}} />} />
+            <Route path="/questionnaire6" element={<Questionnaire6  {...{
               answers: {},
               auth: auth
             }}/>} />

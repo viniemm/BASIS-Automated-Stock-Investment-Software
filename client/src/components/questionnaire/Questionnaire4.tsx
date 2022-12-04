@@ -47,7 +47,7 @@ class Questionnaire4 extends React.Component<QuestionnaireProps, QuestionnaireSt
   constructor(props: QuestionnaireProps) {
     super(props)
     this.state.answers = props.answers
-    this.state.answers.investPrev = false;
+    this.state.answers.investPrev = {} as boolean;
   }
 
   render() {
@@ -56,11 +56,12 @@ class Questionnaire4 extends React.Component<QuestionnaireProps, QuestionnaireSt
         <label htmlFor="sliderinput" >
           <h4>4. Have you invested in the stock market before?</h4>
         </label>
-        {this.DropdownSelection()}
-
-        <li>
-          <Link to="/questionnaire5">Next Question</Link>
-        </li>
+        <form action = "/questionnaire5">
+          <input value={typeof this.state.answers.investPrev == 'boolean' ? 'set' : ''} className="hidden" required/>
+          {this.DropdownSelection()}
+          <br />
+          <input type = "submit"></input>
+        </form>
 
         <Routes>
           <Route path="/questionnaire5" element={<Questionnaire5 answers={this.state.answers} />} />

@@ -72,29 +72,32 @@ class Questionnaire2 extends React.Component<QuestionnaireProps, QuestionnaireSt
         >
           <h4>2. What is your risk threshold?</h4>
         </label>
-
-        <Input
-          type="text"
-          name={"sliderinput"}
-          id={"sliderinput"}
-          value={this.state.sum}
-          placeholder="5"
-          onChange={(e: { target: { value: string; }; }) => this.onInputChange(e.target.value)}
-          onFocus={() => this.setState({ step: 1 })} // When the input is focused, set step value to 1
-        />
-        <ControlledSlider
-          min={min}
-          max={max}
-          step={this.state.step}
-          defaultValue={this.state.sliderSum}
-          onUpdate={(value: any) => this.onSliderChange(value)}
-          onSlideStart={(value: any) => this.onSlideStart(value)}
-        />
-
-        <li>
-          <Link to="/questionnaire3">Next Question</Link>
-        </li>
-
+        <form action = "/questionnaire3">
+          <Input required
+            type="text"
+            name={"sliderinput"}
+            id={"sliderinput"}
+            value={this.state.sum}
+            placeholder="5"
+            onChange={(e: { target: { value: string; }; }) => this.onInputChange(e.target.value)}
+            onFocus={() => this.setState({ step: 1 })} // When the input is focused, set step value to 1
+            onKeyPress={(event: { key: string; preventDefault: () => void; }) => {
+              if (!/[0-9]/.test(event.key)) {
+                event.preventDefault();
+              }
+            }}
+          />
+          <ControlledSlider
+            min={min}
+            max={max}
+            step={this.state.step}
+            defaultValue={this.state.sliderSum}
+            onUpdate={(value: any) => this.onSliderChange(value)}
+            onSlideStart={(value: any) => this.onSlideStart(value)}
+          />
+          <br />
+          <input type = "submit"></input>
+        </form>
         <Routes>
           <Route path="/questionnaire3" element={<Questionnaire3 answers={this.state.answers} />} />
         </Routes>

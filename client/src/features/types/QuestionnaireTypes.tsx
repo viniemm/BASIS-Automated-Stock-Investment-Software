@@ -26,4 +26,5 @@ export interface QuestionnaireOutput {
     termPeriod?: string,
     investPrev?: boolean,
     industries?: string[]
+    name?: string
 }
