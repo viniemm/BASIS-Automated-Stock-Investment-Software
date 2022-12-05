@@ -1,7 +1,7 @@
 import './Filtering.css';
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer, Label, Area, AreaChart, Line, LineChart } from 'recharts';
-import axios from "axios";
+import axios, { AxiosRequestConfig, CancelTokenSource } from "axios";
 import randomColor from "randomcolor";
 import '@progress/kendo-theme-default/dist/all.css';
 import PersistentDrawerLeft from '../../filter/PersistentDrawer';
@@ -10,7 +10,8 @@ import {
   indicatorsEndpointAvailable, portfolioHistoricalDefaultState, portfolioHistoricalEndpointAvailable
 } from '../../filter/endpoint_constants/IndicatorsEndpointConstants';
 import TransitionAlert from '../../filter/TransitionAlert';
-import {FilteringState} from "../../features/types/StateModels";
+import { FilteringProps, FilteringState } from '../../filter/models/Models';
+import { Auth } from '../../features/authSlice';
 
 
 const getRandomColorList = (colorCount: number) => {
@@ -42,14 +43,18 @@ const defaultFilterFields = new Map([
   ["portfolio_historical", portfolioHistoricalDefaultState]
 ]);
 
-class Filtering extends Component<any, FilteringState> {
-  updateTimer: any;
-  cancelTokenSource: any;
 
-  constructor(props: Record<string, unknown> | Readonly<unknown>) {
+class Filtering extends Component<FilteringProps, FilteringState> {
+  updateTimer: NodeJS.Timeout | null;
+  cancelTokenSource: CancelTokenSource;
+  authentication: Auth;
+
+  constructor(props: FilteringProps) {
     super(props);
     this.updateTimer = null;
+    this.authentication = props.auth;
     this.cancelTokenSource = axios.CancelToken.source();
+
     this.state = {
       processingRequest: false,
       chartType: "stacked_bar",
@@ -70,7 +75,10 @@ class Filtering extends Component<any, FilteringState> {
         data_keys: [],
         data_points: []
       }
+
     };
+
+
     // Binding state to dropdown changed function
     this.filtersChanged = this.filtersChanged.bind(this);
     this.reportChanged = this.reportChanged.bind(this);
@@ -102,6 +110,7 @@ class Filtering extends Component<any, FilteringState> {
     })
   }
 
+  // authenticate upon refresh
   refreshGraphData = () => {
     console.log("Refreshing Graph Data")
     this.setState({
@@ -109,43 +118,70 @@ class Filtering extends Component<any, FilteringState> {
     });
     this.updateTimer = null;
     this.cancelTokenSource = axios.CancelToken.source();
-    axios.post(this.state.reportState.endpoint, JSON.stringify(this.state.filterFields), {
-      cancelToken: this.cancelTokenSource.token
-    })
-      .then((res) => {
-        if (res.status !== 200) {
-          this.handleBadReturn(res.statusText);
-        } else {
-          this.setState({
-            processingRequest: false,
-            data: res.data
-          })
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        this.handleBadReturn(err.message + ": " + err.response.data);
-      });
+
+    // potentially unnecessary check
+    if (this.authentication.token !== null && !this.authentication.isAuthenticated) {
+      const config: AxiosRequestConfig = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${this.authentication.token}`
+        },
+        cancelToken: this.cancelTokenSource.token
+      };
+      const filterFieldsSerialized = JSON.stringify(this.state.filterFields)
+      axios.post(this.state.reportState.endpoint, filterFieldsSerialized, config)
+        .then((res) => {
+          if (res.status !== 200) {
+            this.handleBadReturn(res.statusText);
+          } else {
+            this.setState({
+              processingRequest: false,
+              data: res.data
+            })
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          this.handleBadReturn(err.stack);
+        });
+    }
+    else {
+      console.log("not authenticated")
+    }
   };
 
+  // authenticate upon retrieval
   getAvailableFilters = () => {
     console.log("Requesting Available Filters")
-    axios
-      .post(this.state.reportState.filters_endpoint, "")
-      .then((res) => {
-        if (res.status !== 200) {
-          this.handleBadReturn(res.statusText);
-        } else {
-          const endpoint_return = res.data;
-          this.setState({
-            filtersAvailable: structuredClone(endpoint_return)
-          })
+    // potentially unnecessary check
+    if (this.authentication.token !== null && !this.authentication.isAuthenticated) {
+      const config: AxiosRequestConfig = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${this.authentication.token}`
         }
-      })
-      .catch((err) => {
-        console.log(err);
-        this.handleBadReturn(err.message + ": " + err.response.data);
-      });
+      }
+      const body = ""
+
+      axios.post(this.state.reportState.filters_endpoint, body, config)
+        .then((res) => {
+          if (res.status !== 200) {
+            this.handleBadReturn(res.statusText);
+          } else {
+            const endpoint_return = res.data;
+            this.setState({
+              filtersAvailable: structuredClone(endpoint_return)
+            })
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          this.handleBadReturn(err.stack);
+        });
+    }
+    else {
+      console.log("not authenticated")
+    }
   };
 
   scheduleRefreshGraphData = () => {
@@ -190,10 +226,10 @@ class Filtering extends Component<any, FilteringState> {
     const chart = this.state.data.data_keys.map((value: any) => (
       <Line
         connectNulls
-        type = "monotone"
-        key = {value}
+        type="monotone"
+        key={value}
         dataKey={value}
-        stroke = {getRandomColorList(this.state.data.data_keys.length)[colorCount++]}
+        stroke={getRandomColorList(this.state.data.data_keys.length)[colorCount++]}
       />
     ));
     return chart;
@@ -204,12 +240,12 @@ class Filtering extends Component<any, FilteringState> {
     const chart = this.state.data.data_keys.map((value: any) => (
       <Area
         connectNulls
-        type = "monotone"
+        type="monotone"
         stackId="a"
-        key = {value}
+        key={value}
         dataKey={value}
-        stroke = {getRandomColorList(this.state.data.data_keys.length)[colorCount]}
-        fill = {getRandomColorList(this.state.data.data_keys.length)[colorCount++]}
+        stroke={getRandomColorList(this.state.data.data_keys.length)[colorCount]}
+        fill={getRandomColorList(this.state.data.data_keys.length)[colorCount++]}
       />
     ));
     return chart;
@@ -225,7 +261,7 @@ class Filtering extends Component<any, FilteringState> {
   }
 
   renderLineCharts(chartType: string) {
-    if (chartType === "line_chart"){
+    if (chartType === "line_chart") {
       return this.renderLineChart();
     }
   }
@@ -247,7 +283,7 @@ class Filtering extends Component<any, FilteringState> {
         </BarChart>
       )
     }
-    if (chartType === "line_chart"){
+    if (chartType === "line_chart") {
       return <LineChart data={this.state.data.data_points}>
         <XAxis dataKey={this.state.data.x_axis.attribute} dy={40} height={120}>
           <Label value={this.state.data.x_axis.label} dy={40} />
@@ -260,7 +296,7 @@ class Filtering extends Component<any, FilteringState> {
         {this.renderLineCharts(this.state.chartType)}
       </LineChart>
     }
-    if (chartType === "area_chart"){
+    if (chartType === "area_chart") {
       return <AreaChart data={this.state.data.data_points}>
         <XAxis dataKey={this.state.data.x_axis.attribute} dy={40} height={120}>
           <Label value={this.state.data.x_axis.label} dy={40} />
@@ -321,7 +357,7 @@ class Filtering extends Component<any, FilteringState> {
 
   render() {
     return (
-      <div className="App">
+      <Fragment>
         <PersistentDrawerLeft
           loading={this.state.processingRequest}
           chartType={this.state.chartType}
@@ -338,7 +374,7 @@ class Filtering extends Component<any, FilteringState> {
             {this.renderChart(this.state.chartType)}
           </ResponsiveContainer>
         </PersistentDrawerLeft>
-      </div>
+      </Fragment>
     );
   }
 }

@@ -2,7 +2,7 @@ import React from 'react';
 import logo from '../../logo.svg';
 import './Home.css';
 
-// TODO: refactor to class
+
 function Home() {
   return (
     <div>

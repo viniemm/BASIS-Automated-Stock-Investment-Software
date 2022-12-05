@@ -8,7 +8,8 @@ import {
 } from "react-router-dom";
 import { Route, Routes } from "react-router";
 import Questionnaire4 from "./Questionnaire4";
-import { QuestionnaireState, QuestionnaireProps } from "../../features/types/QuestionnaireTypes";
+import { Auth } from "../../features/authSlice";
+import { RootState } from "../../app/store";
 
 const termPeriods = [
   {
@@ -33,6 +34,30 @@ const termPeriods = [
   },
 ]
 
+export interface QuestionnaireState {
+  answers: QuestionnaireOutput,
+  // Slider Info
+  sum?: number | string,
+  sliderSum?: number,
+  step?: number,
+  questionnaireDone?: boolean,
+  auth?: Auth,
+  authState?: RootState
+}
+
+export interface QuestionnaireProps {
+  answers: QuestionnaireOutput,
+  auth?: Auth,
+  authState?: RootState
+}
+
+export interface QuestionnaireOutput {
+  moneyInvested?: number,
+  riskThreshold?: number,
+  termPeriod?: string,
+  investPrev?: boolean,
+  industries?: string[]
+}
 
 
 class Questionnaire3 extends React.Component<QuestionnaireProps, QuestionnaireState> {

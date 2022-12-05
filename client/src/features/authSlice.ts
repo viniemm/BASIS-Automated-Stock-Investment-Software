@@ -32,9 +32,13 @@ export const authSlice = createSlice({
     reducers: {
         unloadUser: (state, action: PayloadAction<Auth>) => {
             localStorage.removeItem('token');
-            state.auth.user = null;
-            state.auth.token = null;
-            state.auth.isAuthenticated = false;
+            return {
+                ...state, auth: {
+                    user: null,
+                    token: null,
+                    isAuthenticated: false
+                }
+            }
         },
         loadUser: (state, action: PayloadAction<Auth>) => {
             localStorage.setItem('token', String(action.payload.token));
@@ -45,15 +49,17 @@ export const authSlice = createSlice({
             // newState.auth.token = action.payload.token;
             // newState.auth.isAuthenticated = true;
             // console.log(newState);
-            return {...state, auth: {
-                user: action.payload.user,
-                token: action.payload.token,
-                isAuthenticated: true
-            }
+            return {
+                ...state, auth: {
+                    user: action.payload.user,
+                    token: action.payload.token,
+                    isAuthenticated: true
+                }
             };
         },
         getUser: (state, action: PayloadAction<User>) => {
             state.auth.user = action.payload;
+            state.auth.token = localStorage.getItem('token')
             state.auth.isAuthenticated = true;
         }
     }

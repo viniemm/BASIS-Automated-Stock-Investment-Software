@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { Box, Button, TextField } from '@mui/material';
 import { Auth, loadUser } from '../../features/authSlice';
 import { useDispatch } from 'react-redux';
@@ -11,7 +11,7 @@ interface RegisterProps {
 
 // component level state (redux is not involved here)
 export default function Register({ auth }: RegisterProps) {
-
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
@@ -19,7 +19,7 @@ export default function Register({ auth }: RegisterProps) {
     const [password2, setPassword2] = useState("");
 
     if (auth.isAuthenticated) {
-        <Navigate to={'/dashboard'} />
+        navigate('/dashboard')
     }
 
     return (    // Link is used from react-router-dom
@@ -95,8 +95,9 @@ export default function Register({ auth }: RegisterProps) {
                             setEmail('');
                             setPassword('');
                             setPassword2('');
-                        }
 
+                            navigate('/dashboard')
+                        }
                     }}>
                     Register
                 </Button>

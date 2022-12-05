@@ -18,13 +18,11 @@ import ReportDropdown from "./ReportDropdown";
 import Loading from "./Loading";
 import DateFilter from "./filters/DateFilter";
 import ChartType from "./ChartType";
-import { Filter } from '../features/types/StateModels';
+import { Filter, ExtraProps, Subfilters } from './models/Models';
 
 const drawerWidth = 400;
 
-type ExtraProps = {
-  open: any;
-}
+
 
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<ExtraProps>(
   ({ theme, open }) => ({
@@ -88,11 +86,11 @@ export default function PersistentDrawerLeft(props: any) {
     filtersChanged,
     filterState
   } = props;
+
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  interface Subfilters {
-    field: any
-  }
+
+
   const parseFilterStateToMap = () => {
     // TODO: this function makes a bunch of assumptions about formatting
     if (filterState != null) {
@@ -253,11 +251,14 @@ export default function PersistentDrawerLeft(props: any) {
       <Drawer
         sx={{
           width: drawerWidth,
+          mt: 30,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
             width: drawerWidth,
+            mt: 7.8,
             boxSizing: 'border-box',
           },
+          textAlign: 'center',
         }}
         variant="persistent"
         anchor="left"
