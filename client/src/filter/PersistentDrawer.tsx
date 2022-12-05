@@ -258,6 +258,7 @@ export default function PersistentDrawerLeft(props: any) {
             mt: 7.8,
             boxSizing: 'border-box',
           },
+          textAlign: 'center',
         }}
         variant="persistent"
         anchor="left"
