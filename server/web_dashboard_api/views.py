@@ -25,6 +25,8 @@ from .implementation_architecture_components.industries import industry_types
 from .implementation_architecture_components.portfolio_historical.historical.portfolio_historical_endpoint_processing import \
     PortfolioHistoricalEndpointProcessing
 from .models import Portfolio, PortfolioSelection, Companies
+import json
+from collections import defaultdict
 
 
 class ReportAPIView(APIView):
@@ -34,10 +36,12 @@ class ReportAPIView(APIView):
     """
     List all snippets, or create a new snippet.
     """
+
     def post(self, request, format=None):
         try:
             filters_dict = JsonPreprocessor.request_to_json_dict(request)
-            endpoint_processing = self.get_endpoint_processing_class(filters_dict)
+            endpoint_processing = self.get_endpoint_processing_class(
+                filters_dict)
             return_dict = endpoint_processing.get_endpoint_return()
 
             return Response(return_dict)
@@ -53,6 +57,7 @@ class ReportFilterAPIView(APIView):
     """
     List all snippets, or create a new snippet.
     """
+
     def post(self, request, format=None):
         filters = self.get_endpoint_filters()
         return Response(filters.make_jsonable_dict())
@@ -81,48 +86,56 @@ class PortfolioHistoricalReportFilters(ReportFilterAPIView):
 class QuestionnaireResponse(APIView):
     def post(self, request, format=None):
         # TODO: add auth middleware instead of passing the user
-        try:
-            filters_dict = JsonPreprocessor.request_to_json_dict(request)
-            print(filters_dict)
-            list_of_industries = filters_dict['answers']['industries']
-            list_of_filters = []
+        if self.request.user.is_authenticated:
+            try:
+                filters_dict = JsonPreprocessor.request_to_json_dict(
+                    request)
+                print(filters_dict)
+                list_of_industries = filters_dict['answers']['industries']
+                list_of_filters = []
 
-            for industry_type in list_of_industries:
-                for industry in industry_types[industry_type]:
-                    list_of_filters.append(QueryFilter('symbol__industry', industry, EqualsQueryOperator()))
-            complex_filter = QueryComplexFilter(logic='or', filters=list_of_filters)
-            indicators_derived_model_parser = IndicatorsAnalyticsDerivedModelParser()
-            list_of_models = indicators_derived_model_parser.get_derived_model_list_from_filters(complex_filter)
-            symbols = set()
-            for model in list_of_models:
-                symbols.add(model.symbol)
-            print(symbols)
-            # getting stock info
-            # condition = Q()
-            # for symbol in symbols:
-            #     condition = condition | Q(symbol=symbol)
-            # stock_data = StocksData.objects.filter(condition)
-            # for stock_data_obj in stock_data:
-            #     print(stock_data_obj.date)
-            allocation = self.allocate(list(symbols), 5)
-            # Storing portfolio in DB
-            user = User.objects.get(id=filters_dict['user']['id'])
-            portfolio_uuid = uuid.uuid4()
-            portfolio_name = filters_dict['answers']['name'] if 'name' in filters_dict['answers'] else portfolio_uuid
-            last_id_object = Portfolio.objects.latest('id')
-            value = filters_dict['answers']['value'] if 'value' in filters_dict['answers'] else 100
-            portfolio = Portfolio(id=int(last_id_object.id)+1, name=portfolio_name, user=user, value=value)
-            portfolio.save()
-            last_id_portfolio_selection = PortfolioSelection.objects.latest('id')
-            last_id = int(last_id_portfolio_selection.id)
-            for symbol, value in allocation[0].items():
-                last_id += 1
-                portfolio_selection = PortfolioSelection(id=last_id, portfolio=portfolio, symbol=Companies(symbol=symbol), allocation=value)
-                portfolio_selection.save()
-            return Response(allocation, status=status.HTTP_200_OK)
-        except Exception as e:
-            traceback.print_exc()
-            return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
+                for industry_type in list_of_industries:
+                    for industry in industry_types[industry_type]:
+                        list_of_filters.append(QueryFilter(
+                            'symbol__industry', industry, EqualsQueryOperator()))
+                complex_filter = QueryComplexFilter(
+                    logic='or', filters=list_of_filters)
+                indicators_derived_model_parser = IndicatorsAnalyticsDerivedModelParser()
+                list_of_models = indicators_derived_model_parser.get_derived_model_list_from_filters(
+                    complex_filter)
+                symbols = set()
+                for model in list_of_models:
+                    symbols.add(model.symbol)
+                print(symbols)
+                # getting stock info
+                # condition = Q()
+                # for symbol in symbols:
+                #     condition = condition | Q(symbol=symbol)
+                # stock_data = StocksData.objects.filter(condition)
+                # for stock_data_obj in stock_data:
+                #     print(stock_data_obj.date)
+                allocation = self.allocate(list(symbols), 5)
+                # Storing portfolio in DB
+                user = self.request.user
+                portfolio_uuid = uuid.uuid4()
+                portfolio_name = filters_dict['answers']['name'] if 'name' in filters_dict['answers'] else portfolio_uuid
+                last_id_object = Portfolio.objects.latest('id')
+                value = filters_dict['answers']['value'] if 'value' in filters_dict['answers'] else 100
+                portfolio = Portfolio(
+                    id=int(last_id_object.id)+1, name=portfolio_name, user=user, value=value)
+                portfolio.save()
+                last_id_portfolio_selection = PortfolioSelection.objects.latest(
+                    'id')
+                last_id = int(last_id_portfolio_selection.id)
+                for symbol, value in allocation[0].items():
+                    last_id += 1
+                    portfolio_selection = PortfolioSelection(
+                        id=last_id, portfolio=portfolio, symbol=Companies(symbol=symbol), allocation=value)
+                    portfolio_selection.save()
+                return Response(allocation, status=status.HTTP_200_OK)
+            except Exception as e:
+                traceback.print_exc()
+                return Response(str(e.__cause__), status=status.HTTP_400_BAD_REQUEST)
 
     def populate(self, tots: list, term: int):
         data = yf.download(tickers=tots,
@@ -138,8 +151,35 @@ class QuestionnaireResponse(APIView):
 
     def allocate(self, criteria: list, period: int) -> list:
         df = self.populate(tots=criteria, term=period)
-        ef = EfficientFrontier(expected_returns.mean_historical_return(df), risk_models.sample_cov(df))
+        ef = EfficientFrontier(expected_returns.mean_historical_return(
+            df), risk_models.sample_cov(df))
         weights = ef.max_sharpe()
         cleaned_weights = ef.clean_weights()
         st = ef.portfolio_performance(verbose=True)
-        return [{k:v for k, v in cleaned_weights.items() if v > 0}, st]
+        return [{k: v for k, v in cleaned_weights.items() if v > 0}, st]
+
+
+class PortfolioSelectionView(APIView):
+    def get(self, request) -> Response:
+        if self.request.user.is_authenticated:
+            try:
+                query_set = PortfolioSelection.objects.filter(
+                    portfolio__user=self.request.user)
+                tuples_list = query_set.values_list(
+                    *['portfolio__name', 'portfolio__id', 'portfolio__value', 'symbol__short_name', 'allocation'])
+
+                id_alloc = defaultdict(list)
+                id_name = defaultdict(dict)
+
+                for row in tuples_list:
+                    id_alloc[row[1]].append((row[3], row[4]))
+
+                for row in tuples_list:
+                    id_name[row[1]]['name'] = row[0]
+                    id_name[row[1]]['value'] = row[2]
+                    id_name[row[1]]['allocation'] = id_alloc[row[1]]
+
+                json_response = json.dumps(id_name)
+                return Response(json_response, status=status.HTTP_200_OK)
+            except Exception as e:
+                return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
