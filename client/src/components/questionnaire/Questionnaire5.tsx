@@ -94,12 +94,13 @@ class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireSt
         }
       };
       // TODO: this.state.answers doesn't work
+      const body = JSON.stringify(this.state.answers)
       axios.post('/api/questionnaire', JSON.stringify({
-        user: this.state.auth?.user,
         answers: this.state.answers
       }), config)
         .then(response => {
           console.log(response.data);
+
         })
         .catch(error => {
           console.log(error);

@@ -166,20 +166,23 @@ class PortfolioSelectionView(APIView):
                 query_set = PortfolioSelection.objects.filter(
                     portfolio__user=self.request.user)
                 tuples_list = query_set.values_list(
-                    *['portfolio__name', 'portfolio__id', 'portfolio__value', 'symbol__short_name', 'allocation'])
+                    *['portfolio__name', 'portfolio__id', 'portfolio__value', 'symbol__symbol', 'allocation'])
 
                 id_alloc = defaultdict(list)
                 id_name = defaultdict(dict)
 
                 for row in tuples_list:
-                    id_alloc[row[1]].append((row[3], row[4]))
+                    id_alloc[row[1]].append({
+                        'symbol': row[3],
+                        'allocation': row[4]
+                    })
 
                 for row in tuples_list:
                     id_name[row[1]]['name'] = row[0]
                     id_name[row[1]]['value'] = row[2]
-                    id_name[row[1]]['allocation'] = id_alloc[row[1]]
+                    id_name[row[1]]['allocations'] = id_alloc[row[1]]
 
-                json_response = json.dumps(id_name)
-                return Response(json_response, status=status.HTTP_200_OK)
+                #json_response = json.dumps(id_name)
+                return Response(id_name, status=status.HTTP_200_OK)
             except Exception as e:
                 return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
