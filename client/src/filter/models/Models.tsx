@@ -1,5 +1,6 @@
 import React from "react";
 import { ReactNode } from "react";
+import { Auth } from "../../features/authSlice";
 
 export interface Filter {
     field: string;
@@ -57,5 +58,6 @@ export interface FilteringState {
 }
 
 export interface FilteringProps {
-
+    auth: Auth;
+    record?: Record<string, unknown> | Readonly<unknown>
 }

@@ -1,5 +1,5 @@
 import './Filtering.css';
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Legend, CartesianGrid, ResponsiveContainer, Label, Area, AreaChart, Line, LineChart } from 'recharts';
 import axios, { AxiosRequestConfig, CancelTokenSource } from "axios";
 import randomColor from "randomcolor";
@@ -10,7 +10,7 @@ import {
   indicatorsEndpointAvailable, portfolioHistoricalDefaultState, portfolioHistoricalEndpointAvailable
 } from '../../filter/endpoint_constants/IndicatorsEndpointConstants';
 import TransitionAlert from '../../filter/TransitionAlert';
-import { FilteringState } from '../../filter/models/Models';
+import { FilteringProps, FilteringState } from '../../filter/models/Models';
 import { Auth } from '../../features/authSlice';
 
 
@@ -44,15 +44,15 @@ const defaultFilterFields = new Map([
 ]);
 
 
-class Filtering extends Component<any, FilteringState> {
+class Filtering extends Component<FilteringProps, FilteringState> {
   updateTimer: NodeJS.Timeout | null;
   cancelTokenSource: CancelTokenSource;
   authentication: Auth;
 
-  constructor(auth: Auth, props: Record<string, unknown> | Readonly<unknown>) {
+  constructor(props: FilteringProps) {
     super(props);
     this.updateTimer = null;
-    this.authentication = auth;
+    this.authentication = props.auth;
     this.cancelTokenSource = axios.CancelToken.source();
 
     this.state = {
@@ -118,6 +118,8 @@ class Filtering extends Component<any, FilteringState> {
     });
     this.updateTimer = null;
     this.cancelTokenSource = axios.CancelToken.source();
+
+    // potentially unnecessary check
     if (this.authentication.token !== null && !this.authentication.isAuthenticated) {
       const config: AxiosRequestConfig = {
         headers: {
@@ -140,29 +142,46 @@ class Filtering extends Component<any, FilteringState> {
         })
         .catch((err) => {
           console.log(err);
-          this.handleBadReturn(err.message + ": " + err.response.data);
+          this.handleBadReturn(err.stack);
         });
+    }
+    else {
+      console.log("not authenticated")
     }
   };
 
+  // authenticate upon retrieval
   getAvailableFilters = () => {
     console.log("Requesting Available Filters")
-    axios
-      .post(this.state.reportState.filters_endpoint, "")
-      .then((res) => {
-        if (res.status !== 200) {
-          this.handleBadReturn(res.statusText);
-        } else {
-          const endpoint_return = res.data;
-          this.setState({
-            filtersAvailable: structuredClone(endpoint_return)
-          })
+    // potentially unnecessary check
+    if (this.authentication.token !== null && !this.authentication.isAuthenticated) {
+      const config: AxiosRequestConfig = {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Token ${this.authentication.token}`
         }
-      })
-      .catch((err) => {
-        console.log(err);
-        this.handleBadReturn(err.message + ": " + err.response.data);
-      });
+      }
+      const body = ""
+
+      axios.post(this.state.reportState.filters_endpoint, body, config)
+        .then((res) => {
+          if (res.status !== 200) {
+            this.handleBadReturn(res.statusText);
+          } else {
+            const endpoint_return = res.data;
+            this.setState({
+              filtersAvailable: structuredClone(endpoint_return)
+            })
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+          this.handleBadReturn(err.stack);
+        });
+    }
+    else {
+      console.log("not authenticated")
+    }
   };
 
   scheduleRefreshGraphData = () => {
@@ -338,7 +357,7 @@ class Filtering extends Component<any, FilteringState> {
 
   render() {
     return (
-      <div className="App">
+      <Fragment>
         <PersistentDrawerLeft
           loading={this.state.processingRequest}
           chartType={this.state.chartType}
@@ -355,7 +374,7 @@ class Filtering extends Component<any, FilteringState> {
             {this.renderChart(this.state.chartType)}
           </ResponsiveContainer>
         </PersistentDrawerLeft>
-      </div>
+      </Fragment>
     );
   }
 }

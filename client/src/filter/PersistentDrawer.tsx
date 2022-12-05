@@ -251,9 +251,11 @@ export default function PersistentDrawerLeft(props: any) {
       <Drawer
         sx={{
           width: drawerWidth,
+          mt: 30,
           flexShrink: 0,
           '& .MuiDrawer-paper': {
             width: drawerWidth,
+            mt: 7.8,
             boxSizing: 'border-box',
           },
         }}
