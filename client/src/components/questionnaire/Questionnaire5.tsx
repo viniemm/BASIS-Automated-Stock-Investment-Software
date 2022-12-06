@@ -4,6 +4,7 @@ import 'semantic-ui-css/semantic.min.css';
 import axios, { AxiosRequestConfig } from "axios";
 import { Auth } from "../../features/authSlice";
 import { RootState } from "../../app/store";
+import { useNavigate } from 'react-router';
 
 export interface QuestionnaireState {
   answers: QuestionnaireOutput,
@@ -84,8 +85,6 @@ class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireSt
     // Make request
     // await sendQuestionnaire(this.state.answers)
     //send user to new page
-    console.log("Yo1");
-    console.log(this.state.auth?.user);
     if (this.state.auth?.isAuthenticated) {
       const config: AxiosRequestConfig = {
         headers: {
@@ -94,13 +93,10 @@ class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireSt
         }
       };
       // TODO: this.state.answers doesn't work
-      const body = JSON.stringify(this.state.answers)
-      axios.post('/api/questionnaire', JSON.stringify({
-        answers: this.state.answers
-      }), config)
+      const body = JSON.stringify({ answers: this.state.answers })
+      axios.post('/api/questionnaire', body, config)
         .then(response => {
           console.log(response.data);
-
         })
         .catch(error => {
           console.log(error);

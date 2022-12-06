@@ -25,8 +25,10 @@ from .implementation_architecture_components.industries import industry_types
 from .implementation_architecture_components.portfolio_historical.historical.portfolio_historical_endpoint_processing import \
     PortfolioHistoricalEndpointProcessing
 from .models import Portfolio, PortfolioSelection, Companies
-import json
 from collections import defaultdict
+from datetime import datetime
+from django.utils.timezone import make_aware
+import pytz
 
 
 class ReportAPIView(APIView):
@@ -85,7 +87,6 @@ class PortfolioHistoricalReportFilters(ReportFilterAPIView):
 
 class QuestionnaireResponse(APIView):
     def post(self, request, format=None):
-        # TODO: add auth middleware instead of passing the user
         if self.request.user.is_authenticated:
             try:
                 filters_dict = JsonPreprocessor.request_to_json_dict(
@@ -120,9 +121,15 @@ class QuestionnaireResponse(APIView):
                 portfolio_uuid = uuid.uuid4()
                 portfolio_name = filters_dict['answers']['name'] if 'name' in filters_dict['answers'] else portfolio_uuid
                 last_id_object = Portfolio.objects.latest('id')
-                value = filters_dict['answers']['value'] if 'value' in filters_dict['answers'] else 100
-                portfolio = Portfolio(
-                    id=int(last_id_object.id)+1, name=portfolio_name, user=user, value=value)
+                print(last_id_object.id)
+                value = filters_dict['answers']['moneyInvested'] if 'moneyInvested' in filters_dict['answers'] else 100
+                now = datetime.now()
+                old_id = int(last_id_object.id)
+                new_id = old_id + 1
+
+                portfolio = Portfolio(id=new_id, name=portfolio_name,
+                                      created_at=make_aware(now), user=user, value=value)
+                print(portfolio.id)
                 portfolio.save()
                 last_id_portfolio_selection = PortfolioSelection.objects.latest(
                     'id')
