@@ -54,7 +54,6 @@ export interface FilteringState {
     filtersAvailable: any,
     filterFields: any,
     data: any,
-    selectedFilter: any,
     open?: any
 }
 
