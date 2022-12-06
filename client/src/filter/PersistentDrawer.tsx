@@ -87,7 +87,8 @@ export default function PersistentDrawerLeft(props: any) {
     reportState,
     filtersAvailable,
     filtersChanged,
-    filterState
+    filterState,
+    selectedFilter
   } = props;
 
   const theme = useTheme();
@@ -238,7 +239,6 @@ export default function PersistentDrawerLeft(props: any) {
   }
 
   const saveFilter = async () => {
-   let selectedFilter = {filtersNProperties : filterState, chartType: chartType, filterName : name};
     axios.post('api/indicators/savedFilter', selectedFilter)
     .then(response => {
       console.log(response.data)
