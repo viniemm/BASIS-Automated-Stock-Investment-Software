@@ -10,6 +10,7 @@ from web_dashboard_api.base_architecture_components.filter_query.query_filter_mo
 class BaseDerivedModelParser:
     def __init__(self, **kwargs):
         self.distinct_on = None
+        self.user = None
         for key, value in kwargs.items():
             if key == "distinct_on":
                 # value has to conform to django models

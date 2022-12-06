@@ -38,11 +38,11 @@ class IndicatorsReportEndpointFilters(EndpointFilters):
 
 
 class PortfolioHistoricalReportEndpointFilters(EndpointFilters):
-    def __init__(self):
+    def __init__(self, user):
         endpoint_properties_provider = PortfolioHistoricalEndpointPropertiesProvider()
         x_axis = endpoint_properties_provider.get_x_axis_available_list()
         y_axis = endpoint_properties_provider.get_y_axis_available_list()
         breakdown = endpoint_properties_provider.get_breakdown_available_list()
-        filters = PortfolioHistoricalFilterWrapperCollection().get_filter_available_list()
+        filters = PortfolioHistoricalFilterWrapperCollection(user=user).get_filter_available_list()
         super().__init__(x_axis=x_axis, y_axis=y_axis, breakdown=breakdown, filters=filters)
 

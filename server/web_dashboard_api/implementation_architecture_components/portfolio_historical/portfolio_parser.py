@@ -22,6 +22,8 @@ class PortfolioDerivedModelParser(BaseDerivedModelParser):
 
     def apply_complex_filter(self, complex_filter: QueryComplexFilter) -> QuerySet:
         filtered = PortfolioSelection.objects.complex_filter(self.complex_filter_to_query(complex_filter))
+        if self.user is not None:
+            filtered = filtered.filter(portfolio__user=self.user)
         # Adding time filter
         # date_from = datetime.now(pytz.timezone('America/Chicago')) - timedelta(hours=24)
         # date_from = date_from.replace(tzinfo=pytz.utc)

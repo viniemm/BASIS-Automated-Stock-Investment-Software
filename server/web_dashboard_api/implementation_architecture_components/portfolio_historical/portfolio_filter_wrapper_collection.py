@@ -17,10 +17,13 @@ class PortfolioFilterWrapperCollection(BaseFilterWrapperCollection):
     def __init__(self, filter_wrappers, **kwargs):
         # IMPORTANT: Fields have to conform to django models field names (not including foreign table prefixes)
         # Portfolio Filter
+        user = None
+        if "user" in kwargs:
+            user = kwargs['user']
         if "portfolio_names" in kwargs:
             portfolio_names = kwargs["portfolio_names"]
         else:
-            portfolio_names = self.get_on_distinct_attribute('portfolio__name', 'portfolio_name', PortfolioDerivedModelParser)
+            portfolio_names = self.get_on_distinct_attribute('portfolio__name', 'portfolio_name', PortfolioDerivedModelParser, user=user)
         filter_wrappers.append(
             QueryFilterWrapper(
                 CategoryFilterAvailable(field="name", label="Portfolio Name", required=False,
@@ -33,7 +36,7 @@ class PortfolioFilterWrapperCollection(BaseFilterWrapperCollection):
         if "symbols" in kwargs:
             symbols = kwargs["symbols"]
         else:
-            symbols = self.get_on_distinct_attribute('symbol', 'symbol', PortfolioDerivedModelParser)
+            symbols = self.get_on_distinct_attribute('symbol', 'symbol', PortfolioDerivedModelParser, user=user)
         filter_wrappers.append(
             QueryFilterWrapper(
                 CategoryFilterAvailable(field="symbol", label="Symbol", required=False,

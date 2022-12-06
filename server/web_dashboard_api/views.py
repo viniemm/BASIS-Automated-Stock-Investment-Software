@@ -35,16 +35,12 @@ class ReportAPIView(APIView):
     def get_endpoint_processing_class(self, filters_dict) -> BaseEndpointProcessing:
         pass
 
-    """
-    List all snippets, or create a new snippet.
-    """
-
     def post(self, request, format=None):
         try:
             filters_dict = JsonPreprocessor.request_to_json_dict(request)
             endpoint_processing = self.get_endpoint_processing_class(
                 filters_dict)
-            return_dict = endpoint_processing.get_endpoint_return()
+            return_dict = endpoint_processing.get_endpoint_return(request.user)
 
             return Response(return_dict)
         except Exception as e:
@@ -56,13 +52,14 @@ class ReportFilterAPIView(APIView):
     def get_endpoint_filters(self) -> EndpointFilters:
         pass
 
-    """
-    List all snippets, or create a new snippet.
-    """
-
     def post(self, request, format=None):
-        filters = self.get_endpoint_filters()
-        return Response(filters.make_jsonable_dict())
+        try:
+            filters = self.get_endpoint_filters()
+
+            return Response(filters.make_jsonable_dict())
+        except Exception as e:
+            traceback.print_exc()
+            return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
 
 
 class IndicatorsReport(ReportAPIView):
@@ -82,7 +79,7 @@ class PortfolioHistoricalReport(ReportAPIView):
 
 class PortfolioHistoricalReportFilters(ReportFilterAPIView):
     def get_endpoint_filters(self) -> EndpointFilters:
-        return PortfolioHistoricalReportEndpointFilters()
+        return PortfolioHistoricalReportEndpointFilters(self.request.user)
 
 
 class QuestionnaireResponse(APIView):

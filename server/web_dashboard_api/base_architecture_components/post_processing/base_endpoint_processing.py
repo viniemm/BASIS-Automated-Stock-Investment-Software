@@ -67,8 +67,9 @@ class BaseEndpointProcessing:
         }
         return return_dict
 
-    def get_endpoint_return(self):
+    def get_endpoint_return(self, user):
         complex_filters = self.filters_dict["complex_filter"]
+        self.derived_model_provider.derived_model_parser.user = user
         derived_models = self.derived_model_provider.get_derived_model_list_from_json_filters(complex_filters)
         data_points, data_keys = self.bucket_derived_models(derived_models)
         return self.models_dict_to_return_type(data_points, data_keys)

@@ -81,10 +81,12 @@ class BaseFilterWrapperCollection:
     def get_complex_filter_parser(self) -> BaseComplexFilterParser:
         return BaseComplexFilterParser(self.get_filter_parser_list())
 
-    def get_on_distinct_attribute(self, table_attr, attribute, parser_class):
+    def get_on_distinct_attribute(self, table_attr, attribute, parser_class, user=None):
         attributes = []
         complex_filter = QueryComplexFilter('and', [])
         indicators_derived_model_parser = parser_class(distinct_on=[table_attr])
+        if user is not None:
+            indicators_derived_model_parser.user = user
         derived_models = indicators_derived_model_parser.get_derived_model_list_from_filters(complex_filter)
         for derived_model in derived_models:
 
