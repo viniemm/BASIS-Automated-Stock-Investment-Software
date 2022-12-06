@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { Box, Button, TextField } from '@mui/material';
 import { Auth, loadUser } from '../../features/authSlice';
 import { useDispatch } from 'react-redux';
@@ -10,12 +10,13 @@ interface LoginProps {
 }
 
 export default function Login({ auth }: LoginProps) {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
     if (auth.isAuthenticated) {
-        <Navigate to={'/dashboard'} />
+        navigate('/dashboard');
     }
 
     return (
@@ -73,6 +74,7 @@ export default function Login({ auth }: LoginProps) {
                             })
                         setUsername('');
                         setPassword('');
+                        navigate('/dashboard')
                     }}>
                     Login
                 </Button>

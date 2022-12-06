@@ -4,7 +4,7 @@ import Header from './components/layout/Header';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from './app/store';
 import axios, { AxiosRequestConfig } from 'axios';
-import { getUser } from './features/authSlice';
+import { getUser, unloadUser } from './features/authSlice';
 import ComponentRoutes from './components/layout/ComponentRoutes';
 
 function App() {
@@ -28,6 +28,7 @@ function App() {
       })
       .catch(error => {
         console.log(error);
+        dispatch(unloadUser(error))
       });
   }
 

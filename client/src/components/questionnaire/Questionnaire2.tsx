@@ -8,7 +8,33 @@ import {
 } from "react-router-dom";
 import { Route, Routes } from "react-router";
 import Questionnaire3 from "./Questionnaire3";
-import { QuestionnaireState, QuestionnaireProps } from "../../features/types/QuestionnaireTypes";
+import { Auth } from "../../features/authSlice";
+import { RootState } from "../../app/store";
+
+export interface QuestionnaireOutput {
+  moneyInvested?: number,
+  riskThreshold?: number,
+  termPeriod?: string,
+  investPrev?: boolean,
+  industries?: string[]
+}
+
+export interface QuestionnaireState {
+  answers: QuestionnaireOutput,
+  // Slider Info
+  sum?: number | string,
+  sliderSum?: number,
+  step?: number,
+  questionnaireDone?: boolean,
+  auth?: Auth,
+  authState?: RootState
+}
+
+export interface QuestionnaireProps {
+  answers: QuestionnaireOutput,
+  auth?: Auth,
+  authState?: RootState
+}
 
 // Constands for these for simplicity, would typically be props
 const max = 10;

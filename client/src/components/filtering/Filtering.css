@@ -36,4 +36,6 @@
       transform: rotate(360deg);
     }
   }
-  
+  .MuiDrawer-paperAnchorDockedLeft {
+    height: calc(100% - 62.5px) !important;
+  }

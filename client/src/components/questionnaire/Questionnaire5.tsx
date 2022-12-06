@@ -1,19 +1,36 @@
 import React from 'react'
 import { Dropdown } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
-import { QuestionnaireState, QuestionnaireProps, QuestionnaireOutput } from "../../features/types/QuestionnaireTypes";
-import Dashboard from '../dashboard/Dashboard';
-import Questionnaire from './Questionnaire';
-import { sendQuestionnaire } from '../../services/QuestionnaireService';
-import {
-  BrowserRouter as Router,
-  Link
-} from "react-router-dom";
-import { Route, Routes } from "react-router";
-import {useSelector} from "react-redux";
-import {RootState} from "../../app/store";
-import axios, {AxiosRequestConfig} from "axios";
-import {getUser} from "../../features/authSlice";
+import axios, { AxiosRequestConfig } from "axios";
+import { Auth } from "../../features/authSlice";
+import { RootState } from "../../app/store";
+
+export interface QuestionnaireState {
+  answers: QuestionnaireOutput,
+  // Slider Info
+  sum?: number | string,
+  sliderSum?: number,
+  step?: number,
+  questionnaireDone?: boolean,
+  auth?: Auth,
+  authState?: RootState
+}
+
+export interface QuestionnaireProps {
+  answers: QuestionnaireOutput,
+  auth?: Auth,
+  authState?: RootState
+}
+
+export interface QuestionnaireOutput {
+  moneyInvested?: number,
+  riskThreshold?: number,
+  termPeriod?: string,
+  investPrev?: boolean,
+  industries?: string[]
+}
+
+
 const options = [
   { key: 'oil', text: 'Oil and Gas', value: 'oil' },
   { key: 'food', text: 'Food and Beverages', value: 'food' },
