@@ -70,6 +70,7 @@ class PortfolioHistoricalDerivedModelParser(PortfolioDerivedModelParser):
         symbol_dict = defaultdict(dict)
         for derived_model in derived_models:
             if derived_model.symbol not in symbol_dict[derived_model.portfolio_name]:
-                symbol_dict[derived_model.portfolio_name][derived_model.symbol] = 100 / derived_model.close * derived_model.allocation
-            derived_model.closing_proportional = derived_model.close * symbol_dict[derived_model.portfolio_name][derived_model.symbol]
+                symbol_dict[derived_model.portfolio_name][derived_model.symbol] = 100 / derived_model.close
+            derived_model.closing_proportional = derived_model.close * symbol_dict[derived_model.portfolio_name][derived_model.symbol] * derived_model.allocation
+            derived_model.percentage_growth = derived_model.close * symbol_dict[derived_model.portfolio_name][derived_model.symbol]
         return derived_models

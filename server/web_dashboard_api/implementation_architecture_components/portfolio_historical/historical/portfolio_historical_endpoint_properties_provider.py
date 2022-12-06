@@ -62,5 +62,16 @@ class PortfolioHistoricalEndpointPropertiesProvider(BaseEndpointPropertiesProvid
             BaseYAxisEndpointPropertyValidator,
             IntegerYAxisEndpointPropertyParser
         ))
+        y_axis_property_providers.append(YAxisPropertyProcessorProvider(
+            YAxisEndpointPropertyAvailable("close", "Total closing", [Granularity.digit], ["total"]),
+            BaseYAxisEndpointPropertyValidator,
+            IntegerYAxisEndpointPropertyParser
+        ))
+        y_axis_property_providers.append(YAxisPropertyProcessorProvider(
+            YAxisEndpointPropertyAvailable("percentage_growth", "Percentage Growth", [Granularity.digit], ["average"]),
+            BaseYAxisEndpointPropertyValidator,
+            IntegerYAxisEndpointPropertyParser
+        ))
+
 
         super().__init__(breakdown_property_providers, x_axis_property_providers, y_axis_property_providers)

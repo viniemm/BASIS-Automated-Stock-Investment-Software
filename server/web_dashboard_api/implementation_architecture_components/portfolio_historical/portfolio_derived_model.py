@@ -13,6 +13,7 @@ class PortfolioDerivedModel(BaseDerivedModel):
         self.date = None
         self.close = None
         self.volume = None
+        self.percentage_growth = None
         self.closing_proportional = None
         self.industry_type = None
         for key, value in kwargs.items():

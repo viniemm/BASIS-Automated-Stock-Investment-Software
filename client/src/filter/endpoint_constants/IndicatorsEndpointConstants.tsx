@@ -40,7 +40,7 @@ export const portfolioHistoricalEndpointAvailable = {
   field_value: "portfolio_historical",
   endpoint: "/api/portfolio_historical",
   filters_endpoint: "/api/portfolio_historical/filters",
-  chart_type: "stacked_bar",
+  chart_type: "area_chart",
   properties_visible: {
     breakdown_property: true,
     x_axis_property: true,
@@ -50,12 +50,12 @@ export const portfolioHistoricalEndpointAvailable = {
 
 export const portfolioHistoricalDefaultState = {
   x_axis: {
-    "attribute": "symbol",
-    "granularity": "category"
+    "attribute": "date",
+    "granularity": "date"
   },
   y_axis: {
-    "attribute": "count",
-    "operation": "count",
+    "attribute": "closing_proportional",
+    "operation": "total",
     "granularity": "1"
   },
   breakdown: {
