@@ -63,6 +63,7 @@ class Questionnaire extends React.Component {
         >
           <h4>1. How much money are you willing to invest (In $)?</h4>
         </label>
+        <br />
         <form action = "/questionnaire2">
           <Input
             type="text"
@@ -89,7 +90,7 @@ class Questionnaire extends React.Component {
           onSlideStart={(value: any) => this.onSlideStart(value)}
         />
         <br />
-        <input type = "submit"/>
+        <input type = "submit" value = "Next"></input>
         </form>
         <Routes>
           <Route path="/questionnaire2" element={<Questionnaire2 answers={{ moneyInvested: this.state.sliderSum }} />} />

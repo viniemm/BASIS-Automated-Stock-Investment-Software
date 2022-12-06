@@ -56,11 +56,12 @@ class Questionnaire4 extends React.Component<QuestionnaireProps, QuestionnaireSt
         <label htmlFor="sliderinput" >
           <h4>4. Have you invested in the stock market before?</h4>
         </label>
+        <br />
         <form action = "/questionnaire5">
           <input value={typeof this.state.answers.investPrev == 'boolean' ? 'set' : ''} className="hidden" required/>
           {this.DropdownSelection()}
           <br />
-          <input type = "submit"></input>
+          <input type = "submit" value = "Next"></input>
         </form>
 
         <Routes>

@@ -65,33 +65,6 @@ class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireSt
     />
   )
 
-  submitClick = async () => {
-    // Make request
-    // await sendQuestionnaire(this.state.answers)
-    //send user to new page
-    console.log("Yo1");
-    console.log(this.state.auth?.user);
-    if (this.state.auth?.isAuthenticated) {
-      const config: AxiosRequestConfig = {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Token ${this.state.auth.token}`
-        }
-      };
-      // TODO: this.state.answers doesn't work
-      axios.post('/api/questionnaire', JSON.stringify({
-        user: this.state.auth?.user,
-        answers: this.state.answers
-      }), config)
-        .then(response => {
-          console.log(response.data);
-        })
-        .catch(error => {
-          console.log(error);
-        });
-    }
-  }
-
   render() {
     return (
       <div className="App">
@@ -104,7 +77,7 @@ class Questionnaire5 extends React.Component<QuestionnaireProps, QuestionnaireSt
           {this.DropdownMultipleSelection()}          
           <br />
           <a>
-          <input type="submit" onClick={this.submitClick} value="Submit" />
+          <input type = "submit" value = "Next"></input>
           </a>
         </form>
         <Routes>

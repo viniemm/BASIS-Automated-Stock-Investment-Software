@@ -46,4 +46,14 @@ html {
     margin-top: 1.2%;
     margin-left: 15%;
   }
+
+  input[type=submit]{
+    background-color: rgb(51, 0, 255);
+    border: black;
+    color: white;
+    padding: 16px 32px;
+    margin: 4px 2px;
+    cursor: pointer;
+    font-size: 30px
+  }
   

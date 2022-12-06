@@ -72,6 +72,7 @@ class Questionnaire2 extends React.Component<QuestionnaireProps, QuestionnaireSt
         >
           <h4>2. What is your risk threshold?</h4>
         </label>
+        <br />
         <form action = "/questionnaire3">
           <Input required
             type="text"
@@ -96,7 +97,7 @@ class Questionnaire2 extends React.Component<QuestionnaireProps, QuestionnaireSt
             onSlideStart={(value: any) => this.onSlideStart(value)}
           />
           <br />
-          <input type = "submit"></input>
+          <input type = "submit" value = "Next"></input>
         </form>
         <Routes>
           <Route path="/questionnaire3" element={<Questionnaire3 answers={this.state.answers} />} />
