@@ -55,10 +55,21 @@ class PortfolioHistoricalDerivedModelParser(PortfolioDerivedModelParser):
                     merged[attr] = val
                 if merged['close'] is not None and merged['allocation'] is not None:
                     derived_models.append(PortfolioDerivedModel(**merged))
-        # Create proportional allocation
-        symbol_dict = {}
+        # Eliminate all the stocks before the max initial date
+        max_start_date = {}
         for derived_model in derived_models:
-            if derived_model.symbol not in symbol_dict:
-                symbol_dict[derived_model.symbol] = 100 / derived_model.close * derived_model.allocation
-            derived_model.closing_proportional = derived_model.close * symbol_dict[derived_model.symbol]
+            if derived_model.symbol not in max_start_date:
+                max_start_date[derived_model.symbol] = derived_model.date
+        max_start = max(max_start_date.values())
+        new_derived_models = []
+        for derived_model in derived_models:
+            if derived_model.date > max_start:
+                new_derived_models.append(derived_model)
+        derived_models = new_derived_models
+        # Create proportional allocation
+        symbol_dict = defaultdict(dict)
+        for derived_model in derived_models:
+            if derived_model.symbol not in symbol_dict[derived_model.portfolio_name]:
+                symbol_dict[derived_model.portfolio_name][derived_model.symbol] = 100 / derived_model.close * derived_model.allocation
+            derived_model.closing_proportional = derived_model.close * symbol_dict[derived_model.portfolio_name][derived_model.symbol]
         return derived_models
