@@ -3,6 +3,7 @@ from django.db.models import QuerySet
 from web_dashboard_api.base_architecture_components.filter_query.query_filter_models import QueryComplexFilter, \
     QueryFilter
 from web_dashboard_api.base_architecture_components.filter_query.query_operator_models import EqualsQueryOperator
+from web_dashboard_api.implementation_architecture_components.industries import get_industry_type_dict
 from web_dashboard_api.implementation_architecture_components.portfolio_historical.portfolio_derived_model import \
     PortfolioDerivedModel
 from web_dashboard_api.implementation_architecture_components.portfolio_historical.portfolio_parser import \
@@ -73,4 +74,10 @@ class PortfolioHistoricalDerivedModelParser(PortfolioDerivedModelParser):
                 symbol_dict[derived_model.portfolio_name][derived_model.symbol] = 100 / derived_model.close
             derived_model.closing_proportional = derived_model.close * symbol_dict[derived_model.portfolio_name][derived_model.symbol] * derived_model.allocation
             derived_model.percentage_growth = derived_model.close * symbol_dict[derived_model.portfolio_name][derived_model.symbol]
+
+        # Adding an industry type
+        industry_to_type = get_industry_type_dict()
+        for derived_model in derived_models:
+            if derived_model.industry in industry_to_type:
+                derived_model.industry_type = industry_to_type[derived_model.industry]
         return derived_models

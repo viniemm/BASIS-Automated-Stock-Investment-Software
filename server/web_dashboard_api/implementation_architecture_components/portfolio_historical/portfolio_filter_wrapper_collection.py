@@ -1,12 +1,20 @@
 from web_dashboard_api.base_architecture_components.filter.base_filter_collection import BaseFilterWrapperCollection
-from web_dashboard_api.base_architecture_components.filter.base_filter_wrapper import QueryFilterWrapper
+from web_dashboard_api.base_architecture_components.filter.base_filter_wrapper import QueryFilterWrapper, \
+    DerivedFilterWrapper
 from web_dashboard_api.base_architecture_components.filter.filter_available_implementation import \
     CategoryFilterAvailable, DateFilterAvailable
+from web_dashboard_api.base_architecture_components.filter_derived.derived_filter_parser import DerivedFilterParser
+from web_dashboard_api.base_architecture_components.filter_derived.derived_filter_validator import \
+    CategoryDerivedFilterValidator
+from web_dashboard_api.base_architecture_components.filter_query.query_filter_models import QueryComplexFilter
 from web_dashboard_api.base_architecture_components.filter_query.query_filter_parser import QueryFilterParser, \
     DateQueryFilterParser
 from web_dashboard_api.base_architecture_components.filter_query.query_filter_validator import \
     CategoryQueryFilterValidator, DateQueryFilterValidator
 from web_dashboard_api.base_architecture_components.properties import FieldValueLabel
+from web_dashboard_api.implementation_architecture_components.indicators.analytics.indicators_analytics_parser import \
+    IndicatorsAnalyticsDerivedModelParser
+from web_dashboard_api.implementation_architecture_components.industries import industry_types
 from web_dashboard_api.implementation_architecture_components.portfolio_historical.portfolio_parser import \
     PortfolioDerivedModelParser
 
@@ -43,6 +51,21 @@ class PortfolioFilterWrapperCollection(BaseFilterWrapperCollection):
                                              options=symbols),
                 CategoryQueryFilterValidator,
                 QueryFilterParser
+            )
+        )
+        # Industry Types Filter
+        # Make sure no duplicates
+        industries = list(set(industry_types))
+        industries.sort()
+        industries_list = []
+        for industry in industries:
+            industries_list.append(FieldValueLabel(industry, industry))
+        filter_wrappers.append(
+            DerivedFilterWrapper(
+                CategoryFilterAvailable(field="industry_type", label="Industry Type", required=False,
+                                             options=industries_list),
+                CategoryDerivedFilterValidator,
+                DerivedFilterParser
             )
         )
         # Date Filter
