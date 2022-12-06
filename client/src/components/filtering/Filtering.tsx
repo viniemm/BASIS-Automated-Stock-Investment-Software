@@ -361,8 +361,8 @@ class Filtering extends Component<FilteringProps, FilteringState> {
     });
   }
 
-  filterSelected(name: string){
-    let selectedFilter = {filtersNProperties : this.state.filterFields, chartType: this.state.chartType, filterName : name};
+  selectedFilterChanged(name: string){
+    this.setState( {selectedFilter: {filtersNProperties: this.state.filterFields, chartType: this.state.chartType, name: name}});
   }
 
   render() {
@@ -379,6 +379,7 @@ class Filtering extends Component<FilteringProps, FilteringState> {
           filtersChanged={this.filtersChanged}
           filterState={this.state.filterFields}
           selectedFilter={this.state.selectedFilter}
+          selectedFilterChanged={this.selectedFilterChanged}
         >
           {this.state.error && <TransitionAlert text={this.state.error} open={this.state.open} setOpen={this.setErrorOpen} />}
           <ResponsiveContainer width="95%" aspect={2.2}>
