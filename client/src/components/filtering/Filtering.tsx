@@ -43,6 +43,11 @@ const defaultFilterFields = new Map([
   ["portfolio_historical", portfolioHistoricalDefaultState]
 ]);
 
+const defaultSelectedFilter = {
+  filtersNProperties: defaultFilterFields.get(reportsAvailable.options[0].field_value),
+  chartType: "stacked_bar",
+  name: ""
+}
 
 class Filtering extends Component<FilteringProps, FilteringState> {
   updateTimer: NodeJS.Timeout | null;
@@ -74,7 +79,8 @@ class Filtering extends Component<FilteringProps, FilteringState> {
         details: {},
         data_keys: [],
         data_points: []
-      }
+      },
+      selectedFilter: defaultSelectedFilter
 
     };
 
@@ -355,6 +361,10 @@ class Filtering extends Component<FilteringProps, FilteringState> {
     });
   }
 
+  filterSelected(name: string){
+    let selectedFilter = {filtersNProperties : this.state.filterFields, chartType: this.state.chartType, filterName : name};
+  }
+
   render() {
     return (
       <Fragment>
@@ -368,6 +378,7 @@ class Filtering extends Component<FilteringProps, FilteringState> {
           filtersAvailable={this.state.filtersAvailable}
           filtersChanged={this.filtersChanged}
           filterState={this.state.filterFields}
+          selectedFilter={this.state.selectedFilter}
         >
           {this.state.error && <TransitionAlert text={this.state.error} open={this.state.open} setOpen={this.setErrorOpen} />}
           <ResponsiveContainer width="95%" aspect={2.2}>

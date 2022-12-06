@@ -19,6 +19,9 @@ import Loading from "./Loading";
 import DateFilter from "./filters/DateFilter";
 import ChartType from "./ChartType";
 import { Filter, ExtraProps, Subfilters } from './models/Models';
+import { TextField, Button } from '@mui/material';
+import axios from 'axios';
+
 
 const drawerWidth = 400;
 
@@ -84,12 +87,15 @@ export default function PersistentDrawerLeft(props: any) {
     reportState,
     filtersAvailable,
     filtersChanged,
-    filterState
+    filterState,
+    selectedFilter
   } = props;
 
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [name, setName] = React.useState("");
 
+  
 
   const parseFilterStateToMap = () => {
     // TODO: this function makes a bunch of assumptions about formatting
@@ -160,6 +166,11 @@ export default function PersistentDrawerLeft(props: any) {
     filtersChanged({ complex_filter: complexFilter });
   }
 
+  const nameChanged = (name: string) => {
+    setName(name);
+  };
+
+
   const buildXAxisProperty = () => {
     if (reportState.properties_visible.x_axis_property) {
       // Passing undefined prop is the same as not including it
@@ -225,6 +236,16 @@ export default function PersistentDrawerLeft(props: any) {
       return null
     })
     return filters;
+  }
+
+  const saveFilter = async () => {
+    axios.post('api/indicators/savedFilter', selectedFilter)
+    .then(response => {
+      console.log(response.data)
+    })
+    .catch(error => {
+      console.log(error);
+    });
   }
 
   return (
@@ -301,6 +322,24 @@ export default function PersistentDrawerLeft(props: any) {
           chartType={chartType}
           chartTypeChanged={chartTypeChanged}
         />
+        <Divider />
+        <TextField
+          id="filter-name"
+          label="Name"
+          value={name}
+          onChange={(event) => {
+            nameChanged(name);
+          }}
+        />        
+        <Button
+          variant="contained"
+          onClick={(event) => {
+            saveFilter();
+            console.log(name);
+          }}
+        >
+          Save Filter
+        </Button>
       </Drawer>
       <Main open={open}>
         <DrawerHeader />

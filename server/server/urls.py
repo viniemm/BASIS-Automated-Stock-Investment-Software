@@ -26,5 +26,7 @@ urlpatterns = [
     path('api/portfolio_historical/filters', views.PortfolioHistoricalReportFilters.as_view()),
     path('api/questionnaire', views.QuestionnaireResponse.as_view()),
     path('', include('web_dashboard_api.urls')),
-    path('', include('users.urls'))
+    path('', include('users.urls')),
+    path('api/indicators/savedFilters', views.FilterDetails.as_view())
+
 ]

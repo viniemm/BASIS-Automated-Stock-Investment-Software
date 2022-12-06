@@ -143,3 +143,7 @@ class QuestionnaireResponse(APIView):
         cleaned_weights = ef.clean_weights()
         st = ef.portfolio_performance(verbose=True)
         return [{k:v for k, v in cleaned_weights.items() if v > 0}, st]
+
+class FilterDetails(ReportFilterAPIView):
+    def get_endpoint_filter_details(self) -> EndpointFilters:
+        return FilterDetailsEndpoint()
