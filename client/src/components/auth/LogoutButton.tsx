@@ -4,6 +4,7 @@ import React from 'react';
 import { useDispatch } from 'react-redux';
 import { unloadUser } from '../../features/authSlice';
 import { Auth } from '../../features/authSlice';
+import { NavBarSX } from '../layout/Theme';
 
 interface LogoutProps {
     auth: Auth;
@@ -16,6 +17,7 @@ export default function LogoutButton({ auth }: LogoutProps) {
         <Button
             id="logout"
             href='/home'
+            sx={NavBarSX}
             onClick={() => {
                 // Get Token from State
                 const token = auth.token;

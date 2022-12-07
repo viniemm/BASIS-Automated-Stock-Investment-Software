@@ -46,7 +46,7 @@ const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })<Ex
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
 })<ExtraProps>(({ theme, open }) => ({
-  top: '60px',
+  top: '80px',
   transition: theme.transitions.create(['margin', 'width'], {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,

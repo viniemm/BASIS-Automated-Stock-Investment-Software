@@ -22,7 +22,9 @@ export default function ComponentRoutes({ auth }: LoginProps) {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/about" element={<About />} />
-      <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/dashboard" element={<Dashboard {...{
+        auth: auth
+      }}/>} />
       <Route path="/filtering" element={<Filtering auth={auth} />} />
       <Route path="/login" element={<Login auth={auth} />} />
       <Route path="/register" element={<Register auth={auth} />} />

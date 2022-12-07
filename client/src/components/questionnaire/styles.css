@@ -1,7 +1,9 @@
 html {
     box-sizing: border-box;
   }
-  
+.App {
+  margin: 3rem;
+}
   * {
     box-sizing: inherit;
   }
