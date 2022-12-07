@@ -177,7 +177,7 @@ class PortfolioSelectionView(APIView):
 
                 id_alloc = defaultdict(list)
                 id_name = defaultdict(dict)
-
+                print(tuples_list)
                 for row in tuples_list:
                     id_alloc[row[1]].append({
                         'symbol': row[3],
@@ -188,8 +188,10 @@ class PortfolioSelectionView(APIView):
                     id_name[row[1]]['name'] = row[0]
                     id_name[row[1]]['value'] = row[2]
                     id_name[row[1]]['allocations'] = id_alloc[row[1]]
-
+                final_rows = []
+                for val in id_name:
+                    final_rows.append(id_name[val])
                 #json_response = json.dumps(id_name)
-                return Response(id_name, status=status.HTTP_200_OK)
+                return Response({"portfolios" : final_rows}, status=status.HTTP_200_OK)
             except Exception as e:
                 return Response(str(e), status=status.HTTP_400_BAD_REQUEST)
