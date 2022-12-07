@@ -3,6 +3,9 @@ import { Form, Input, Dropdown } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
 import axios, { AxiosRequestConfig } from "axios";
 import { Auth } from "../../features/authSlice";
+import Alert from "@mui/material/Alert";
+import Stack from "@mui/material/Stack"
+
 
 interface QuestionnaireState {
   moneyInvested?: number,
@@ -176,6 +179,13 @@ const answerOptions = [
   },
 ]
 
+function SendAlert(question:string) {
+  return (
+  <Stack>
+    <Alert severity="error">Question {question} can not be <strong>blank</strong>.</Alert>
+  </Stack>)
+}
+
 export default function Questionnaire({ auth }: QuestionnaireProps) {
   const [moneyInvested, setMoneyInvested] = useState(100)
   const [riskThreshold, setRiskThreshold] = useState(1)
@@ -183,6 +193,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
   const [investPrev, setInvestPrev] = useState(false)
   const [industries, setIndustries] = useState([""])
   const [name, setName] = useState("")
+  let noQ1 = true
 
   return (
     <Form onSubmit={() => {
@@ -194,6 +205,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
           industries,
           name
         }
+        console.log(moneyInvested)
         if (auth.isAuthenticated) {
           const config: AxiosRequestConfig = {
             headers: {
@@ -213,11 +225,11 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
     }}}>
 
       {/* Question 1 */}
-      <Form.Field required>
+      <Form.Field>
         <label>
           <h4>1. How much money are you willing to invest (In $)?</h4>
         </label>
-        <Dropdown
+        <Form.Dropdown
           placeholder='Select Amount to Invest'
           fluid
           selection
@@ -226,13 +238,18 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
             if(data.value == undefined) {
               data.value = 100
             }
-            setMoneyInvested(+data.value) 
+            noQ1 = false
+            setMoneyInvested(+data.value
+            ) 
           }}
         />
+        { noQ1 && 
+          <p style={{color: "red"}}>This field is required.</p>
+        }
       </Form.Field>
 
       {/* Question 2 */}
-      <Form.Field required>
+      <Form.Field>
         <label>
           <h4>2. What is your risk threshold? (Where 1 is low risk and 10 is high risk tolerance)</h4>
         </label>
@@ -251,7 +268,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
       </Form.Field>
 
       {/* Question 3 */}
-      <Form.Field required>
+      <Form.Field>
         <label>
           <h4>3. What is the estimated term period of the portfolio?</h4>
         </label>
@@ -265,7 +282,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
       </Form.Field>
 
       {/* Question 4 */}
-      <Form.Field required>
+      <Form.Field>
         <label>
           <h4>4. Have you invested in the stock market before?</h4>
         </label>
@@ -281,11 +298,11 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
       </Form.Field>
 
       {/* Question 5 */}
-      <Form.Field required>
+      <Form.Field>
         <label>
           <h4>5. Which industry of stocks are you interested in investing in?</h4>
         </label>
-        <Dropdown
+        <Dropdown 
           placeholder='Industries'
           fluid
           multiple
@@ -296,11 +313,12 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
       </Form.Field>
 
       {/* Question 6 */}
-      <Form.Field required>
+      <Form.Field>
         <label>
           <h4>6. What would you like to name your portfolio?</h4>
         </label>
-        <input
+        <input 
+          required
           placeholder="Portfolio name"
           onChange={(input) => {
             setName(input.target.value as string)
