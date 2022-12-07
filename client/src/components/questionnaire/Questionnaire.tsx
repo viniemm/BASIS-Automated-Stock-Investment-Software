@@ -193,7 +193,12 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
   const [investPrev, setInvestPrev] = useState(false)
   const [industries, setIndustries] = useState([""])
   const [name, setName] = useState("")
-  let noQ1 = true
+  const [q1Answered, q1Ans] = useState(false)
+  const [q2Answered, q2Ans] = useState(false)
+  const [q3Answered, q3Ans] = useState(false)
+  const [q4Answered, q4Ans] = useState(false)
+  const [q5Answered, q5Ans] = useState(false)
+  const [q6Answered, q6Ans] = useState(false)
 
   return (
     <Form onSubmit={() => {
@@ -206,7 +211,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
           name
         }
         console.log(moneyInvested)
-        if (auth.isAuthenticated) {
+        if (auth.isAuthenticated && q1Answered && q2Answered && q3Answered && q4Answered && q5Answered && q6Answered) {
           const config: AxiosRequestConfig = {
             headers: {
               'Content-Type': 'application/json',
@@ -238,12 +243,11 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
             if(data.value == undefined) {
               data.value = 100
             }
-            noQ1 = false
-            setMoneyInvested(+data.value
-            ) 
+            q1Ans(true)
+            setMoneyInvested(+data.value) 
           }}
         />
-        { noQ1 && 
+        { !q1Answered && 
           <p style={{color: "red"}}>This field is required.</p>
         }
       </Form.Field>
@@ -262,9 +266,13 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
             if(data.value == undefined) {
               data.value = 0
             }
+            q2Ans(true)
             setRiskThreshold(+data.value) 
           }}
         />
+        { !q2Answered && 
+          <p style={{color: "red"}}>This field is required.</p>
+        }
       </Form.Field>
 
       {/* Question 3 */}
@@ -277,8 +285,14 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
           fluid
           selection
           options={termPeriods}
-          onChange={(e, data) => { setTermPeriod(data.value as string) }}
+          onChange={(e, data) => { 
+            setTermPeriod(data.value as string) 
+            q3Ans(true)
+          }}
         />
+        { !q3Answered && 
+          <p style={{color: "red"}}>This field is required.</p>
+        }
       </Form.Field>
 
       {/* Question 4 */}
@@ -293,8 +307,12 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
           options={answerOptions}
           onChange={(e, data) => { 
             setInvestPrev((data.value as string) === "Yes") 
+            q4Ans(true)
           }}
         />
+        { !q4Answered && 
+          <p style={{color: "red"}}>This field is required.</p>
+        }
       </Form.Field>
 
       {/* Question 5 */}
@@ -308,8 +326,17 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
           multiple
           selection
           options={options}
-          onChange={(e, data) => { setIndustries(data.value as string[]) }}
+          onChange={(e, data) => {
+             setIndustries(data.value as string[]) 
+             q5Ans(true)
+             if((data.value as string[]).length == 0) {
+              q5Ans(false)
+             }
+            }}
         />
+        { !q5Answered && 
+          <p style={{color: "red"}}>This field is required.</p>
+        }
       </Form.Field>
 
       {/* Question 6 */}
@@ -318,12 +345,15 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
           <h4>6. What would you like to name your portfolio?</h4>
         </label>
         <input 
-          required
           placeholder="Portfolio name"
           onChange={(input) => {
             setName(input.target.value as string)
+            q6Ans(true)
           }}
-        ></input>
+        />
+        { !q6Answered && 
+          <p style={{color: "red"}}>This field is required.</p>
+        }
       </Form.Field>
 
       <Form.Button content='Submit' />
