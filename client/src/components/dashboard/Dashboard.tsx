@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Button, Card, Container, Grid, List, ListItem, ListItemButton, ListItemText, Typography } from '@mui/material';
+import { Button, Card, Grid, List, ListItem, ListItemText, Typography } from '@mui/material';
 import { Link } from 'react-router-dom';
 import { Portfolio, PortfolioDetails } from '../../features/types/Portfolio';
 import { Auth } from '../../features/authSlice';
@@ -24,13 +24,12 @@ export default class Dashboard extends React.Component<DashboardProps, Dashboard
   constructor(props: DashboardProps) {
     super(props)
     this.state.auth = this.props.auth;
-    this.portfolioDetails()
+    this.renderPortfolioDetails()
   }
-  async portfolioDetails() {
+  async renderPortfolioDetails() {
     if (this.state.auth) {
     const newPortfolios:PortfolioDetails = await userPortfolioDetails(this.state.auth)
-    console.log(newPortfolios)
-      if (newPortfolios) {
+    if (newPortfolios) {
         this.state.userPortfolios = newPortfolios.portfolios
         this.state.currentPortfolio = newPortfolios.portfolios[0]
         this.state.selectedIndex = 0
@@ -72,7 +71,7 @@ async generate(element: React.ReactElement) {
                   if(index!=this.state.selectedIndex){ return (
                 <ListItem className={index == this.state.selectedIndex ? 'highlight' : ''} key={index}>
                   <ListItemText primary={tool.name}/>
-                  <Button onClick={() => { this.setState({currentPortfolio: tool, selectedIndex: index}); }}>
+                  <Button variant="outlined" onClick={() => { this.setState({currentPortfolio: tool, selectedIndex: index}); }}>
                     Select
                   </Button>
                 </ListItem>
@@ -88,6 +87,16 @@ async generate(element: React.ReactElement) {
             </Card>
           </Grid>
           <Grid item xs={8}>
+            <div>
+            <h3>Breakdown</h3>
+            {this.state.currentPortfolio ? this.state.currentPortfolio.allocations.map((allocation, index, _) => {
+              return (
+                <ListItem key={index}>
+                   {allocation.symbol} : {allocation.allocation}
+                </ListItem>
+              
+              )}) : <div>Hi</div>}
+            </div>
           </Grid>
           <Grid item xs={4}>
             <Button variant="outlined">
@@ -95,11 +104,13 @@ async generate(element: React.ReactElement) {
               </Button>
           </Grid>
         </Grid>
-      </div> : <div>
-      <Button variant="outlined">
-        <Link to="/questionnaire"> Make a New Portfolio </Link>
-      </Button>
-      </div>
+      </div> : 
+      <div>
+        <h3>You do not have any portfolios currently</h3>
+            <Button variant="outlined" size="large">
+                <Link to="/questionnaire"> Make a New Portfolio </Link>
+            </Button>
+            </div>
       }
       </div>
     )
