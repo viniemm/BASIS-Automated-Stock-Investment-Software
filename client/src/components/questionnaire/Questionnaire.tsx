@@ -3,8 +3,7 @@ import { Form, Input, Dropdown } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
 import axios, { AxiosRequestConfig } from "axios";
 import { Auth } from "../../features/authSlice";
-import Alert from "@mui/material/Alert";
-import Stack from "@mui/material/Stack"
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 
 
 interface QuestionnaireState {
@@ -179,14 +178,8 @@ const answerOptions = [
   },
 ]
 
-function SendAlert(question:string) {
-  return (
-  <Stack>
-    <Alert severity="error">Question {question} can not be <strong>blank</strong>.</Alert>
-  </Stack>)
-}
-
 export default function Questionnaire({ auth }: QuestionnaireProps) {
+  const navigate = useNavigate();
   const [moneyInvested, setMoneyInvested] = useState(100)
   const [riskThreshold, setRiskThreshold] = useState(1)
   const [termPeriod, setTermPeriod] = useState("")
@@ -223,6 +216,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
           axios.post('/api/questionnaire', body, config)
             .then(response => {
               console.log(response.data);
+              navigate('/dashboard')
             })
             .catch(error => {
               console.log(error);
