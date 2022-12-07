@@ -8,10 +8,6 @@ import Dashboard from "../dashboard/Dashboard";
 import Filtering from "../filtering/Filtering";
 import Home from "../home/Home";
 import Questionnaire from "../questionnaire/Questionnaire";
-import Questionnaire2 from "../questionnaire/Questionnaire2";
-import Questionnaire3 from "../questionnaire/Questionnaire3";
-import Questionnaire4 from "../questionnaire/Questionnaire4";
-import Questionnaire5 from "../questionnaire/Questionnaire5";
 
 interface LoginProps {
   auth: Auth;
@@ -28,14 +24,7 @@ export default function ComponentRoutes({ auth }: LoginProps) {
       <Route path="/filtering" element={<Filtering auth={auth} />} />
       <Route path="/login" element={<Login auth={auth} />} />
       <Route path="/register" element={<Register auth={auth} />} />
-      <Route path="/questionnaire" element={<Questionnaire />} />
-      <Route path="/questionnaire2" element={<Questionnaire2 answers={{}} />} />
-      <Route path="/questionnaire3" element={<Questionnaire3 answers={{}} />} />
-      <Route path="/questionnaire4" element={<Questionnaire4 answers={{}} />} />
-      <Route path="/questionnaire5" element={<Questionnaire5  {...{
-        answers: {},
-        auth: auth
-      }} />} />
+      <Route path="/questionnaire" element={<Questionnaire auth={auth} />} />
     </Routes>
   );
 }
