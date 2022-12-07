@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { Form, Input, Dropdown } from 'semantic-ui-react'
 import 'semantic-ui-css/semantic.min.css';
 import axios, { AxiosRequestConfig } from "axios";
@@ -185,10 +185,35 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
   const [name, setName] = useState("")
 
   return (
-    <Form >
+    <Form onSubmit={() => {
+        const answers: QuestionnaireState = {
+          moneyInvested,
+          riskThreshold,
+          termPeriod,
+          investPrev,
+          industries,
+          name
+        }
+        if (auth.isAuthenticated) {
+          const config: AxiosRequestConfig = {
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': `Token ${auth.token}`
+            }
+          };
+          // TODO: this.state.answers doesn't work
+          const body = JSON.stringify({ answers: answers })
+          axios.post('/api/questionnaire', body, config)
+            .then(response => {
+              console.log(response.data);
+            })
+            .catch(error => {
+              console.log(error);
+            });
+    }}}>
 
       {/* Question 1 */}
-      <Form.Field>
+      <Form.Field required>
         <label>
           <h4>1. How much money are you willing to invest (In $)?</h4>
         </label>
@@ -201,17 +226,17 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
             if(data.value == undefined) {
               data.value = 100
             }
-            setRiskThreshold(+data.value) 
+            setMoneyInvested(+data.value) 
           }}
         />
       </Form.Field>
 
       {/* Question 2 */}
-      <Form.Field>
+      <Form.Field required>
         <label>
           <h4>2. What is your risk threshold? (Where 1 is low risk and 10 is high risk tolerance)</h4>
         </label>
-        <Dropdown required
+        <Dropdown
           placeholder='Select Risk'
           fluid
           selection
@@ -226,7 +251,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
       </Form.Field>
 
       {/* Question 3 */}
-      <Form.Field>
+      <Form.Field required>
         <label>
           <h4>3. What is the estimated term period of the portfolio?</h4>
         </label>
@@ -240,7 +265,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
       </Form.Field>
 
       {/* Question 4 */}
-      <Form.Field>
+      <Form.Field required>
         <label>
           <h4>4. Have you invested in the stock market before?</h4>
         </label>
@@ -256,7 +281,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
       </Form.Field>
 
       {/* Question 5 */}
-      <Form.Field>
+      <Form.Field required>
         <label>
           <h4>5. Which industry of stocks are you interested in investing in?</h4>
         </label>
@@ -271,7 +296,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
       </Form.Field>
 
       {/* Question 6 */}
-      <Form.Field>
+      <Form.Field required>
         <label>
           <h4>6. What would you like to name your portfolio?</h4>
         </label>
