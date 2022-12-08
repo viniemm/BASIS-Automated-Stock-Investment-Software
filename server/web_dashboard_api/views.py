@@ -112,7 +112,7 @@ class QuestionnaireResponse(APIView):
                 # stock_data = StocksData.objects.filter(condition)
                 # for stock_data_obj in stock_data:
                 #     print(stock_data_obj.date)
-                allocation = self.allocate(list(symbols), 5)
+                allocation = self.allocate(list(symbols), filters_dict['answers']['timePeriod'])
                 # Storing portfolio in DB
                 user = self.request.user
                 portfolio_uuid = uuid.uuid4()
@@ -157,7 +157,7 @@ class QuestionnaireResponse(APIView):
         df = self.populate(tots=criteria, term=period)
         ef = EfficientFrontier(expected_returns.mean_historical_return(
             df), risk_models.sample_cov(df))
-        weights = ef.max_sharpe()
+        # weights = ef.max_sharpe()
         cleaned_weights = ef.clean_weights()
         st = ef.portfolio_performance(verbose=True)
         return [{k: v for k, v in cleaned_weights.items() if v > 0}, st]
