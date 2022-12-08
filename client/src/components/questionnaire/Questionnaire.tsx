@@ -180,18 +180,19 @@ const answerOptions = [
 
 export default function Questionnaire({ auth }: QuestionnaireProps) {
   const navigate = useNavigate();
-  const [moneyInvested, setMoneyInvested] = useState(100)
-  const [riskThreshold, setRiskThreshold] = useState(1)
+  const [moneyInvested, setMoneyInvested] = useState(-1)
+  const [riskThreshold, setRiskThreshold] = useState(-1)
   const [termPeriod, setTermPeriod] = useState("")
   const [investPrev, setInvestPrev] = useState(false)
   const [industries, setIndustries] = useState([""])
   const [name, setName] = useState("")
-  const [q1Answered, q1Ans] = useState(false)
-  const [q2Answered, q2Ans] = useState(false)
-  const [q3Answered, q3Ans] = useState(false)
-  const [q4Answered, q4Ans] = useState(false)
-  const [q5Answered, q5Ans] = useState(false)
-  const [q6Answered, q6Ans] = useState(false)
+  const [q1Answered, q1Ans] = useState(true)
+  const [q2Answered, q2Ans] = useState(true)
+  const [q3Answered, q3Ans] = useState(true)
+  const [q4Answered, q4Ans] = useState(true)
+  const [q5Answered, q5Ans] = useState(true)
+  const [q6Answered, q6Ans] = useState(true)
+  const [q4clicked, q4Click] = useState(false)
 
   return (
     <Form onSubmit={() => {
@@ -203,7 +204,13 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
           industries,
           name
         }
-        console.log(moneyInvested)
+        // validate data
+        if (moneyInvested == -1) q1Ans(false)
+        if (riskThreshold == -1) q2Ans(false)
+        if (termPeriod == "") q3Ans(false)
+        if (!q4clicked) q4Ans(false)
+        if (industries[0]== "") q5Ans(false)
+        if (name == "") q6Ans(false)
         if (auth.isAuthenticated && q1Answered && q2Answered && q3Answered && q4Answered && q5Answered && q6Answered) {
           const config: AxiosRequestConfig = {
             headers: {
@@ -211,7 +218,6 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
               'Authorization': `Token ${auth.token}`
             }
           };
-          // TODO: this.state.answers doesn't work
           const body = JSON.stringify({ answers: answers })
           axios.post('/api/questionnaire', body, config)
             .then(response => {
@@ -235,7 +241,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
           options={investValues}
           onChange={(e, data) => { 
             if(data.value == undefined) {
-              data.value = 100
+              data.value = -1
             }
             q1Ans(true)
             setMoneyInvested(+data.value) 
@@ -302,6 +308,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
           onChange={(e, data) => { 
             setInvestPrev((data.value as string) === "Yes") 
             q4Ans(true)
+            q4Click(true)
           }}
         />
         { !q4Answered && 
@@ -323,13 +330,13 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
           onChange={(e, data) => {
              setIndustries(data.value as string[]) 
              q5Ans(true)
-             if((data.value as string[]).length == 0) {
+             if((data.value as string[]).length < 3) {
               q5Ans(false)
              }
             }}
         />
         { !q5Answered && 
-          <p style={{color: "red"}}>This field is required.</p>
+          <p style={{color: "red"}}>This field is required. You must choose at least 3 industries.</p>
         }
       </Form.Field>
 
@@ -342,7 +349,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
           placeholder="Portfolio name"
           onChange={(input) => {
             setName(input.target.value as string)
-            q6Ans(true)
+            if(input.target.value as string != '') q6Ans(true)
           }}
         />
         { !q6Answered && 
