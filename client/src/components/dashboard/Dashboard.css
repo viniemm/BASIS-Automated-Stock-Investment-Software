@@ -4,3 +4,15 @@
   .Dashboard {
     margin: 3rem;
   }
+
+  .portfolioName {
+    font-weight: bold;
+  }
+
+  .center-dashboard {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+  }
+

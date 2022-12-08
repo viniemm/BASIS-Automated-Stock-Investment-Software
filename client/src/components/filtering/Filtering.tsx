@@ -120,7 +120,7 @@ class Filtering extends Component<FilteringProps, FilteringState> {
     this.cancelTokenSource = axios.CancelToken.source();
 
     // potentially unnecessary check
-    if (this.authentication.token !== null && !this.authentication.isAuthenticated) {
+    if (this.authentication.token !== null) {
       const config: AxiosRequestConfig = {
         headers: {
           'Content-Type': 'application/json',
@@ -221,31 +221,38 @@ class Filtering extends Component<FilteringProps, FilteringState> {
     return bars;
   }
 
-  renderLineChart = () => {
+  renderLineChart = (data?: any) => {
+    if (!data) {
+      data = this.state.data
+    }
     let colorCount = 0;
-    const chart = this.state.data.data_keys.map((value: any) => (
+    console.log(`DATA?: ${data.data_keys}`)
+    const chart = data.data_keys.map((value: any) => (
       <Line
         connectNulls
         type="monotone"
         key={value}
         dataKey={value}
-        stroke={getRandomColorList(this.state.data.data_keys.length)[colorCount++]}
+        stroke={getRandomColorList(data.data_keys.length)[colorCount++]}
       />
     ));
     return chart;
   }
 
-  renderAreaChart = () => {
+  renderAreaChart = (data?: any) => {
     let colorCount = 0;
-    const chart = this.state.data.data_keys.map((value: any) => (
+    if (!data) {
+      data = this.state.data
+    }
+    const chart = data.data_keys.map((value: any) => (
       <Area
         connectNulls
         type="monotone"
         stackId="a"
         key={value}
         dataKey={value}
-        stroke={getRandomColorList(this.state.data.data_keys.length)[colorCount]}
-        fill={getRandomColorList(this.state.data.data_keys.length)[colorCount++]}
+        stroke={getRandomColorList(data.data_keys.length)[colorCount]}
+        fill={getRandomColorList(data.data_keys.length)[colorCount++]}
       />
     ));
     return chart;
@@ -260,13 +267,14 @@ class Filtering extends Component<FilteringProps, FilteringState> {
     }
   }
 
-  renderLineCharts(chartType: string) {
+  renderLineCharts(chartType: string, data?: any) {
     if (chartType === "line_chart") {
-      return this.renderLineChart();
+      console.log("HERE")
+      return this.renderLineChart(data);
     }
   }
 
-  renderChart(chartType: string): any {
+  renderChart(chartType: string, data?: any): any {
     if (chartType === "stacked_bar" || chartType === "side_by_side_bar") {
       return (
         <BarChart data={this.state.data.data_points}>
@@ -284,29 +292,36 @@ class Filtering extends Component<FilteringProps, FilteringState> {
       )
     }
     if (chartType === "line_chart") {
-      return <LineChart data={this.state.data.data_points}>
-        <XAxis dataKey={this.state.data.x_axis.attribute} dy={40} height={120}>
-          <Label value={this.state.data.x_axis.label} dy={40} />
+      if (!data) {
+        data = this.state.data
+      }
+      console.log(data)
+      return <LineChart data={data.data_points}>
+        <XAxis dataKey={data.x_axis.attribute} dy={40} height={120}>
+          <Label value={data.x_axis.label} dy={40} />
         </XAxis>
         <YAxis>
-          <Label value={this.state.data.y_axis.label} dx={-10} angle={-90} />
+          <Label value={data.y_axis.label} dx={-10} angle={-90} />
         </YAxis>
         <Tooltip />
         <Legend dy={170} />
-        {this.renderLineCharts(this.state.chartType)}
+        {this.renderLineCharts(chartType, data)}
       </LineChart>
     }
     if (chartType === "area_chart") {
-      return <AreaChart data={this.state.data.data_points}>
-        <XAxis dataKey={this.state.data.x_axis.attribute} dy={40} height={120}>
-          <Label value={this.state.data.x_axis.label} dy={40} />
+      if (!data) {
+        data = this.state.data
+      }
+      return <AreaChart data={data.data_points}>
+        <XAxis dataKey={data.x_axis.attribute} dy={40} height={120}>
+          <Label value={data.x_axis.label} dy={40} />
         </XAxis>
         <YAxis>
-          <Label value={this.state.data.y_axis.label} dx={-10} angle={-90} />
+          <Label value={data.y_axis.label} dx={-10} angle={-90} />
         </YAxis>
         <Tooltip />
         <Legend dy={170} />
-        {this.renderAreaChart()}
+        {this.renderAreaChart(data)}
       </AreaChart>
     }
   }

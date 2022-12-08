@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { Box, Button, TextField } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import { Link, Box, Button, TextField } from '@mui/material';
 import { Auth, loadUser } from '../../features/authSlice';
 import { useDispatch } from 'react-redux';
 import axios, { AxiosRequestConfig } from 'axios';
@@ -26,7 +26,13 @@ export default function Register({ auth }: RegisterProps) {
         <Box
             component="form"
             sx={{
-                '& .MuiTextField-root': { m: 1, width: '40ch' },
+                '& .MuiTextField-root': { m: 2, width: '60ch',
+                fontSize: 25, },
+                display: 'flex',
+                alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'column',
+              marginTop: '10%'
             }}
             noValidate
             autoComplete="off"
@@ -103,7 +109,9 @@ export default function Register({ auth }: RegisterProps) {
                 </Button>
             </div>
             <p>
-                Already have an account? <Link to="/login">Login</Link>
+                Already have an account? <Link href="/login">
+            Click here to Login
+        </Link>
             </p>
         </Box>
     );

@@ -4,12 +4,13 @@ import 'semantic-ui-css/semantic.min.css';
 import axios, { AxiosRequestConfig } from "axios";
 import { Auth } from "../../features/authSlice";
 import { Link, Navigate, useNavigate } from 'react-router-dom';
+import './styles.css'
 
 
 interface QuestionnaireState {
   moneyInvested?: number,
   riskThreshold?: number,
-  termPeriod?: string,
+  timePeriod?: string,
   investPrev?: boolean,
   industries?: string[],
   name?: string
@@ -182,7 +183,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
   const navigate = useNavigate();
   const [moneyInvested, setMoneyInvested] = useState(-1)
   const [riskThreshold, setRiskThreshold] = useState(-1)
-  const [termPeriod, setTermPeriod] = useState("")
+  const [timePeriod, setTimePeriod] = useState("")
   const [investPrev, setInvestPrev] = useState(false)
   const [industries, setIndustries] = useState([""])
   const [name, setName] = useState("")
@@ -195,11 +196,12 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
   const [q4clicked, q4Click] = useState(false)
 
   return (
+    <div className="questionnaire">
     <Form onSubmit={() => {
         const answers: QuestionnaireState = {
           moneyInvested,
           riskThreshold,
-          termPeriod,
+          timePeriod,
           investPrev,
           industries,
           name
@@ -207,7 +209,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
         // validate data
         if (moneyInvested == -1) q1Ans(false)
         if (riskThreshold == -1) q2Ans(false)
-        if (termPeriod == "") q3Ans(false)
+        if (timePeriod == "") q3Ans(false)
         if (!q4clicked) q4Ans(false)
         if (industries[0]== "") q5Ans(false)
         if (name == "") q6Ans(false)
@@ -222,7 +224,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
           axios.post('/api/questionnaire', body, config)
             .then(response => {
               console.log(response.data);
-              navigate('/dashboard')
+              navigate('/')
             })
             .catch(error => {
               console.log(error);
@@ -231,9 +233,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
 
       {/* Question 1 */}
       <Form.Field>
-        <label>
           <h4>1. How much money are you willing to invest (In $)?</h4>
-        </label>
         <Form.Dropdown
           placeholder='Select Amount to Invest'
           fluid
@@ -254,9 +254,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
 
       {/* Question 2 */}
       <Form.Field>
-        <label>
           <h4>2. What is your risk threshold? (Where 1 is low risk and 10 is high risk tolerance)</h4>
-        </label>
         <Dropdown
           placeholder='Select Risk'
           fluid
@@ -277,16 +275,14 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
 
       {/* Question 3 */}
       <Form.Field>
-        <label>
           <h4>3. What is the estimated term period of the portfolio?</h4>
-        </label>
         <Dropdown
           placeholder='Select Term'
           fluid
           selection
           options={termPeriods}
           onChange={(e, data) => { 
-            setTermPeriod(data.value as string) 
+            setTimePeriod(data.value as string) 
             q3Ans(true)
           }}
         />
@@ -297,9 +293,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
 
       {/* Question 4 */}
       <Form.Field>
-        <label>
           <h4>4. Have you invested in the stock market before?</h4>
-        </label>
         <Dropdown
           placeholder='Select Answer'
           fluid
@@ -318,9 +312,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
 
       {/* Question 5 */}
       <Form.Field>
-        <label>
           <h4>5. Which industry of stocks are you interested in investing in?</h4>
-        </label>
         <Dropdown 
           placeholder='Industries'
           fluid
@@ -342,9 +334,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
 
       {/* Question 6 */}
       <Form.Field>
-        <label>
           <h4>6. What would you like to name your portfolio?</h4>
-        </label>
         <input 
           placeholder="Portfolio name"
           onChange={(input) => {
@@ -357,7 +347,8 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
         }
       </Form.Field>
 
-      <Form.Button content='Submit' />
+      <Form.Button className="centered" content='Submit' />
     </Form>
+    </div>
   )
 }

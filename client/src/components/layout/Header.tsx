@@ -11,6 +11,7 @@ import LogoutButton from '../auth/LogoutButton';
 import Brightness4Icon from '@mui/icons-material/Brightness4';
 import Brightness7Icon from '@mui/icons-material/Brightness7';
 import { NavBarSX } from './Theme';
+import './NavBar.css'
 
 
 interface HeaderProps {
@@ -20,7 +21,7 @@ interface HeaderProps {
 }
 const Logo = () => {
     return (<Typography
-                    variant="h5"
+                    variant="h4"
                     noWrap
                     component="a"
                     href="/"
@@ -33,7 +34,9 @@ const Logo = () => {
                         color: 'inherit',
                         textDecoration: 'none',
                         marginLeft: '2.3rem',
-                        marginTop: '0.5rem'
+                        marginTop: '0.5rem',
+                        alignItems: 'center',
+                        justifyContent: 'center'
                     }}>
                      BASIS
     </Typography>)
@@ -46,12 +49,13 @@ export default function Header({ auth, darkModeToggle, mode }: HeaderProps) {
                 <div>
                 {Logo()}
                 </div>
+                <div className="center-header">
                 <Button
                     sx={NavBarSX}
-                    id="home"
+                    id="dashboard"
                     aria-haspopup="false"
                     href='/'>
-                    Home
+                    Dashboard
                 </Button>
                 <Button
                 sx={NavBarSX}
@@ -59,20 +63,6 @@ export default function Header({ auth, darkModeToggle, mode }: HeaderProps) {
                     aria-haspopup="false"
                     href='/about'>
                     About
-                </Button>
-                <Button
-                    sx={NavBarSX}
-                    id="dashboard"
-                    aria-haspopup="false"
-                    href='/dashboard'>
-                    Dashboard
-                </Button>
-                <Button
-                    sx={NavBarSX}
-                    id="questionnaire"
-                    aria-haspopup="false"
-                    href='/questionnaire'>
-                    Questionnaire
                 </Button>
                 <Button
                     sx={NavBarSX}
@@ -85,6 +75,7 @@ export default function Header({ auth, darkModeToggle, mode }: HeaderProps) {
                 <IconButton sx={{ ml: 1 }} onClick={() => darkModeToggle()} color="inherit">
             {mode === 'dark' ? <Brightness7Icon /> : <Brightness4Icon />}
       </IconButton>
+      </div>
                 <hr />
             </div>
         );
@@ -94,6 +85,7 @@ export default function Header({ auth, darkModeToggle, mode }: HeaderProps) {
             <div>
                 {Logo()}
             </div>
+            <div className="center-header">
             <Button
                 sx={NavBarSX}
                 id="login"
@@ -106,6 +98,7 @@ export default function Header({ auth, darkModeToggle, mode }: HeaderProps) {
                 href='/register'>
                 Register
             </Button>
+            </div>
         </div>
     )
 }

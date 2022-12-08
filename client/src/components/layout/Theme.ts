@@ -49,8 +49,11 @@ export const getDesignTokens = (mode: PaletteMode) => ({
   });
 
 export const NavBarSX:SxProps<Theme> = {
-    padding: '0.5rem 2rem',
+    padding: '0.5rem 2.3rem',
     fontSize: 'larger',
     fontWeight: 300,
-    color: 'inherit'
+    color: 'inherit',
+    dislay: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
 }

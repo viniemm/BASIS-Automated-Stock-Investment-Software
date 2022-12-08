@@ -16,7 +16,7 @@ export default function LogoutButton({ auth }: LogoutProps) {
     return (
         <Button
             id="logout"
-            href='/home'
+            href='/login'
             sx={NavBarSX}
             onClick={() => {
                 // Get Token from State

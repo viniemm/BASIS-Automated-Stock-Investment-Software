@@ -1,29 +1,69 @@
 import React from 'react';
-import { Button, Card, Divider, Grid, List, ListItem, ListItemText, Typography } from '@mui/material';
-import { Link } from 'react-router-dom';
+import { Button, Link, Card, Divider, Grid, List, ListItem, ListItemText, Typography } from '@mui/material';
 import { Portfolio, PortfolioDetails } from '../../features/types/Portfolio';
 import { Auth } from '../../features/authSlice';
-import { userPortfolioDetails } from '../../features/services/PortfolioService';
+import { historicalData, userPortfolioDetails } from '../../features/services/PortfolioService';
 import './Dashboard.css'
+import Filtering from '../filtering/Filtering';
+import { Thermostat } from '@mui/icons-material';
+import { portfolioHistoricalDefaultState } from '../../filter/endpoint_constants/IndicatorsEndpointConstants';
+import { ResponsiveContainer } from 'recharts';
 
 interface DashboardState {
   userPortfolios?: Portfolio[],
   currentPortfolio?: Portfolio,
   hasPortfolios: boolean,
   auth?: Auth,
-  selectedIndex?: number
+  selectedIndex?: number,
+  filtering?: Filtering,
+  hasGraph: boolean,
+  data?: any
 }
 
 interface DashboardProps {
   auth?: Auth
 }
+const filterFields = (portfolioName: string) => {
+  return {
+  "x_axis": {
+    "attribute": "date",
+    "granularity": "date"
+  },
+  "y_axis": {
+    "attribute": "closing_proportional",
+    "operation": "total",
+    "granularity": "1"
+  },
+  "breakdown": {
+    "attribute": "symbol",
+    "granularity": "category"
+  },
+  "complex_filter": {
+    "logic": "and",
+    "filters": [
+      {
+        "logic": "or",
+        "filters": [
+          {
+            "field": "name",
+            "operator": "eq",
+            "value": portfolioName
+          }
+        ]
+      }
+    ]
+  }
+}
+}
 export default class Dashboard extends React.Component<DashboardProps, DashboardState> {
   state: DashboardState = {
-    hasPortfolios: false
+    hasPortfolios: false,
+    hasGraph: false
   };
   constructor(props: DashboardProps) {
     super(props)
     this.state.auth = this.props.auth;
+    this.state.filtering = new Filtering({auth: this.state.auth as Auth})
     this.renderPortfolioDetails()
   }
   async renderPortfolioDetails() {
@@ -33,12 +73,24 @@ export default class Dashboard extends React.Component<DashboardProps, Dashboard
         this.state.userPortfolios = newPortfolios.portfolios
         this.state.currentPortfolio = newPortfolios.portfolios[0]
         this.state.selectedIndex = 0
-        this.setState({hasPortfolios: true})
         this.state.hasPortfolios = true
-        console.log(this.state)
+        this.setState({hasPortfolios: true})
+        this.renderCurrentGraph()
       }
   }
-}
+  }
+  async renderCurrentGraph() {
+    if (this.state.filtering && this.state.currentPortfolio) {
+      this.state.filtering.setState({filterFields: portfolioHistoricalDefaultState})
+      const newData = await historicalData(this.state.auth as Auth, this.state.currentPortfolio.name)
+      if (newData) {
+        this.state.filtering.setState({data: {...newData}})
+      this.setState({data: {...newData}})
+      this.setState({hasGraph: true})
+      }
+    }
+  }
+
 
 async generate(element: React.ReactElement) {
   if(this.state.auth){
@@ -58,11 +110,20 @@ async generate(element: React.ReactElement) {
         <h2>Dashboard</h2>
         <Grid container spacing={5}>
           <Grid item xs={7}>
+            <div>
             <Card variant="outlined">
-              <Typography fontSize="xl" sx={{ mb: 0.5 }}>
-              Current portfolio name: {this.state.currentPortfolio?.name}
+              <Typography fontSize="xl" sx={{ mb: 0.5, fontSize: 'larger', padding: '1rem'}}>
+              Breakdown of your portfolio named <span className="portfolioName">{this.state.currentPortfolio?.name}</span>
               </Typography>
-            </Card>
+              </Card>
+              <br></br>
+              <Card variant="outlined">
+              {(this.state.filtering && this.state.hasGraph) ? <div>
+                <ResponsiveContainer width="95%" aspect={2.2}>
+            {this.state.filtering.renderChart("area_chart", this.state.data)}
+          </ResponsiveContainer>
+                </div> : "Loading"}</Card>
+                </div>
           </Grid>
           <Grid item xs={5}>
             <Card variant="outlined">
@@ -85,11 +146,25 @@ async generate(element: React.ReactElement) {
                 })}
               </List>
             </Card>
+            <br></br>
+            <br></br>
+            <div className="center-dashboard">
+            <Link href="/questionnaire" underline='none'>
+            <Button variant="outlined" sx={{
+              fontSize: 'larger',
+              borderWidth: '0.1rem',
+              width: '20rem',
+              height: '15rem',
+              
+            }}>
+               Make a New Portfolio
+              </Button>
+              </Link>
+              </div>
           </Grid>
           <Grid item xs={12}>
-          <h1>Breakdown</h1>
           </Grid>
-          <Grid item xs={2} sx={{
+          <Grid item xs={3} sx={{
                   '--Grid-borderWidth': '2px',
                   borderTop: 'var(--Grid-borderWidth) solid',
                   borderColor: 'divider',
@@ -97,10 +172,11 @@ async generate(element: React.ReactElement) {
                     borderBottom: 'var(--Grid-borderWidth) solid',
                     borderColor: 'divider',
                   },
-                  border: '1px dashed grey'
+                  border: '1px dashed grey',
+                  marginLeft: '3rem'
                 }}>
             <div>
-            <h2>Stock</h2>
+            <h3>Stock</h3>
             <Divider />
             {this.state.currentPortfolio ? this.state.currentPortfolio.allocations.map((allocation, index, _) => {
               return (
@@ -113,10 +189,10 @@ async generate(element: React.ReactElement) {
                     borderColor: 'divider'
                   },
                 }}>
-                   {allocation.symbol}
+                   {allocation.symbol} ({allocation.name})
                 </ListItem>
               
-              )}) : <div>Hi</div>}
+              )}) : <div>N/A</div>}
             </div>
           </Grid>
           <Grid item xs={2} sx={{ '--Grid-borderWidth': '2px',
@@ -128,7 +204,7 @@ async generate(element: React.ReactElement) {
                   },
                   p: 2, border: '1px dashed grey' }}>
           <div>
-            <h2>Weight</h2>
+            <h3>Weight</h3>
             <Divider />
             {this.state.currentPortfolio ? this.state.currentPortfolio.allocations.map((allocation, index, _) => {
               return (
@@ -144,7 +220,7 @@ async generate(element: React.ReactElement) {
                    {allocation.allocation}
                 </ListItem>
               
-              )}) : <div>Hi</div>}
+              )}) : <div>N/A</div>}
             </div>
           </Grid>
           <Grid item xs={2.5} sx={{ '--Grid-borderWidth': '2px',
@@ -155,7 +231,7 @@ async generate(element: React.ReactElement) {
                     borderColor: 'divider',
                   }, p: 2, border: '1px dashed grey' }}>
           <div>
-            <h2>$ Allocated</h2>
+            <h3>$ Allocated</h3>
             <Divider />
             {this.state.currentPortfolio ? this.state.currentPortfolio.allocations.map((allocation, index, _) => {
               return (
@@ -170,24 +246,28 @@ async generate(element: React.ReactElement) {
                 }}>
                    {this.state.currentPortfolio ? allocation.allocation * this.state.currentPortfolio.value : -1}
                 </ListItem>
-              )}) : <div>Hi</div>}
+              )}) : <div>N/A</div>}
             </div>
           </Grid>
-          <Grid item xs={1.5}>
+          <Grid item sx={{  justifyContent: 'center',alignItems: 'center', display:'flex' }} xs={4}>
             
-          </Grid>
-          <Grid item xs={4}>
-            <Button variant="outlined">
-                <Link to="/questionnaire"> Make a New Portfolio </Link>
-              </Button>
           </Grid>
         </Grid>
       </div> : 
-      <div>
-        <h3>You do not have any portfolios currently</h3>
-            <Button variant="outlined" size="large">
-                <Link to="/questionnaire"> Make a New Portfolio </Link>
+      <div className="center-dashboard">
+        <h2>You do not have any portfolios currently</h2>
+        <br></br>
+        <br></br>
+        <Link href="/questionnaire" underline='none'>
+            <Button variant="outlined" sx={{
+              fontSize: 'larger',
+              borderWidth: '0.1rem',
+              width: '20rem',
+              height: '20rem',
+            }}>
+             Make a New Portfolio
             </Button>
+            </Link>
             </div>
       }
       </div>

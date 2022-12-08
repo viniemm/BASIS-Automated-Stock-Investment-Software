@@ -1,8 +1,16 @@
 html {
     box-sizing: border-box;
   }
-.App {
+.questionnaire {
   margin: 3rem;
+  align-items: center;
+}
+.centered {
+  align-items: center;
+  margin: auto;
+  width: 200%;
+  padding: 2rem;
+  
 }
   * {
     box-sizing: inherit;

@@ -6,6 +6,7 @@ export interface Portfolio {
 
 export interface Allocation {
     symbol: string,
+    name: string,
     allocation: number
 }
 

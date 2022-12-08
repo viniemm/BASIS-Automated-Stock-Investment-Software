@@ -1,6 +1,6 @@
 import React, { Component, useState } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { Box, Button, TextField } from '@mui/material';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { Box, Button, TextField, Link } from '@mui/material';
 import { Auth, loadUser } from '../../features/authSlice';
 import { useDispatch } from 'react-redux';
 import axios, { AxiosRequestConfig } from 'axios';
@@ -16,15 +16,22 @@ export default function Login({ auth }: LoginProps) {
     const [password, setPassword] = useState("");
 
     if (auth.isAuthenticated) {
-        navigate('/dashboard');
+        navigate('/');
     }
 
     return (
+
         <Box
             component="form"
             sx={{
-                '& .MuiTextField-root': { m: 1, width: '40ch' },
-            }}
+                '& .MuiTextField-root': { m: 2, width: '60ch',
+                fontSize: 25, },
+                display: 'flex',
+                alignItems: 'center',
+              justifyContent: 'center',
+              flexDirection: 'column',
+              marginTop: '10%'
+                }}
             noValidate
             autoComplete="off"
         >
@@ -52,6 +59,8 @@ export default function Login({ auth }: LoginProps) {
             <div>
                 <Button
                     id='login'
+                    sx={{
+                        borderColor: 'black', borderWidth: '2px'}}
                     onClick={() => {
                         if (!username || !password) {
                             console.log("empty username or password");
@@ -74,13 +83,15 @@ export default function Login({ auth }: LoginProps) {
                             })
                         setUsername('');
                         setPassword('');
-                        navigate('/dashboard')
+                        navigate('/')
                     }}>
                     Login
                 </Button>
             </div>
             <p>
-                Don&apos;t have an account? <Link to="/register">Register</Link>
+                Don&apos;t have an account? <Link href="/register">
+  Click here to Register
+</Link>
             </p>
         </Box>
     );
