@@ -169,8 +169,7 @@ class PortfolioSelectionView(APIView):
             try:
                 query_set = PortfolioSelection.objects.filter(
                     portfolio__user=self.request.user)
-                tuples_list = query_set.values_list(
-                    *['portfolio__name', 'portfolio__id', 'portfolio__value', 'symbol__symbol', 'allocation'])
+                tuples_list = query_set.values_list(*['portfolio__name', 'portfolio__id', 'portfolio__value', 'symbol__symbol', 'symbol__long_name', 'allocation'])
 
                 id_alloc = defaultdict(list)
                 id_name = defaultdict(dict)
@@ -178,7 +177,8 @@ class PortfolioSelectionView(APIView):
                 for row in tuples_list:
                     id_alloc[row[1]].append({
                         'symbol': row[3],
-                        'allocation': row[4]
+                        'name': row[4],
+                        'allocation': row[5]
                     })
 
                 for row in tuples_list:
