@@ -66,18 +66,18 @@ class DateGranularityProcessor(BaseGranularityProcessor):
         return value
 
     def date_to_str(self, value, granularity):
-        json_dump = value.strftime("%#m/%#d %#I %p")
+        json_dump = value.strftime("%m/%d %I %p")
         match granularity:
             case 'half_hour':
-                json_dump = value.strftime("%#m/%#d %#I:%M %p")
+                json_dump = value.strftime("%m/%d %I:%M %p")
             case 'hour':
-                json_dump = value.strftime("%#m/%#d %#I %p")
+                json_dump = value.strftime("%m/%d %I %p")
             case 'three_hour':
-                json_dump = value.strftime("%#m/%#d %#I %p")
+                json_dump = value.strftime("%m/%d %I %p")
             case 'day':
-                json_dump = value.strftime("%#m/%#d")
+                json_dump = value.strftime("%m/%d")
             case 'date':
-                json_dump = value.strftime("%#m/%#d/%#Y")
+                json_dump = value.strftime("%m/%d/%Y")
         return json_dump.replace("\"", "")
 
     def get_all_buckets(self, values, granularity):
@@ -113,7 +113,7 @@ class DateGranularityProcessor(BaseGranularityProcessor):
 
 class ShiftGranularityProcessor(BaseGranularityProcessor):
     def date_to_str(self, value):
-        json_dump = value.strftime("%#m/%#d")
+        json_dump = value.strftime("%m/%d")
         return json_dump.replace("\"", "")
 
     def apply_granularity(self, value, granularity):
