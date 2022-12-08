@@ -163,7 +163,7 @@ class QuestionnaireResponse(APIView):
         df = self.populate(tots=criteria, term=period)
         ef = EfficientFrontier(expected_returns.mean_historical_return(
             df), risk_models.sample_cov(df))
-        # weights = ef.max_sharpe()
+        weights = ef.max_sharpe()
         cleaned_weights = ef.clean_weights()
         st = ef.portfolio_performance(verbose=True)
         
@@ -171,10 +171,8 @@ class QuestionnaireResponse(APIView):
 
         da = DiscreteAllocation(cleaned_weights, latest_prices, val)
         allocation, leftover = da.greedy_portfolio()
-        print("Discrete allocation:", allocation)
-        print("Funds remaining: ${:.2f}".format(leftover))
-        
-        return [allocation, leftover]
+
+        return [{k: latest_prices[k]*v/(val-leftover) for k, v in allocation.items()}, allocation, leftover]
 
 
 class PortfolioSelectionView(APIView):
