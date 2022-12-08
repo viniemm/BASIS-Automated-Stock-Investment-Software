@@ -132,7 +132,10 @@ async generate(element: React.ReactElement) {
                   if(index!=this.state.selectedIndex){ return (
                 <ListItem className={index == this.state.selectedIndex ? 'highlight' : ''} key={index}>
                   <ListItemText primary={tool.name}/>
-                  <Button variant="outlined" onClick={() => { this.setState({currentPortfolio: tool, selectedIndex: index}); }}>
+                  <Button variant="outlined" onClick={() => {
+                    this.setState({currentPortfolio: tool, selectedIndex: index});
+                    this.renderCurrentGraph();
+                    }}>
                     Select
                   </Button>
                 </ListItem>
