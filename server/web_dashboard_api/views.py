@@ -30,6 +30,8 @@ from datetime import datetime
 from django.utils.timezone import make_aware
 import pytz
 
+from pypfopt.discrete_allocation import DiscreteAllocation, get_latest_prices
+
 
 class ReportAPIView(APIView):
     def get_endpoint_processing_class(self, filters_dict) -> BaseEndpointProcessing:
@@ -112,14 +114,18 @@ class QuestionnaireResponse(APIView):
                 # stock_data = StocksData.objects.filter(condition)
                 # for stock_data_obj in stock_data:
                 #     print(stock_data_obj.date)
-                allocation = self.allocate(list(symbols), filters_dict['answers']['timePeriod'])
+                
+                time_period = filters_dict['answers']['termPeriod'] if 'termPeriod' in filters_dict['answers'] else 2
+                value = filters_dict['answers']['moneyInvested'] if 'moneyInvested' in filters_dict['answers'] else 1000
+                allocation = self.allocate(list(symbols), time_period, int(value))
                 # Storing portfolio in DB
+                
                 user = self.request.user
                 portfolio_uuid = uuid.uuid4()
                 portfolio_name = filters_dict['answers']['name'] if 'name' in filters_dict['answers'] else portfolio_uuid
                 last_id_object = Portfolio.objects.latest('id')
                 print(last_id_object.id)
-                value = filters_dict['answers']['moneyInvested'] if 'moneyInvested' in filters_dict['answers'] else 100
+                
                 now = datetime.now()
                 old_id = int(last_id_object.id)
                 new_id = old_id + 1
@@ -153,14 +159,22 @@ class QuestionnaireResponse(APIView):
                            )
         return data["Close"]
 
-    def allocate(self, criteria: list, period: int) -> list:
+    def allocate(self, criteria: list, period: int, val: int) -> list:
         df = self.populate(tots=criteria, term=period)
         ef = EfficientFrontier(expected_returns.mean_historical_return(
             df), risk_models.sample_cov(df))
         # weights = ef.max_sharpe()
         cleaned_weights = ef.clean_weights()
         st = ef.portfolio_performance(verbose=True)
-        return [{k: v for k, v in cleaned_weights.items() if v > 0}, st]
+        
+        latest_prices = get_latest_prices(df)
+
+        da = DiscreteAllocation(cleaned_weights, latest_prices, val)
+        allocation, leftover = da.greedy_portfolio()
+        print("Discrete allocation:", allocation)
+        print("Funds remaining: ${:.2f}".format(leftover))
+        
+        return [allocation, leftover]
 
 
 class PortfolioSelectionView(APIView):
