@@ -4,7 +4,8 @@ import 'semantic-ui-css/semantic.min.css';
 import axios, { AxiosRequestConfig } from "axios";
 import { Auth } from "../../features/authSlice";
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-
+import './styles.css'
+import { NavBarSX } from "../layout/Theme";
 
 interface QuestionnaireState {
   moneyInvested?: number,
@@ -225,9 +226,11 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
 
       {/* Question 1 */}
       <Form.Field>
+        <br />
         <label>
           <h4>1. How much money are you willing to invest (In $)?</h4>
         </label>
+        <br />
         <Form.Dropdown
           placeholder='Select Amount to Invest'
           fluid
@@ -251,6 +254,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
         <label>
           <h4>2. What is your risk threshold? (Where 1 is low risk and 10 is high risk tolerance)</h4>
         </label>
+        <br />
         <Dropdown
           placeholder='Select Risk'
           fluid
@@ -265,7 +269,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
           }}
         />
         { !q2Answered && 
-          <p style={{color: "red"}}>This field is required.</p>
+          <p style={{color: "red"}}>This field is required..</p>
         }
       </Form.Field>
 
@@ -274,6 +278,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
         <label>
           <h4>3. What is the estimated term period of the portfolio?</h4>
         </label>
+        <br />
         <Dropdown
           placeholder='Select Term'
           fluid
@@ -285,7 +290,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
           }}
         />
         { !q3Answered && 
-          <p style={{color: "red"}}>This field is required.</p>
+          <p style={{color: "red"}}>This field is required..<br/>.</p>
         }
       </Form.Field>
 
@@ -294,6 +299,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
         <label>
           <h4>4. Have you invested in the stock market before?</h4>
         </label>
+        <br />
         <Dropdown
           placeholder='Select Answer'
           fluid
@@ -305,7 +311,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
           }}
         />
         { !q4Answered && 
-          <p style={{color: "red"}}>This field is required.</p>
+          <p style={{color: "red"}}>This field is required..<br/>.</p>
         }
       </Form.Field>
 
@@ -323,13 +329,13 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
           onChange={(e, data) => {
              setIndustries(data.value as string[]) 
              q5Ans(true)
-             if((data.value as string[]).length == 0) {
+             if((data.value as string[]).length < 3) {
               q5Ans(false)
              }
             }}
         />
         { !q5Answered && 
-          <p style={{color: "red"}}>This field is required.</p>
+          <p style={{color: "red"}}>This field is required. You must choose at least 3 industries.</p>
         }
       </Form.Field>
 
@@ -338,6 +344,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
         <label>
           <h4>6. What would you like to name your portfolio?</h4>
         </label>
+        <br />
         <input 
           placeholder="Portfolio name"
           onChange={(input) => {
@@ -346,11 +353,10 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
           }}
         />
         { !q6Answered && 
-          <p style={{color: "red"}}>This field is required.</p>
+          <p style={{color: "red"}}>This field is required..<br/>.</p>
         }
       </Form.Field>
-
-      <Form.Button content='Submit' />
+      <Form.Button content='Submit'/>
     </Form>
   )
 }

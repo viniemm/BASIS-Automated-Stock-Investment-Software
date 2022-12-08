@@ -26,14 +26,15 @@ const Logo = () => {
                     href="/"
                     sx={{
                         mr: 2,
-                        display: { xs: 'none', md: 'flex' },
+                        display: { xs: 'none', md: 'flex'},
                         fontFamily: 'monospace',
                         fontWeight: 700,
                         letterSpacing: '.3rem',
                         color: 'inherit',
                         textDecoration: 'none',
                         marginLeft: '2.3rem',
-                        marginTop: '0.5rem'
+                        marginTop: '0.5rem',
+                        fontSize: 100
                     }}>
                      BASIS
     </Typography>)

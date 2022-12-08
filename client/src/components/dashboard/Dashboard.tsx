@@ -56,10 +56,10 @@ async generate(element: React.ReactElement) {
       {
         this.state.hasPortfolios ? <div>
         <h2>Dashboard</h2>
-        <Grid container spacing={5}>
-          <Grid item xs={7}>
-            <Card variant="outlined">
-              <Typography fontSize="xl" sx={{ mb: 0.5 }}>
+        <Grid container justifyContent={"space-between"} spacing = {5}>
+          <Grid item xs={7} >
+            <Card variant="outlined" style = {{height: 110}}>
+              <Typography fontSize = "30px" sx={{ mb: 0.5 }} fontWeight = "bold" fontStyle={"oblique"}>
               Current portfolio name: {this.state.currentPortfolio?.name}
               </Typography>
             </Card>
@@ -86,7 +86,8 @@ async generate(element: React.ReactElement) {
               </List>
             </Card>
           </Grid>
-          <Grid item xs={8}>
+          <Grid item xs={7} >
+            <Card variant = "outlined">
             <div>
             <h3>Breakdown</h3>
             {this.state.currentPortfolio ? this.state.currentPortfolio.allocations.map((allocation, index, _) => {
@@ -95,11 +96,12 @@ async generate(element: React.ReactElement) {
                    {allocation.symbol} : {allocation.allocation}
                 </ListItem>
               
-              )}) : <div>Hi</div>}
+              )}) : <div>Please create a Portfolio first</div>}
             </div>
+            </Card>
           </Grid>
-          <Grid item xs={4}>
-            <Button variant="outlined">
+          <Grid item xs={4} >
+            <Button variant="outlined" color="primary" sx = {{justifyContent: "flex-end"}}>
                 <Link to="/questionnaire"> Make a New Portfolio </Link>
               </Button>
           </Grid>
@@ -107,7 +109,7 @@ async generate(element: React.ReactElement) {
       </div> : 
       <div>
         <h3>You do not have any portfolios currently</h3>
-            <Button variant="outlined" size="large">
+            <Button variant="outlined" size="large" sx = {{justifyContent: "flex-end"}}>
                 <Link to="/questionnaire"> Make a New Portfolio </Link>
             </Button>
             </div>

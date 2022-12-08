@@ -1,6 +1,8 @@
 .highlight {
     background-color:  rgb(87, 154, 146);
   }
-  .Dashboard {
-    margin: 3rem;
-  }
+
+html * {
+  margin-left: 10px;
+  margin-right: 10px;
+}

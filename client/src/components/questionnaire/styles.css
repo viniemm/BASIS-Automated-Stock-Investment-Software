@@ -1,43 +1,48 @@
 html {
-    box-sizing: border-box;
-  }
-.App {
-  margin: 3rem;
+  box-sizing: border-box;
 }
-  * {
-    box-sizing: inherit;
-  }
-  
-  * * {
-    box-sizing: inherit;
-  }
-  
-  *:before {
-    box-sizing: inherit;
-  }
-  
-  *:after {
-    box-sizing: inherit;
-  }
-  
-  .outer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-  }
-  
-  .Questionnaire {
-    font-family: sans-serif;
-    text-align: center;
-    max-width: 320px;
-    flex-basis: 300px;
-  }
-  
-  label {
-    text-align: left;
-    display: block;
-    font-weight: bold;
-    margin-bottom: 3px;
-  }
-  
+.App {
+margin: 3rem;
+}
+* {
+  box-sizing: inherit;
+}
+
+* * {
+  box-sizing: inherit;
+}
+
+*:before {
+  box-sizing: inherit;
+}
+
+*:after {
+  box-sizing: inherit;
+}
+
+.outer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.Questionnaire {
+  font-family: sans-serif;
+  text-align: center;
+  max-width: 320px;
+  flex-basis: 300px;
+}
+
+label {
+  text-align: left;
+  display: block;
+  font-weight: bold;
+  margin-bottom: 3px;
+  text-align: center;
+}
+
+Form{
+  margin-left: 100px;
+  margin-right: 100px;
+}
