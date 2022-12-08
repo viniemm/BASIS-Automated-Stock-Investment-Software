@@ -90,7 +90,7 @@ async generate(element: React.ReactElement) {
           <h1>Breakdown</h1>
           </Grid>
           <Grid item xs={2} sx={{
-                  '--Grid-borderWidth': '1px',
+                  '--Grid-borderWidth': '2px',
                   borderTop: 'var(--Grid-borderWidth) solid',
                   borderColor: 'divider',
                   '& > div': {
@@ -105,7 +105,7 @@ async generate(element: React.ReactElement) {
             {this.state.currentPortfolio ? this.state.currentPortfolio.allocations.map((allocation, index, _) => {
               return (
                 <ListItem key={index} sx={{
-                  '--Grid-borderWidth': '1px',
+                  '--Grid-borderWidth': '2px',
                   borderTop: 'var(--Grid-borderWidth) solid',
                   borderColor: 'divider',
                   '& > div': {
@@ -119,14 +119,21 @@ async generate(element: React.ReactElement) {
               )}) : <div>Hi</div>}
             </div>
           </Grid>
-          <Grid item xs={2} sx={{ p: 2, border: '1px dashed grey' }}>
+          <Grid item xs={2} sx={{ '--Grid-borderWidth': '2px',
+                  borderTop: 'var(--Grid-borderWidth) solid',
+                  borderColor: 'divider',
+                  '& > div': {
+                    borderBottom: 'var(--Grid-borderWidth) solid',
+                    borderColor: 'divider',
+                  },
+                  p: 2, border: '1px dashed grey' }}>
           <div>
             <h2>Weight</h2>
             <Divider />
             {this.state.currentPortfolio ? this.state.currentPortfolio.allocations.map((allocation, index, _) => {
               return (
                 <ListItem key={index}sx={{
-                  '--Grid-borderWidth': '1px',
+                  '--Grid-borderWidth': '2px',
                   borderTop: 'var(--Grid-borderWidth) solid',
                   borderColor: 'divider',
                   '& > div': {
@@ -140,14 +147,20 @@ async generate(element: React.ReactElement) {
               )}) : <div>Hi</div>}
             </div>
           </Grid>
-          <Grid item xs={2.5} sx={{ p: 2, border: '1px dashed grey' }}>
+          <Grid item xs={2.5} sx={{ '--Grid-borderWidth': '2px',
+                  borderTop: 'var(--Grid-borderWidth) solid',
+                  borderColor: 'divider',
+                  '& > div': {
+                    borderBottom: 'var(--Grid-borderWidth) solid',
+                    borderColor: 'divider',
+                  }, p: 2, border: '1px dashed grey' }}>
           <div>
             <h2>$ Allocated</h2>
             <Divider />
             {this.state.currentPortfolio ? this.state.currentPortfolio.allocations.map((allocation, index, _) => {
               return (
                 <ListItem key={index}sx={{
-                  '--Grid-borderWidth': '1px',
+                  '--Grid-borderWidth': '2px',
                   borderTop: 'var(--Grid-borderWidth) solid',
                   borderColor: 'divider',
                   '& > div': {
