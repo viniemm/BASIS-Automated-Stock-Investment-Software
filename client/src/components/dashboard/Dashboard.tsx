@@ -155,11 +155,13 @@ async generate(element: React.ReactElement) {
                     borderColor: 'divider',
                   },
                 }}>
-                   {allocation.allocation}
+                   {this.state.currentPortfolio ? allocation.allocation * this.state.currentPortfolio.value : -1}
                 </ListItem>
-              
               )}) : <div>Hi</div>}
             </div>
+          </Grid>
+          <Grid item xs={1.5}>
+            
           </Grid>
           <Grid item xs={4}>
             <Button variant="outlined">
