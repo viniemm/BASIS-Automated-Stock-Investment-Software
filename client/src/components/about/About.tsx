@@ -6,6 +6,7 @@ export default function About() {
   return (
     <div className='About'>
       <span />
+      <br />
       <h1>ABOUT BASIS: </h1>
       <h3>
       BASIS is an application that provides stock recommendations for stock portfolios 
@@ -39,6 +40,10 @@ export default function About() {
         obtain an example portfolio of stocks based on their preferences that was obtained from their 
         answers in the Questionnaire Page.
       </h3>
+      <h4 className='bottom'>
+        Authors: Eunseo Choo, Muhammed Demirak, Oleksii Fedorenko, Will Franzen, 
+        William Haskey, Vinayak Mathur, Tarun Sepuri, Hunter Welch
+      </h4>
     </div>
   );
 }
