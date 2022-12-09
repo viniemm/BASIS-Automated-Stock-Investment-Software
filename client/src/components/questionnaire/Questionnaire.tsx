@@ -233,7 +233,7 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
 
       {/* Question 1 */}
       <Form.Field>
-          <h4>1. How much money are you willing to invest (In $)?</h4>
+          <h4 className="center">1. How much money are you willing to invest (In $)?</h4>
         <Form.Dropdown
           placeholder='Select Amount to Invest'
           fluid
@@ -251,10 +251,10 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
           <p style={{color: "red"}}>This field is required.</p>
         }
       </Form.Field>
-
       {/* Question 2 */}
       <Form.Field>
-          <h4>2. What is your risk threshold? (Where 1 is low risk and 10 is high risk tolerance)</h4>
+        <span />
+          <h4 className="center">2. What is your risk threshold? (Where 1 is low risk and 10 is high risk tolerance)</h4>
         <Dropdown
           placeholder='Select Risk'
           fluid
@@ -275,7 +275,8 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
 
       {/* Question 3 */}
       <Form.Field>
-          <h4>3. What is the estimated term period of the portfolio?</h4>
+      <span />
+          <h4 className="center">3. What is the estimated term period of the portfolio?</h4>
         <Dropdown
           placeholder='Select Term'
           fluid
@@ -293,7 +294,8 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
 
       {/* Question 4 */}
       <Form.Field>
-          <h4>4. Have you invested in the stock market before?</h4>
+      <span />
+          <h4 className="center">4. Have you invested in the stock market before?</h4>
         <Dropdown
           placeholder='Select Answer'
           fluid
@@ -312,7 +314,8 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
 
       {/* Question 5 */}
       <Form.Field>
-          <h4>5. Which industry of stocks are you interested in investing in?</h4>
+      <span />
+          <h4 className="center">5. Which industry of stocks are you interested in investing in?</h4>
         <Dropdown 
           placeholder='Industries'
           fluid
@@ -334,7 +337,8 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
 
       {/* Question 6 */}
       <Form.Field>
-          <h4>6. What would you like to name your portfolio?</h4>
+      <span />
+          <h4 className = "center">6. What would you like to name your portfolio?</h4>
         <input 
           placeholder="Portfolio name"
           onChange={(input) => {
@@ -346,8 +350,8 @@ export default function Questionnaire({ auth }: QuestionnaireProps) {
           <p style={{color: "red"}}>This field is required.</p>
         }
       </Form.Field>
-
-      <Form.Button className="centered" content='Submit' />
+      <br />
+      <Form.Button className="center" content='Submit' />
     </Form>
     </div>
   )
