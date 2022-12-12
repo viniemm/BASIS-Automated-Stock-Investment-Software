@@ -88,7 +88,7 @@ Sharpe ratio on the efficient frontier using Markowitz’s portfolio theory.
 
 ![Poster](https://github.com/viniemm/BASIS-Automated-Stock-Investment-Software/blob/master/Images/CSDS%20395_%20Intersections%20Poster.png?raw=true)
 
-## Methodology and Theory
+## Team pictures
 
 ![Team pic 1](https://raw.githubusercontent.com/viniemm/BASIS-Automated-Stock-Investment-Software/master/Images/team1.jpg)
 
